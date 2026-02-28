@@ -1,0 +1,388 @@
+﻿<Window x:Class="Kursach.Dialogs.EditStudentDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактирование данных студента" 
+        Height="700" Width="900"
+        WindowStartupLocation="CenterOwner"
+        Background="#F0F0F0"
+        FontFamily="Segoe UI"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize">
+
+    <Window.Resources>
+        <!-- Стиль для заголовков секций -->
+        <Style x:Key="SectionHeaderStyle" TargetType="Border">
+            <Setter Property="Background" Value="#E8E8E8"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="0,10,0,5"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        </Style>
+
+        <!-- Стиль для меток полей -->
+        <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <!-- Стиль для текстовых полей -->
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Margin" Value="5,0,5,5"/>
+            <Setter Property="Padding" Value="5,0"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <!-- Стиль для комбобоксов -->
+        <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Margin" Value="5,0,5,5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <!-- Стиль для выбора даты -->
+        <Style x:Key="DatePickerStyle" TargetType="DatePicker">
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Margin" Value="5,0,5,5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <!-- Стиль для чекбоксов -->
+        <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Margin" Value="5,5,15,5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <!-- Стиль для кнопок (как в MainWindow) -->
+        <Style x:Key="DialogButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" 
+                   x:Name="TitleText" 
+                   Text="Редактирование данных студента" 
+                   FontSize="20" 
+                   FontWeight="Normal" 
+                   Foreground="#333333"
+                   Margin="0,0,0,15"
+                   HorizontalAlignment="Left"/>
+
+        <!-- Область прокрутки -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,0,10,0">
+
+                <!-- 1. ОСНОВНАЯ ИНФОРМАЦИЯ -->
+                <Border Style="{StaticResource SectionHeaderStyle}">
+                    <TextBlock Text="ОСНОВНАЯ ИНФОРМАЦИЯ" FontWeight="SemiBold" Foreground="#333333"/>
+                </Border>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Фамилия *" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="LastNameTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Имя *" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="FirstNameTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Отчество" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="MiddleNameTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Группа" Style="{StaticResource FieldLabelStyle}"/>
+                        <ComboBox x:Name="GroupComboBox" Style="{StaticResource ComboBoxStyle}"
+                                  DisplayMemberPath="GroupName" SelectedValuePath="GroupID"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Пол" Style="{StaticResource FieldLabelStyle}"/>
+                        <ComboBox x:Name="GenderComboBox" Style="{StaticResource ComboBoxStyle}">
+                            <ComboBoxItem Content="М"/>
+                            <ComboBoxItem Content="Ж"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Дата рождения" Style="{StaticResource FieldLabelStyle}"/>
+                        <DatePicker x:Name="BirthDatePicker" Style="{StaticResource DatePickerStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Возраст" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="AgeTextBox" Style="{StaticResource TextBoxStyle}" IsReadOnly="True"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 2. ДОКУМЕНТЫ -->
+                <Border Style="{StaticResource SectionHeaderStyle}">
+                    <TextBlock Text="ДОКУМЕНТЫ" FontWeight="SemiBold" Foreground="#333333"/>
+                </Border>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Номер студенческого билета" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="StudentCardNumberTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Личный номер (паспорт)" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="PersonalNumberTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 3. ЛИЧНЫЕ ДАННЫЕ -->
+                <Border Style="{StaticResource SectionHeaderStyle}">
+                    <TextBlock Text="ЛИЧНЫЕ ДАННЫЕ" FontWeight="SemiBold" Foreground="#333333"/>
+                </Border>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Место рождения" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="BirthPlaceTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Национальность" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="NationalityTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Гражданство" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="CitizenshipTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 4. КОНТАКТНЫЕ ДАННЫЕ -->
+                <Border Style="{StaticResource SectionHeaderStyle}">
+                    <TextBlock Text="КОНТАКТНЫЕ ДАННЫЕ" FontWeight="SemiBold" Foreground="#333333"/>
+                </Border>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Телефон" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="PhoneTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Email" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="EmailTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Телефон родителей" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="ParentsPhoneTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 5. АДРЕСА -->
+                <Border Style="{StaticResource SectionHeaderStyle}">
+                    <TextBlock Text="АДРЕСА" FontWeight="SemiBold" Foreground="#333333"/>
+                </Border>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Адрес регистрации" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="RegistrationAddressTextBox" Height="50" 
+                                 Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Адрес проживания" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="ResidentialAddressTextBox" Height="50" 
+                                 Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 6. ОБРАЗОВАНИЕ -->
+                <Border Style="{StaticResource SectionHeaderStyle}">
+                    <TextBlock Text="ОБРАЗОВАНИЕ" FontWeight="SemiBold" Foreground="#333333"/>
+                </Border>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Образование до поступления" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="EducationBeforeTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Документ об образовании" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="EducationDocumentTextBox" Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 7. СОЦИАЛЬНЫЙ СТАТУС -->
+                <Border Style="{StaticResource SectionHeaderStyle}">
+                    <TextBlock Text="СОЦИАЛЬНЫЙ СТАТУС" FontWeight="SemiBold" Foreground="#333333"/>
+                </Border>
+
+                <WrapPanel>
+                    <CheckBox x:Name="IsOrphanCheckBox" Content="Сирота" Style="{StaticResource CheckBoxStyle}"/>
+                    <CheckBox x:Name="IsDisabledCheckBox" Content="Инвалид" Style="{StaticResource CheckBoxStyle}"/>
+                    <CheckBox x:Name="IsFromLargeFamilyCheckBox" Content="Из многодетной семьи" Style="{StaticResource CheckBoxStyle}"/>
+                    <CheckBox x:Name="IsLowIncomeCheckBox" Content="Малообеспеченный" Style="{StaticResource CheckBoxStyle}"/>
+                </WrapPanel>
+
+                <!-- 8. ТРУДОУСТРОЙСТВО -->
+                <Border Style="{StaticResource SectionHeaderStyle}">
+                    <TextBlock Text="ТРУДОУСТРОЙСТВО" FontWeight="SemiBold" Foreground="#333333"/>
+                </Border>
+
+                <CheckBox x:Name="IsEmployedCheckBox" Content="Работает" Style="{StaticResource CheckBoxStyle}"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Место работы" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="WorkPlaceTextBox" Style="{StaticResource TextBoxStyle}"
+                                 IsEnabled="{Binding ElementName=IsEmployedCheckBox, Path=IsChecked}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Должность" Style="{StaticResource FieldLabelStyle}"/>
+                        <TextBox x:Name="WorkPositionTextBox" Style="{StaticResource TextBoxStyle}"
+                                 IsEnabled="{Binding ElementName=IsEmployedCheckBox, Path=IsChecked}"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 9. ДАТЫ -->
+                <Border Style="{StaticResource SectionHeaderStyle}">
+                    <TextBlock Text="ДАТЫ" FontWeight="SemiBold" Foreground="#333333"/>
+                </Border>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Дата зачисления" Style="{StaticResource FieldLabelStyle}"/>
+                        <DatePicker x:Name="EnrollmentDatePicker" Style="{StaticResource DatePickerStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Дата окончания" Style="{StaticResource FieldLabelStyle}"/>
+                        <DatePicker x:Name="GraduationDatePicker" Style="{StaticResource DatePickerStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Статус" Style="{StaticResource FieldLabelStyle}"/>
+                        <ComboBox x:Name="StatusComboBox" Style="{StaticResource ComboBoxStyle}">
+                            <ComboBoxItem Content="Активен" IsSelected="True"/>
+                            <ComboBoxItem Content="Неактивен"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+
+                <TextBlock Text="* - обязательные поля" FontSize="11" Foreground="#666666" Margin="5,10,5,5"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Панель кнопок (как в MainWindow) -->
+        <Border Grid.Row="2" 
+                Background="#F5F5F5" 
+                BorderBrush="#CCCCCC" 
+                BorderThickness="1"
+                Padding="8"
+                Margin="0,10,0,0">
+            <WrapPanel HorizontalAlignment="Right">
+                <Button x:Name="SaveButton" 
+                        Content="Сохранить изменения" 
+                        Style="{StaticResource DialogButtonStyle}"
+                        Background="#FF82B397" 
+                        Foreground="White"
+                        BorderBrush="#229954"
+                        BorderThickness="1"
+                        Click="SaveButton_Click"/>
+
+                <Button x:Name="CancelButton" 
+                        Content="Отмена" 
+                        Style="{StaticResource DialogButtonStyle}"
+                        Background="#E1E1E1" 
+                        Foreground="#333333"
+                        BorderBrush="#ADADAD"
+                        BorderThickness="1"
+                        Click="CancelButton_Click"/>
+            </WrapPanel>
+        </Border>
+    </Grid>
+</Window>

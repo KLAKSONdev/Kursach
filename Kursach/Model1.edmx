@@ -1,0 +1,2242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище vsstuModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Absences">
+          <Key>
+            <PropertyRef Name="AbsenceID" />
+          </Key>
+          <Property Name="AbsenceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="Days" Type="int" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+          <Property Name="IsRespectful" Type="bit" />
+          <Property Name="DocumentProof" Type="nvarchar" MaxLength="255" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AcademicPerformance">
+          <Key>
+            <PropertyRef Name="PerformanceID" />
+          </Key>
+          <Property Name="PerformanceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="Semester" Type="int" />
+          <Property Name="SubjectName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Grade" Type="int" />
+          <Property Name="GradeType" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Teacher" Type="nvarchar" MaxLength="200" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Achievements">
+          <Key>
+            <PropertyRef Name="AchievementID" />
+          </Key>
+          <Property Name="AchievementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="AchievementTypeID" Type="int" />
+          <Property Name="AchievementName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Level" Type="nvarchar" MaxLength="50" />
+          <Property Name="Place" Type="nvarchar" MaxLength="50" />
+          <Property Name="Document" Type="nvarchar" MaxLength="255" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AchievementTypes">
+          <Key>
+            <PropertyRef Name="AchievementTypeID" />
+          </Key>
+          <Property Name="AchievementTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceID" />
+          </Key>
+          <Property Name="AttendanceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsPresent" Type="bit" />
+          <Property Name="IsLate" Type="bit" />
+          <Property Name="IsAbsentRespectful" Type="bit" />
+          <Property Name="IsAbsentDisrespectful" Type="bit" />
+          <Property Name="Hours" Type="int" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+          <Property Name="MarkedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="CuratorGroups">
+          <Key>
+            <PropertyRef Name="CuratorGroupID" />
+          </Key>
+          <Property Name="CuratorGroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CuratorID" Type="int" />
+          <Property Name="GroupID" Type="int" />
+          <Property Name="AssignmentDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="CuratorHourAttendance">
+          <Key>
+            <PropertyRef Name="AttendanceID" />
+          </Key>
+          <Property Name="AttendanceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HourID" Type="int" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="IsPresent" Type="bit" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CuratorHours">
+          <Key>
+            <PropertyRef Name="HourID" />
+          </Key>
+          <Property Name="HourID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CuratorID" Type="int" />
+          <Property Name="GroupID" Type="int" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Topic" Type="nvarchar" MaxLength="500" />
+          <Property Name="PresentCount" Type="int" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Curators">
+          <Key>
+            <PropertyRef Name="CuratorID" />
+          </Key>
+          <Property Name="CuratorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Position" Type="nvarchar" MaxLength="100" />
+          <Property Name="Department" Type="nvarchar" MaxLength="100" />
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="255" />
+          <Property Name="HireDate" Type="date" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="DisciplinaryRecords">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="RecordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="RecordType" Type="nvarchar" MaxLength="20" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+          <Property Name="IssuedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="EventParticipation">
+          <Key>
+            <PropertyRef Name="ParticipationID" />
+          </Key>
+          <Property Name="ParticipationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventID" Type="int" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="ParticipationStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="Role" Type="nvarchar" MaxLength="100" />
+          <Property Name="Result" Type="nvarchar(max)" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="EventTypeID" Type="int" />
+          <Property Name="EventDate" Type="date" />
+          <Property Name="EventTime" Type="time" Precision="7" />
+          <Property Name="Location" Type="nvarchar" MaxLength="200" />
+          <Property Name="Organizer" Type="nvarchar" MaxLength="200" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsRequired" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="EventTypes">
+          <Key>
+            <PropertyRef Name="EventTypeID" />
+          </Key>
+          <Property Name="EventTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventTypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Faculties">
+          <Key>
+            <PropertyRef Name="FacultyID" />
+          </Key>
+          <Property Name="FacultyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacultyName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FacultyCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="FamilyTypes">
+          <Key>
+            <PropertyRef Name="FamilyTypeID" />
+          </Key>
+          <Property Name="FamilyTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FamilyTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="SpecialtyID" Type="int" />
+          <Property Name="Course" Type="int" />
+          <Property Name="AcademicYear" Type="nvarchar" MaxLength="9" />
+          <Property Name="StudentCount" Type="int" />
+          <Property Name="FormOfEducation" Type="nvarchar" MaxLength="20" />
+          <Property Name="Language" Type="nvarchar" MaxLength="20" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="HealthStatus">
+          <Key>
+            <PropertyRef Name="HealthStatusID" />
+          </Key>
+          <Property Name="HealthStatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HealthStatusName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="NegativeTraits">
+          <Key>
+            <PropertyRef Name="NegativeTraitID" />
+          </Key>
+          <Property Name="NegativeTraitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TraitName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Parents">
+          <Key>
+            <PropertyRef Name="ParentID" />
+          </Key>
+          <Property Name="ParentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Relationship" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="WorkPlace" Type="nvarchar" MaxLength="200" />
+          <Property Name="WorkPosition" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PositiveTraits">
+          <Key>
+            <PropertyRef Name="PositiveTraitID" />
+          </Key>
+          <Property Name="PositiveTraitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TraitName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Specialties">
+          <Key>
+            <PropertyRef Name="SpecialtyID" />
+          </Key>
+          <Property Name="SpecialtyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpecialtyCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="SpecialtyName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="FacultyID" Type="int" />
+          <Property Name="EducationLevel" Type="nvarchar" MaxLength="50" />
+          <Property Name="DurationYears" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="StudentCharacteristics">
+          <Key>
+            <PropertyRef Name="CharacteristicID" />
+          </Key>
+          <Property Name="CharacteristicID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="int" Nullable="false" />
+          <Property Name="CharacteristicText" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="StudentParents">
+          <Key>
+            <PropertyRef Name="StudentParentID" />
+          </Key>
+          <Property Name="StudentParentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="IsPrimaryContact" Type="bit" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="GroupID" Type="int" />
+          <Property Name="StudentCardNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="PersonalNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="BirthPlace" Type="nvarchar" MaxLength="200" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="1" />
+          <Property Name="Nationality" Type="nvarchar" MaxLength="50" />
+          <Property Name="Citizenship" Type="nvarchar" MaxLength="50" />
+          <Property Name="EducationBefore" Type="nvarchar" MaxLength="100" />
+          <Property Name="EducationDocument" Type="nvarchar" MaxLength="100" />
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="255" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="ParentsPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="RegistrationAddress" Type="nvarchar(max)" />
+          <Property Name="ResidentialAddress" Type="nvarchar(max)" />
+          <Property Name="HealthStatusID" Type="int" />
+          <Property Name="FamilyTypeID" Type="int" />
+          <Property Name="IsOrphan" Type="bit" />
+          <Property Name="IsDisabled" Type="bit" />
+          <Property Name="IsFromLargeFamily" Type="bit" />
+          <Property Name="IsLowIncome" Type="bit" />
+          <Property Name="IsEmployed" Type="bit" />
+          <Property Name="WorkPlace" Type="nvarchar" MaxLength="200" />
+          <Property Name="WorkPosition" Type="nvarchar" MaxLength="100" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="EnrollmentDate" Type="date" />
+          <Property Name="GraduationDate" Type="date" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" />
+          <Property Name="UpdatedAt" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="StudentTraits">
+          <Key>
+            <PropertyRef Name="TraitID" />
+          </Key>
+          <Property Name="TraitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="PositiveTraitID" Type="int" />
+          <Property Name="NegativeTraitID" Type="int" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+          <Property Name="MarkedBy" Type="int" />
+          <Property Name="Date" Type="date" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__Absences__Studen__2BFE89A6">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Absences" Type="Self.Absences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Absences">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AcademicP__Stude__08B54D69">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AcademicPerformance" Type="Self.AcademicPerformance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="AcademicPerformance">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Achieveme__Achie__1DB06A4F">
+          <End Role="AchievementTypes" Type="Self.AchievementTypes" Multiplicity="0..1" />
+          <End Role="Achievements" Type="Self.Achievements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AchievementTypes">
+              <PropertyRef Name="AchievementTypeID" />
+            </Principal>
+            <Dependent Role="Achievements">
+              <PropertyRef Name="AchievementTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Achieveme__Stude__1CBC4616">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Achievements" Type="Self.Achievements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Achievements">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Attendanc__Marke__114A936A">
+          <End Role="Curators" Type="Self.Curators" Multiplicity="0..1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curators">
+              <PropertyRef Name="CuratorID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="MarkedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Attendanc__Stude__10566F31">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorGr__Curat__6C190EBB">
+          <End Role="Curators" Type="Self.Curators" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CuratorGroups" Type="Self.CuratorGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curators">
+              <PropertyRef Name="CuratorID" />
+            </Principal>
+            <Dependent Role="CuratorGroups">
+              <PropertyRef Name="CuratorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorGr__Group__6D0D32F4">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CuratorGroups" Type="Self.CuratorGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="CuratorGroups">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorHo__Curat__2EDAF651">
+          <End Role="Curators" Type="Self.Curators" Multiplicity="0..1" />
+          <End Role="CuratorHours" Type="Self.CuratorHours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curators">
+              <PropertyRef Name="CuratorID" />
+            </Principal>
+            <Dependent Role="CuratorHours">
+              <PropertyRef Name="CuratorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorHo__Group__2FCF1A8A">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
+          <End Role="CuratorHours" Type="Self.CuratorHours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="CuratorHours">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorHo__HourI__339FAB6E">
+          <End Role="CuratorHours" Type="Self.CuratorHours" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CuratorHourAttendance" Type="Self.CuratorHourAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuratorHours">
+              <PropertyRef Name="HourID" />
+            </Principal>
+            <Dependent Role="CuratorHourAttendance">
+              <PropertyRef Name="HourID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorHo__Stude__3493CFA7">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CuratorHourAttendance" Type="Self.CuratorHourAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="CuratorHourAttendance">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disciplin__Stude__282DF8C2">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DisciplinaryRecords" Type="Self.DisciplinaryRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="DisciplinaryRecords">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EventPart__Event__18EBB532">
+          <End Role="Events" Type="Self.Events" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventParticipation" Type="Self.EventParticipation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventParticipation">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EventPart__Stude__19DFD96B">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventParticipation" Type="Self.EventParticipation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="EventParticipation">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Events__EventTyp__160F4887">
+          <End Role="EventTypes" Type="Self.EventTypes" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventTypes">
+              <PropertyRef Name="EventTypeID" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="EventTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Groups__Specialt__5535A963">
+          <End Role="Specialties" Type="Self.Specialties" Multiplicity="0..1" />
+          <End Role="Groups" Type="Self.Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialties">
+              <PropertyRef Name="SpecialtyID" />
+            </Principal>
+            <Dependent Role="Groups">
+              <PropertyRef Name="SpecialtyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Specialti__Facul__4F7CD00D">
+          <End Role="Faculties" Type="Self.Faculties" Multiplicity="0..1" />
+          <End Role="Specialties" Type="Self.Specialties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faculties">
+              <PropertyRef Name="FacultyID" />
+            </Principal>
+            <Dependent Role="Specialties">
+              <PropertyRef Name="FacultyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentPa__Paren__03F0984C">
+          <End Role="Parents" Type="Self.Parents" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudentParents" Type="Self.StudentParents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parents">
+              <PropertyRef Name="ParentID" />
+            </Principal>
+            <Dependent Role="StudentParents">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentPa__Stude__02FC7413">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudentParents" Type="Self.StudentParents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="StudentParents">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Students__Family__7D439ABD">
+          <End Role="FamilyTypes" Type="Self.FamilyTypes" Multiplicity="0..1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FamilyTypes">
+              <PropertyRef Name="FamilyTypeID" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="FamilyTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Students__GroupI__7B5B524B">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Students__Health__7C4F7684">
+          <End Role="HealthStatus" Type="Self.HealthStatus" Multiplicity="0..1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HealthStatus">
+              <PropertyRef Name="HealthStatusID" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="HealthStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentTr__Marke__245D67DE">
+          <End Role="Curators" Type="Self.Curators" Multiplicity="0..1" />
+          <End Role="StudentTraits" Type="Self.StudentTraits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curators">
+              <PropertyRef Name="CuratorID" />
+            </Principal>
+            <Dependent Role="StudentTraits">
+              <PropertyRef Name="MarkedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentTr__Negat__236943A5">
+          <End Role="NegativeTraits" Type="Self.NegativeTraits" Multiplicity="0..1" />
+          <End Role="StudentTraits" Type="Self.StudentTraits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NegativeTraits">
+              <PropertyRef Name="NegativeTraitID" />
+            </Principal>
+            <Dependent Role="StudentTraits">
+              <PropertyRef Name="NegativeTraitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentTr__Posit__22751F6C">
+          <End Role="PositiveTraits" Type="Self.PositiveTraits" Multiplicity="0..1" />
+          <End Role="StudentTraits" Type="Self.StudentTraits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PositiveTraits">
+              <PropertyRef Name="PositiveTraitID" />
+            </Principal>
+            <Dependent Role="StudentTraits">
+              <PropertyRef Name="PositiveTraitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentTr__Stude__2180FB33">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudentTraits" Type="Self.StudentTraits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="StudentTraits">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentCharacteristics_Students">
+          <End Role="Students" Type="Self.Students" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudentCharacteristics" Type="Self.StudentCharacteristics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="StudentCharacteristics">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище vsstuModelContainer">
+          <EntitySet Name="Absences" EntityType="Self.Absences" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcademicPerformance" EntityType="Self.AcademicPerformance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Achievements" EntityType="Self.Achievements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AchievementTypes" EntityType="Self.AchievementTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CuratorGroups" EntityType="Self.CuratorGroups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CuratorHourAttendance" EntityType="Self.CuratorHourAttendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CuratorHours" EntityType="Self.CuratorHours" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Curators" EntityType="Self.Curators" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DisciplinaryRecords" EntityType="Self.DisciplinaryRecords" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventParticipation" EntityType="Self.EventParticipation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventTypes" EntityType="Self.EventTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Faculties" EntityType="Self.Faculties" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FamilyTypes" EntityType="Self.FamilyTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HealthStatus" EntityType="Self.HealthStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NegativeTraits" EntityType="Self.NegativeTraits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parents" EntityType="Self.Parents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PositiveTraits" EntityType="Self.PositiveTraits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specialties" EntityType="Self.Specialties" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentCharacteristics" EntityType="Self.StudentCharacteristics" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentParents" EntityType="Self.StudentParents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentTraits" EntityType="Self.StudentTraits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Absences__Studen__2BFE89A6" Association="Self.FK__Absences__Studen__2BFE89A6">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Absences" EntitySet="Absences" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AcademicP__Stude__08B54D69" Association="Self.FK__AcademicP__Stude__08B54D69">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="AcademicPerformance" EntitySet="AcademicPerformance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Achieveme__Achie__1DB06A4F" Association="Self.FK__Achieveme__Achie__1DB06A4F">
+            <End Role="AchievementTypes" EntitySet="AchievementTypes" />
+            <End Role="Achievements" EntitySet="Achievements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Achieveme__Stude__1CBC4616" Association="Self.FK__Achieveme__Stude__1CBC4616">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Achievements" EntitySet="Achievements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Attendanc__Marke__114A936A" Association="Self.FK__Attendanc__Marke__114A936A">
+            <End Role="Curators" EntitySet="Curators" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Attendanc__Stude__10566F31" Association="Self.FK__Attendanc__Stude__10566F31">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorGr__Curat__6C190EBB" Association="Self.FK__CuratorGr__Curat__6C190EBB">
+            <End Role="Curators" EntitySet="Curators" />
+            <End Role="CuratorGroups" EntitySet="CuratorGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorGr__Group__6D0D32F4" Association="Self.FK__CuratorGr__Group__6D0D32F4">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="CuratorGroups" EntitySet="CuratorGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorHo__Curat__2EDAF651" Association="Self.FK__CuratorHo__Curat__2EDAF651">
+            <End Role="Curators" EntitySet="Curators" />
+            <End Role="CuratorHours" EntitySet="CuratorHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorHo__Group__2FCF1A8A" Association="Self.FK__CuratorHo__Group__2FCF1A8A">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="CuratorHours" EntitySet="CuratorHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorHo__HourI__339FAB6E" Association="Self.FK__CuratorHo__HourI__339FAB6E">
+            <End Role="CuratorHours" EntitySet="CuratorHours" />
+            <End Role="CuratorHourAttendance" EntitySet="CuratorHourAttendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorHo__Stude__3493CFA7" Association="Self.FK__CuratorHo__Stude__3493CFA7">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="CuratorHourAttendance" EntitySet="CuratorHourAttendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disciplin__Stude__282DF8C2" Association="Self.FK__Disciplin__Stude__282DF8C2">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="DisciplinaryRecords" EntitySet="DisciplinaryRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EventPart__Event__18EBB532" Association="Self.FK__EventPart__Event__18EBB532">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="EventParticipation" EntitySet="EventParticipation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EventPart__Stude__19DFD96B" Association="Self.FK__EventPart__Stude__19DFD96B">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="EventParticipation" EntitySet="EventParticipation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Events__EventTyp__160F4887" Association="Self.FK__Events__EventTyp__160F4887">
+            <End Role="EventTypes" EntitySet="EventTypes" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Groups__Specialt__5535A963" Association="Self.FK__Groups__Specialt__5535A963">
+            <End Role="Specialties" EntitySet="Specialties" />
+            <End Role="Groups" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Specialti__Facul__4F7CD00D" Association="Self.FK__Specialti__Facul__4F7CD00D">
+            <End Role="Faculties" EntitySet="Faculties" />
+            <End Role="Specialties" EntitySet="Specialties" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentPa__Paren__03F0984C" Association="Self.FK__StudentPa__Paren__03F0984C">
+            <End Role="Parents" EntitySet="Parents" />
+            <End Role="StudentParents" EntitySet="StudentParents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentPa__Stude__02FC7413" Association="Self.FK__StudentPa__Stude__02FC7413">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="StudentParents" EntitySet="StudentParents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Students__Family__7D439ABD" Association="Self.FK__Students__Family__7D439ABD">
+            <End Role="FamilyTypes" EntitySet="FamilyTypes" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Students__GroupI__7B5B524B" Association="Self.FK__Students__GroupI__7B5B524B">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Students__Health__7C4F7684" Association="Self.FK__Students__Health__7C4F7684">
+            <End Role="HealthStatus" EntitySet="HealthStatus" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentTr__Marke__245D67DE" Association="Self.FK__StudentTr__Marke__245D67DE">
+            <End Role="Curators" EntitySet="Curators" />
+            <End Role="StudentTraits" EntitySet="StudentTraits" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentTr__Negat__236943A5" Association="Self.FK__StudentTr__Negat__236943A5">
+            <End Role="NegativeTraits" EntitySet="NegativeTraits" />
+            <End Role="StudentTraits" EntitySet="StudentTraits" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentTr__Posit__22751F6C" Association="Self.FK__StudentTr__Posit__22751F6C">
+            <End Role="PositiveTraits" EntitySet="PositiveTraits" />
+            <End Role="StudentTraits" EntitySet="StudentTraits" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentTr__Stude__2180FB33" Association="Self.FK__StudentTr__Stude__2180FB33">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="StudentTraits" EntitySet="StudentTraits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentCharacteristics_Students" Association="Self.FK_StudentCharacteristics_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="StudentCharacteristics" EntitySet="StudentCharacteristics" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="vsstuModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Absences">
+          <Key>
+            <PropertyRef Name="AbsenceID" />
+          </Key>
+          <Property Name="AbsenceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Days" Type="Int32" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsRespectful" Type="Boolean" />
+          <Property Name="DocumentProof" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Absences__Studen__2BFE89A6" FromRole="Absences" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="AcademicPerformance">
+          <Key>
+            <PropertyRef Name="PerformanceID" />
+          </Key>
+          <Property Name="PerformanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="Semester" Type="Int32" />
+          <Property Name="SubjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Grade" Type="Int32" />
+          <Property Name="GradeType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Teacher" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__AcademicP__Stude__08B54D69" FromRole="AcademicPerformance" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="Achievements">
+          <Key>
+            <PropertyRef Name="AchievementID" />
+          </Key>
+          <Property Name="AchievementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="AchievementTypeID" Type="Int32" />
+          <Property Name="AchievementName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Level" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Place" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Document" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AchievementTypes" Relationship="Self.FK__Achieveme__Achie__1DB06A4F" FromRole="Achievements" ToRole="AchievementTypes" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Achieveme__Stude__1CBC4616" FromRole="Achievements" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="AchievementTypes">
+          <Key>
+            <PropertyRef Name="AchievementTypeID" />
+          </Key>
+          <Property Name="AchievementTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Achievements" Relationship="Self.FK__Achieveme__Achie__1DB06A4F" FromRole="AchievementTypes" ToRole="Achievements" />
+        </EntityType>
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceID" />
+          </Key>
+          <Property Name="AttendanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Subject" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsPresent" Type="Boolean" />
+          <Property Name="IsLate" Type="Boolean" />
+          <Property Name="IsAbsentRespectful" Type="Boolean" />
+          <Property Name="IsAbsentDisrespectful" Type="Boolean" />
+          <Property Name="Hours" Type="Int32" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MarkedBy" Type="Int32" />
+          <NavigationProperty Name="Curators" Relationship="Self.FK__Attendanc__Marke__114A936A" FromRole="Attendance" ToRole="Curators" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Attendanc__Stude__10566F31" FromRole="Attendance" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="CuratorGroups">
+          <Key>
+            <PropertyRef Name="CuratorGroupID" />
+          </Key>
+          <Property Name="CuratorGroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CuratorID" Type="Int32" />
+          <Property Name="GroupID" Type="Int32" />
+          <Property Name="AssignmentDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Curators" Relationship="Self.FK__CuratorGr__Curat__6C190EBB" FromRole="CuratorGroups" ToRole="Curators" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK__CuratorGr__Group__6D0D32F4" FromRole="CuratorGroups" ToRole="Groups" />
+        </EntityType>
+        <EntityType Name="CuratorHourAttendance">
+          <Key>
+            <PropertyRef Name="AttendanceID" />
+          </Key>
+          <Property Name="AttendanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HourID" Type="Int32" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="IsPresent" Type="Boolean" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CuratorHours" Relationship="Self.FK__CuratorHo__HourI__339FAB6E" FromRole="CuratorHourAttendance" ToRole="CuratorHours" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__CuratorHo__Stude__3493CFA7" FromRole="CuratorHourAttendance" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="CuratorHours">
+          <Key>
+            <PropertyRef Name="HourID" />
+          </Key>
+          <Property Name="HourID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CuratorID" Type="Int32" />
+          <Property Name="GroupID" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Topic" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PresentCount" Type="Int32" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CuratorHourAttendance" Relationship="Self.FK__CuratorHo__HourI__339FAB6E" FromRole="CuratorHours" ToRole="CuratorHourAttendance" />
+          <NavigationProperty Name="Curators" Relationship="Self.FK__CuratorHo__Curat__2EDAF651" FromRole="CuratorHours" ToRole="Curators" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK__CuratorHo__Group__2FCF1A8A" FromRole="CuratorHours" ToRole="Groups" />
+        </EntityType>
+        <EntityType Name="Curators">
+          <Key>
+            <PropertyRef Name="CuratorID" />
+          </Key>
+          <Property Name="CuratorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Department" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhotoPath" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="HireDate" Type="DateTime" Precision="0" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="Attendance" Relationship="Self.FK__Attendanc__Marke__114A936A" FromRole="Curators" ToRole="Attendance" />
+          <NavigationProperty Name="CuratorGroups" Relationship="Self.FK__CuratorGr__Curat__6C190EBB" FromRole="Curators" ToRole="CuratorGroups" />
+          <NavigationProperty Name="CuratorHours" Relationship="Self.FK__CuratorHo__Curat__2EDAF651" FromRole="Curators" ToRole="CuratorHours" />
+          <NavigationProperty Name="StudentTraits" Relationship="Self.FK__StudentTr__Marke__245D67DE" FromRole="Curators" ToRole="StudentTraits" />
+        </EntityType>
+        <EntityType Name="DisciplinaryRecords">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="RecordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="RecordType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IssuedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Disciplin__Stude__282DF8C2" FromRole="DisciplinaryRecords" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="EventParticipation">
+          <Key>
+            <PropertyRef Name="ParticipationID" />
+          </Key>
+          <Property Name="ParticipationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventID" Type="Int32" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="ParticipationStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Events" Relationship="Self.FK__EventPart__Event__18EBB532" FromRole="EventParticipation" ToRole="Events" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__EventPart__Stude__19DFD96B" FromRole="EventParticipation" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EventTypeID" Type="Int32" />
+          <Property Name="EventDate" Type="DateTime" Precision="0" />
+          <Property Name="EventTime" Type="Time" Precision="7" />
+          <Property Name="Location" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Organizer" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsRequired" Type="Boolean" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="EventParticipation" Relationship="Self.FK__EventPart__Event__18EBB532" FromRole="Events" ToRole="EventParticipation" />
+          <NavigationProperty Name="EventTypes" Relationship="Self.FK__Events__EventTyp__160F4887" FromRole="Events" ToRole="EventTypes" />
+        </EntityType>
+        <EntityType Name="EventTypes">
+          <Key>
+            <PropertyRef Name="EventTypeID" />
+          </Key>
+          <Property Name="EventTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Events" Relationship="Self.FK__Events__EventTyp__160F4887" FromRole="EventTypes" ToRole="Events" />
+        </EntityType>
+        <EntityType Name="Faculties">
+          <Key>
+            <PropertyRef Name="FacultyID" />
+          </Key>
+          <Property Name="FacultyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacultyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FacultyCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="Specialties" Relationship="Self.FK__Specialti__Facul__4F7CD00D" FromRole="Faculties" ToRole="Specialties" />
+        </EntityType>
+        <EntityType Name="FamilyTypes">
+          <Key>
+            <PropertyRef Name="FamilyTypeID" />
+          </Key>
+          <Property Name="FamilyTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FamilyTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Students__Family__7D439ABD" FromRole="FamilyTypes" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SpecialtyID" Type="Int32" />
+          <Property Name="Course" Type="Int32" />
+          <Property Name="AcademicYear" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+          <Property Name="StudentCount" Type="Int32" />
+          <Property Name="FormOfEducation" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Language" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="CuratorGroups" Relationship="Self.FK__CuratorGr__Group__6D0D32F4" FromRole="Groups" ToRole="CuratorGroups" />
+          <NavigationProperty Name="CuratorHours" Relationship="Self.FK__CuratorHo__Group__2FCF1A8A" FromRole="Groups" ToRole="CuratorHours" />
+          <NavigationProperty Name="Specialties" Relationship="Self.FK__Groups__Specialt__5535A963" FromRole="Groups" ToRole="Specialties" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Students__GroupI__7B5B524B" FromRole="Groups" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="HealthStatus">
+          <Key>
+            <PropertyRef Name="HealthStatusID" />
+          </Key>
+          <Property Name="HealthStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HealthStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Students__Health__7C4F7684" FromRole="HealthStatus" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="NegativeTraits">
+          <Key>
+            <PropertyRef Name="NegativeTraitID" />
+          </Key>
+          <Property Name="NegativeTraitID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TraitName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StudentTraits" Relationship="Self.FK__StudentTr__Negat__236943A5" FromRole="NegativeTraits" ToRole="StudentTraits" />
+        </EntityType>
+        <EntityType Name="Parents">
+          <Key>
+            <PropertyRef Name="ParentID" />
+          </Key>
+          <Property Name="ParentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Relationship" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="WorkPlace" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WorkPosition" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StudentParents" Relationship="Self.FK__StudentPa__Paren__03F0984C" FromRole="Parents" ToRole="StudentParents" />
+        </EntityType>
+        <EntityType Name="PositiveTraits">
+          <Key>
+            <PropertyRef Name="PositiveTraitID" />
+          </Key>
+          <Property Name="PositiveTraitID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TraitName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StudentTraits" Relationship="Self.FK__StudentTr__Posit__22751F6C" FromRole="PositiveTraits" ToRole="StudentTraits" />
+        </EntityType>
+        <EntityType Name="Specialties">
+          <Key>
+            <PropertyRef Name="SpecialtyID" />
+          </Key>
+          <Property Name="SpecialtyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpecialtyCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SpecialtyName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FacultyID" Type="Int32" />
+          <Property Name="EducationLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DurationYears" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Faculties" Relationship="Self.FK__Specialti__Facul__4F7CD00D" FromRole="Specialties" ToRole="Faculties" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK__Groups__Specialt__5535A963" FromRole="Specialties" ToRole="Groups" />
+        </EntityType>
+        <EntityType Name="StudentParents">
+          <Key>
+            <PropertyRef Name="StudentParentID" />
+          </Key>
+          <Property Name="StudentParentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="IsPrimaryContact" Type="Boolean" />
+          <NavigationProperty Name="Parents" Relationship="Self.FK__StudentPa__Paren__03F0984C" FromRole="StudentParents" ToRole="Parents" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__StudentPa__Stude__02FC7413" FromRole="StudentParents" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupID" Type="Int32" />
+          <Property Name="StudentCardNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PersonalNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="BirthPlace" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="Nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Citizenship" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EducationBefore" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EducationDocument" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhotoPath" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ParentsPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResidentialAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HealthStatusID" Type="Int32" />
+          <Property Name="FamilyTypeID" Type="Int32" />
+          <Property Name="IsOrphan" Type="Boolean" />
+          <Property Name="IsDisabled" Type="Boolean" />
+          <Property Name="IsFromLargeFamily" Type="Boolean" />
+          <Property Name="IsLowIncome" Type="Boolean" />
+          <Property Name="IsEmployed" Type="Boolean" />
+          <Property Name="WorkPlace" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WorkPosition" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="EnrollmentDate" Type="DateTime" Precision="0" />
+          <Property Name="GraduationDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="Absences" Relationship="Self.FK__Absences__Studen__2BFE89A6" FromRole="Students" ToRole="Absences" />
+          <NavigationProperty Name="AcademicPerformance" Relationship="Self.FK__AcademicP__Stude__08B54D69" FromRole="Students" ToRole="AcademicPerformance" />
+          <NavigationProperty Name="Achievements" Relationship="Self.FK__Achieveme__Stude__1CBC4616" FromRole="Students" ToRole="Achievements" />
+          <NavigationProperty Name="Attendance" Relationship="Self.FK__Attendanc__Stude__10566F31" FromRole="Students" ToRole="Attendance" />
+          <NavigationProperty Name="CuratorHourAttendance" Relationship="Self.FK__CuratorHo__Stude__3493CFA7" FromRole="Students" ToRole="CuratorHourAttendance" />
+          <NavigationProperty Name="DisciplinaryRecords" Relationship="Self.FK__Disciplin__Stude__282DF8C2" FromRole="Students" ToRole="DisciplinaryRecords" />
+          <NavigationProperty Name="EventParticipation" Relationship="Self.FK__EventPart__Stude__19DFD96B" FromRole="Students" ToRole="EventParticipation" />
+          <NavigationProperty Name="FamilyTypes" Relationship="Self.FK__Students__Family__7D439ABD" FromRole="Students" ToRole="FamilyTypes" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK__Students__GroupI__7B5B524B" FromRole="Students" ToRole="Groups" />
+          <NavigationProperty Name="HealthStatus" Relationship="Self.FK__Students__Health__7C4F7684" FromRole="Students" ToRole="HealthStatus" />
+          <NavigationProperty Name="StudentParents" Relationship="Self.FK__StudentPa__Stude__02FC7413" FromRole="Students" ToRole="StudentParents" />
+          <NavigationProperty Name="StudentTraits" Relationship="Self.FK__StudentTr__Stude__2180FB33" FromRole="Students" ToRole="StudentTraits" />
+          <NavigationProperty Name="StudentCharacteristics" Relationship="vsstuModel.FK_StudentCharacteristics_Students" FromRole="Students" ToRole="StudentCharacteristics" />
+        </EntityType>
+        <EntityType Name="StudentTraits">
+          <Key>
+            <PropertyRef Name="TraitID" />
+          </Key>
+          <Property Name="TraitID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="PositiveTraitID" Type="Int32" />
+          <Property Name="NegativeTraitID" Type="Int32" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MarkedBy" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Curators" Relationship="Self.FK__StudentTr__Marke__245D67DE" FromRole="StudentTraits" ToRole="Curators" />
+          <NavigationProperty Name="NegativeTraits" Relationship="Self.FK__StudentTr__Negat__236943A5" FromRole="StudentTraits" ToRole="NegativeTraits" />
+          <NavigationProperty Name="PositiveTraits" Relationship="Self.FK__StudentTr__Posit__22751F6C" FromRole="StudentTraits" ToRole="PositiveTraits" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__StudentTr__Stude__2180FB33" FromRole="StudentTraits" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__Absences__Studen__2BFE89A6">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Absences" Type="Self.Absences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Absences">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AcademicP__Stude__08B54D69">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AcademicPerformance" Type="Self.AcademicPerformance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="AcademicPerformance">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Achieveme__Achie__1DB06A4F">
+          <End Role="AchievementTypes" Type="Self.AchievementTypes" Multiplicity="0..1" />
+          <End Role="Achievements" Type="Self.Achievements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AchievementTypes">
+              <PropertyRef Name="AchievementTypeID" />
+            </Principal>
+            <Dependent Role="Achievements">
+              <PropertyRef Name="AchievementTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Achieveme__Stude__1CBC4616">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Achievements" Type="Self.Achievements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Achievements">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Attendanc__Marke__114A936A">
+          <End Role="Curators" Type="Self.Curators" Multiplicity="0..1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curators">
+              <PropertyRef Name="CuratorID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="MarkedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Attendanc__Stude__10566F31">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorGr__Curat__6C190EBB">
+          <End Role="Curators" Type="Self.Curators" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CuratorGroups" Type="Self.CuratorGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curators">
+              <PropertyRef Name="CuratorID" />
+            </Principal>
+            <Dependent Role="CuratorGroups">
+              <PropertyRef Name="CuratorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorGr__Group__6D0D32F4">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CuratorGroups" Type="Self.CuratorGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="CuratorGroups">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorHo__HourI__339FAB6E">
+          <End Role="CuratorHours" Type="Self.CuratorHours" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CuratorHourAttendance" Type="Self.CuratorHourAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuratorHours">
+              <PropertyRef Name="HourID" />
+            </Principal>
+            <Dependent Role="CuratorHourAttendance">
+              <PropertyRef Name="HourID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorHo__Stude__3493CFA7">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CuratorHourAttendance" Type="Self.CuratorHourAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="CuratorHourAttendance">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorHo__Curat__2EDAF651">
+          <End Role="Curators" Type="Self.Curators" Multiplicity="0..1" />
+          <End Role="CuratorHours" Type="Self.CuratorHours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curators">
+              <PropertyRef Name="CuratorID" />
+            </Principal>
+            <Dependent Role="CuratorHours">
+              <PropertyRef Name="CuratorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CuratorHo__Group__2FCF1A8A">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
+          <End Role="CuratorHours" Type="Self.CuratorHours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="CuratorHours">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentTr__Marke__245D67DE">
+          <End Role="Curators" Type="Self.Curators" Multiplicity="0..1" />
+          <End Role="StudentTraits" Type="Self.StudentTraits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curators">
+              <PropertyRef Name="CuratorID" />
+            </Principal>
+            <Dependent Role="StudentTraits">
+              <PropertyRef Name="MarkedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disciplin__Stude__282DF8C2">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DisciplinaryRecords" Type="Self.DisciplinaryRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="DisciplinaryRecords">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EventPart__Event__18EBB532">
+          <End Role="Events" Type="Self.Events" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventParticipation" Type="Self.EventParticipation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventParticipation">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EventPart__Stude__19DFD96B">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventParticipation" Type="Self.EventParticipation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="EventParticipation">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Events__EventTyp__160F4887">
+          <End Role="EventTypes" Type="Self.EventTypes" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventTypes">
+              <PropertyRef Name="EventTypeID" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="EventTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Specialti__Facul__4F7CD00D">
+          <End Role="Faculties" Type="Self.Faculties" Multiplicity="0..1" />
+          <End Role="Specialties" Type="Self.Specialties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faculties">
+              <PropertyRef Name="FacultyID" />
+            </Principal>
+            <Dependent Role="Specialties">
+              <PropertyRef Name="FacultyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Students__Family__7D439ABD">
+          <End Role="FamilyTypes" Type="Self.FamilyTypes" Multiplicity="0..1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FamilyTypes">
+              <PropertyRef Name="FamilyTypeID" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="FamilyTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Groups__Specialt__5535A963">
+          <End Role="Specialties" Type="Self.Specialties" Multiplicity="0..1" />
+          <End Role="Groups" Type="Self.Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialties">
+              <PropertyRef Name="SpecialtyID" />
+            </Principal>
+            <Dependent Role="Groups">
+              <PropertyRef Name="SpecialtyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Students__GroupI__7B5B524B">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Students__Health__7C4F7684">
+          <End Role="HealthStatus" Type="Self.HealthStatus" Multiplicity="0..1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HealthStatus">
+              <PropertyRef Name="HealthStatusID" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="HealthStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentTr__Negat__236943A5">
+          <End Role="NegativeTraits" Type="Self.NegativeTraits" Multiplicity="0..1" />
+          <End Role="StudentTraits" Type="Self.StudentTraits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NegativeTraits">
+              <PropertyRef Name="NegativeTraitID" />
+            </Principal>
+            <Dependent Role="StudentTraits">
+              <PropertyRef Name="NegativeTraitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentPa__Paren__03F0984C">
+          <End Role="Parents" Type="Self.Parents" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudentParents" Type="Self.StudentParents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parents">
+              <PropertyRef Name="ParentID" />
+            </Principal>
+            <Dependent Role="StudentParents">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentTr__Posit__22751F6C">
+          <End Role="PositiveTraits" Type="Self.PositiveTraits" Multiplicity="0..1" />
+          <End Role="StudentTraits" Type="Self.StudentTraits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PositiveTraits">
+              <PropertyRef Name="PositiveTraitID" />
+            </Principal>
+            <Dependent Role="StudentTraits">
+              <PropertyRef Name="PositiveTraitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentPa__Stude__02FC7413">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudentParents" Type="Self.StudentParents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="StudentParents">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentTr__Stude__2180FB33">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudentTraits" Type="Self.StudentTraits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="StudentTraits">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="vsstuEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Absences" EntityType="Self.Absences" />
+          <EntitySet Name="AcademicPerformance" EntityType="Self.AcademicPerformance" />
+          <EntitySet Name="Achievements" EntityType="Self.Achievements" />
+          <EntitySet Name="AchievementTypes" EntityType="Self.AchievementTypes" />
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" />
+          <EntitySet Name="CuratorGroups" EntityType="Self.CuratorGroups" />
+          <EntitySet Name="CuratorHourAttendance" EntityType="Self.CuratorHourAttendance" />
+          <EntitySet Name="CuratorHours" EntityType="Self.CuratorHours" />
+          <EntitySet Name="Curators" EntityType="Self.Curators" />
+          <EntitySet Name="DisciplinaryRecords" EntityType="Self.DisciplinaryRecords" />
+          <EntitySet Name="EventParticipation" EntityType="Self.EventParticipation" />
+          <EntitySet Name="Events" EntityType="Self.Events" />
+          <EntitySet Name="EventTypes" EntityType="Self.EventTypes" />
+          <EntitySet Name="Faculties" EntityType="Self.Faculties" />
+          <EntitySet Name="FamilyTypes" EntityType="Self.FamilyTypes" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" />
+          <EntitySet Name="HealthStatus" EntityType="Self.HealthStatus" />
+          <EntitySet Name="NegativeTraits" EntityType="Self.NegativeTraits" />
+          <EntitySet Name="Parents" EntityType="Self.Parents" />
+          <EntitySet Name="PositiveTraits" EntityType="Self.PositiveTraits" />
+          <EntitySet Name="Specialties" EntityType="Self.Specialties" />
+          <EntitySet Name="StudentParents" EntityType="Self.StudentParents" />
+          <EntitySet Name="Students" EntityType="Self.Students" />
+          <EntitySet Name="StudentTraits" EntityType="Self.StudentTraits" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK__Absences__Studen__2BFE89A6" Association="Self.FK__Absences__Studen__2BFE89A6">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Absences" EntitySet="Absences" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AcademicP__Stude__08B54D69" Association="Self.FK__AcademicP__Stude__08B54D69">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="AcademicPerformance" EntitySet="AcademicPerformance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Achieveme__Achie__1DB06A4F" Association="Self.FK__Achieveme__Achie__1DB06A4F">
+            <End Role="AchievementTypes" EntitySet="AchievementTypes" />
+            <End Role="Achievements" EntitySet="Achievements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Achieveme__Stude__1CBC4616" Association="Self.FK__Achieveme__Stude__1CBC4616">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Achievements" EntitySet="Achievements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Attendanc__Marke__114A936A" Association="Self.FK__Attendanc__Marke__114A936A">
+            <End Role="Curators" EntitySet="Curators" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Attendanc__Stude__10566F31" Association="Self.FK__Attendanc__Stude__10566F31">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorGr__Curat__6C190EBB" Association="Self.FK__CuratorGr__Curat__6C190EBB">
+            <End Role="Curators" EntitySet="Curators" />
+            <End Role="CuratorGroups" EntitySet="CuratorGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorGr__Group__6D0D32F4" Association="Self.FK__CuratorGr__Group__6D0D32F4">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="CuratorGroups" EntitySet="CuratorGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorHo__HourI__339FAB6E" Association="Self.FK__CuratorHo__HourI__339FAB6E">
+            <End Role="CuratorHours" EntitySet="CuratorHours" />
+            <End Role="CuratorHourAttendance" EntitySet="CuratorHourAttendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorHo__Stude__3493CFA7" Association="Self.FK__CuratorHo__Stude__3493CFA7">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="CuratorHourAttendance" EntitySet="CuratorHourAttendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorHo__Curat__2EDAF651" Association="Self.FK__CuratorHo__Curat__2EDAF651">
+            <End Role="Curators" EntitySet="Curators" />
+            <End Role="CuratorHours" EntitySet="CuratorHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CuratorHo__Group__2FCF1A8A" Association="Self.FK__CuratorHo__Group__2FCF1A8A">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="CuratorHours" EntitySet="CuratorHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentTr__Marke__245D67DE" Association="Self.FK__StudentTr__Marke__245D67DE">
+            <End Role="Curators" EntitySet="Curators" />
+            <End Role="StudentTraits" EntitySet="StudentTraits" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disciplin__Stude__282DF8C2" Association="Self.FK__Disciplin__Stude__282DF8C2">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="DisciplinaryRecords" EntitySet="DisciplinaryRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EventPart__Event__18EBB532" Association="Self.FK__EventPart__Event__18EBB532">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="EventParticipation" EntitySet="EventParticipation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EventPart__Stude__19DFD96B" Association="Self.FK__EventPart__Stude__19DFD96B">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="EventParticipation" EntitySet="EventParticipation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Events__EventTyp__160F4887" Association="Self.FK__Events__EventTyp__160F4887">
+            <End Role="EventTypes" EntitySet="EventTypes" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Specialti__Facul__4F7CD00D" Association="Self.FK__Specialti__Facul__4F7CD00D">
+            <End Role="Faculties" EntitySet="Faculties" />
+            <End Role="Specialties" EntitySet="Specialties" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Students__Family__7D439ABD" Association="Self.FK__Students__Family__7D439ABD">
+            <End Role="FamilyTypes" EntitySet="FamilyTypes" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Groups__Specialt__5535A963" Association="Self.FK__Groups__Specialt__5535A963">
+            <End Role="Specialties" EntitySet="Specialties" />
+            <End Role="Groups" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Students__GroupI__7B5B524B" Association="Self.FK__Students__GroupI__7B5B524B">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Students__Health__7C4F7684" Association="Self.FK__Students__Health__7C4F7684">
+            <End Role="HealthStatus" EntitySet="HealthStatus" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentTr__Negat__236943A5" Association="Self.FK__StudentTr__Negat__236943A5">
+            <End Role="NegativeTraits" EntitySet="NegativeTraits" />
+            <End Role="StudentTraits" EntitySet="StudentTraits" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentPa__Paren__03F0984C" Association="Self.FK__StudentPa__Paren__03F0984C">
+            <End Role="Parents" EntitySet="Parents" />
+            <End Role="StudentParents" EntitySet="StudentParents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentTr__Posit__22751F6C" Association="Self.FK__StudentTr__Posit__22751F6C">
+            <End Role="PositiveTraits" EntitySet="PositiveTraits" />
+            <End Role="StudentTraits" EntitySet="StudentTraits" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentPa__Stude__02FC7413" Association="Self.FK__StudentPa__Stude__02FC7413">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="StudentParents" EntitySet="StudentParents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentTr__Stude__2180FB33" Association="Self.FK__StudentTr__Stude__2180FB33">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="StudentTraits" EntitySet="StudentTraits" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(vsstuModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(vsstuModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="StudentCharacteristics" EntityType="vsstuModel.StudentCharacteristics" />
+          <AssociationSet Name="FK_StudentCharacteristics_Students" Association="vsstuModel.FK_StudentCharacteristics_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="StudentCharacteristics" EntitySet="StudentCharacteristics" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="StudentCharacteristics">
+          <Key>
+            <PropertyRef Name="CharacteristicID" />
+          </Key>
+          <Property Name="CharacteristicID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="Int32" Nullable="false" />
+          <Property Name="CharacteristicText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <NavigationProperty Name="Students" Relationship="vsstuModel.FK_StudentCharacteristics_Students" FromRole="StudentCharacteristics" ToRole="Students" />
+        </EntityType>
+        <Association Name="FK_StudentCharacteristics_Students">
+          <End Type="vsstuModel.Students" Role="Students" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="vsstuModel.StudentCharacteristics" Role="StudentCharacteristics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="StudentCharacteristics">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище vsstuModelContainer" CdmEntityContainer="vsstuEntities">
+          <EntitySetMapping Name="Absences">
+            <EntityTypeMapping TypeName="vsstuModel.Absences">
+              <MappingFragment StoreEntitySet="Absences">
+                <ScalarProperty Name="AbsenceID" ColumnName="AbsenceID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="IsRespectful" ColumnName="IsRespectful" />
+                <ScalarProperty Name="DocumentProof" ColumnName="DocumentProof" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AcademicPerformance">
+            <EntityTypeMapping TypeName="vsstuModel.AcademicPerformance">
+              <MappingFragment StoreEntitySet="AcademicPerformance">
+                <ScalarProperty Name="PerformanceID" ColumnName="PerformanceID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="Semester" ColumnName="Semester" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="GradeType" ColumnName="GradeType" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Teacher" ColumnName="Teacher" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Achievements">
+            <EntityTypeMapping TypeName="vsstuModel.Achievements">
+              <MappingFragment StoreEntitySet="Achievements">
+                <ScalarProperty Name="AchievementID" ColumnName="AchievementID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="AchievementTypeID" ColumnName="AchievementTypeID" />
+                <ScalarProperty Name="AchievementName" ColumnName="AchievementName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Document" ColumnName="Document" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AchievementTypes">
+            <EntityTypeMapping TypeName="vsstuModel.AchievementTypes">
+              <MappingFragment StoreEntitySet="AchievementTypes">
+                <ScalarProperty Name="AchievementTypeID" ColumnName="AchievementTypeID" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attendance">
+            <EntityTypeMapping TypeName="vsstuModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="AttendanceID" ColumnName="AttendanceID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="IsPresent" ColumnName="IsPresent" />
+                <ScalarProperty Name="IsLate" ColumnName="IsLate" />
+                <ScalarProperty Name="IsAbsentRespectful" ColumnName="IsAbsentRespectful" />
+                <ScalarProperty Name="IsAbsentDisrespectful" ColumnName="IsAbsentDisrespectful" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="MarkedBy" ColumnName="MarkedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CuratorGroups">
+            <EntityTypeMapping TypeName="vsstuModel.CuratorGroups">
+              <MappingFragment StoreEntitySet="CuratorGroups">
+                <ScalarProperty Name="CuratorGroupID" ColumnName="CuratorGroupID" />
+                <ScalarProperty Name="CuratorID" ColumnName="CuratorID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="AssignmentDate" ColumnName="AssignmentDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CuratorHourAttendance">
+            <EntityTypeMapping TypeName="vsstuModel.CuratorHourAttendance">
+              <MappingFragment StoreEntitySet="CuratorHourAttendance">
+                <ScalarProperty Name="AttendanceID" ColumnName="AttendanceID" />
+                <ScalarProperty Name="HourID" ColumnName="HourID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="IsPresent" ColumnName="IsPresent" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CuratorHours">
+            <EntityTypeMapping TypeName="vsstuModel.CuratorHours">
+              <MappingFragment StoreEntitySet="CuratorHours">
+                <ScalarProperty Name="HourID" ColumnName="HourID" />
+                <ScalarProperty Name="CuratorID" ColumnName="CuratorID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Topic" ColumnName="Topic" />
+                <ScalarProperty Name="PresentCount" ColumnName="PresentCount" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Curators">
+            <EntityTypeMapping TypeName="vsstuModel.Curators">
+              <MappingFragment StoreEntitySet="Curators">
+                <ScalarProperty Name="CuratorID" ColumnName="CuratorID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DisciplinaryRecords">
+            <EntityTypeMapping TypeName="vsstuModel.DisciplinaryRecords">
+              <MappingFragment StoreEntitySet="DisciplinaryRecords">
+                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="RecordType" ColumnName="RecordType" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="IssuedBy" ColumnName="IssuedBy" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventParticipation">
+            <EntityTypeMapping TypeName="vsstuModel.EventParticipation">
+              <MappingFragment StoreEntitySet="EventParticipation">
+                <ScalarProperty Name="ParticipationID" ColumnName="ParticipationID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="ParticipationStatus" ColumnName="ParticipationStatus" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="vsstuModel.Events">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventTypeID" ColumnName="EventTypeID" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="EventTime" ColumnName="EventTime" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Organizer" ColumnName="Organizer" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventTypes">
+            <EntityTypeMapping TypeName="vsstuModel.EventTypes">
+              <MappingFragment StoreEntitySet="EventTypes">
+                <ScalarProperty Name="EventTypeID" ColumnName="EventTypeID" />
+                <ScalarProperty Name="EventTypeName" ColumnName="EventTypeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Faculties">
+            <EntityTypeMapping TypeName="vsstuModel.Faculties">
+              <MappingFragment StoreEntitySet="Faculties">
+                <ScalarProperty Name="FacultyID" ColumnName="FacultyID" />
+                <ScalarProperty Name="FacultyName" ColumnName="FacultyName" />
+                <ScalarProperty Name="FacultyCode" ColumnName="FacultyCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FamilyTypes">
+            <EntityTypeMapping TypeName="vsstuModel.FamilyTypes">
+              <MappingFragment StoreEntitySet="FamilyTypes">
+                <ScalarProperty Name="FamilyTypeID" ColumnName="FamilyTypeID" />
+                <ScalarProperty Name="FamilyTypeName" ColumnName="FamilyTypeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="vsstuModel.Groups">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="SpecialtyID" ColumnName="SpecialtyID" />
+                <ScalarProperty Name="Course" ColumnName="Course" />
+                <ScalarProperty Name="AcademicYear" ColumnName="AcademicYear" />
+                <ScalarProperty Name="StudentCount" ColumnName="StudentCount" />
+                <ScalarProperty Name="FormOfEducation" ColumnName="FormOfEducation" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HealthStatus">
+            <EntityTypeMapping TypeName="vsstuModel.HealthStatus">
+              <MappingFragment StoreEntitySet="HealthStatus">
+                <ScalarProperty Name="HealthStatusID" ColumnName="HealthStatusID" />
+                <ScalarProperty Name="HealthStatusName" ColumnName="HealthStatusName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NegativeTraits">
+            <EntityTypeMapping TypeName="vsstuModel.NegativeTraits">
+              <MappingFragment StoreEntitySet="NegativeTraits">
+                <ScalarProperty Name="NegativeTraitID" ColumnName="NegativeTraitID" />
+                <ScalarProperty Name="TraitName" ColumnName="TraitName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parents">
+            <EntityTypeMapping TypeName="vsstuModel.Parents">
+              <MappingFragment StoreEntitySet="Parents">
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="Relationship" ColumnName="Relationship" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="WorkPlace" ColumnName="WorkPlace" />
+                <ScalarProperty Name="WorkPosition" ColumnName="WorkPosition" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PositiveTraits">
+            <EntityTypeMapping TypeName="vsstuModel.PositiveTraits">
+              <MappingFragment StoreEntitySet="PositiveTraits">
+                <ScalarProperty Name="PositiveTraitID" ColumnName="PositiveTraitID" />
+                <ScalarProperty Name="TraitName" ColumnName="TraitName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialties">
+            <EntityTypeMapping TypeName="vsstuModel.Specialties">
+              <MappingFragment StoreEntitySet="Specialties">
+                <ScalarProperty Name="SpecialtyID" ColumnName="SpecialtyID" />
+                <ScalarProperty Name="SpecialtyCode" ColumnName="SpecialtyCode" />
+                <ScalarProperty Name="SpecialtyName" ColumnName="SpecialtyName" />
+                <ScalarProperty Name="FacultyID" ColumnName="FacultyID" />
+                <ScalarProperty Name="EducationLevel" ColumnName="EducationLevel" />
+                <ScalarProperty Name="DurationYears" ColumnName="DurationYears" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentParents">
+            <EntityTypeMapping TypeName="vsstuModel.StudentParents">
+              <MappingFragment StoreEntitySet="StudentParents">
+                <ScalarProperty Name="StudentParentID" ColumnName="StudentParentID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="IsPrimaryContact" ColumnName="IsPrimaryContact" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="vsstuModel.Students">
+              <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="StudentCardNumber" ColumnName="StudentCardNumber" />
+                <ScalarProperty Name="PersonalNumber" ColumnName="PersonalNumber" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="BirthPlace" ColumnName="BirthPlace" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="Citizenship" ColumnName="Citizenship" />
+                <ScalarProperty Name="EducationBefore" ColumnName="EducationBefore" />
+                <ScalarProperty Name="EducationDocument" ColumnName="EducationDocument" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ParentsPhone" ColumnName="ParentsPhone" />
+                <ScalarProperty Name="RegistrationAddress" ColumnName="RegistrationAddress" />
+                <ScalarProperty Name="ResidentialAddress" ColumnName="ResidentialAddress" />
+                <ScalarProperty Name="HealthStatusID" ColumnName="HealthStatusID" />
+                <ScalarProperty Name="FamilyTypeID" ColumnName="FamilyTypeID" />
+                <ScalarProperty Name="IsOrphan" ColumnName="IsOrphan" />
+                <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+                <ScalarProperty Name="IsFromLargeFamily" ColumnName="IsFromLargeFamily" />
+                <ScalarProperty Name="IsLowIncome" ColumnName="IsLowIncome" />
+                <ScalarProperty Name="IsEmployed" ColumnName="IsEmployed" />
+                <ScalarProperty Name="WorkPlace" ColumnName="WorkPlace" />
+                <ScalarProperty Name="WorkPosition" ColumnName="WorkPosition" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="EnrollmentDate" ColumnName="EnrollmentDate" />
+                <ScalarProperty Name="GraduationDate" ColumnName="GraduationDate" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentTraits">
+            <EntityTypeMapping TypeName="vsstuModel.StudentTraits">
+              <MappingFragment StoreEntitySet="StudentTraits">
+                <ScalarProperty Name="TraitID" ColumnName="TraitID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="PositiveTraitID" ColumnName="PositiveTraitID" />
+                <ScalarProperty Name="NegativeTraitID" ColumnName="NegativeTraitID" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="MarkedBy" ColumnName="MarkedBy" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="vsstuModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище vsstuModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище vsstuModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище vsstuModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище vsstuModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="vsstuModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище vsstuModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="vsstuModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище vsstuModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище vsstuModel.sp_upgraddiagrams" />
+          <EntitySetMapping Name="StudentCharacteristics">
+            <EntityTypeMapping TypeName="vsstuModel.StudentCharacteristics">
+              <MappingFragment StoreEntitySet="StudentCharacteristics">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CharacteristicText" ColumnName="CharacteristicText" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="CharacteristicID" ColumnName="CharacteristicID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

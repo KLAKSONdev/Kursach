@@ -1,0 +1,399 @@
+﻿<Window x:Class="Kursach.GroupsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kursach"
+        mc:Ignorable="d"
+        Title="Управление группами" 
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0"
+        FontFamily="Segoe UI"
+        WindowState="Maximized">
+
+    <Window.Resources>
+        <!-- Стиль для пунктов меню -->
+        <Style x:Key="MenuStyle" TargetType="MenuItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="8,3"/>
+        </Style>
+
+        <!-- Стиль для кнопок панели инструментов -->
+        <Style x:Key="ToolbarButton" TargetType="Button">
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="MinWidth" Value="80"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="Background" Value="#E1E1E1"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="BorderBrush" Value="#ADADAD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="2"/>
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                    <Setter Property="BorderBrush" Value="#7A7A7A"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#C2C2C2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowHeight" Value="28"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#EEEEEE"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#EEEEEE"/>
+            <Setter Property="AlternatingRowBackground" Value="#F9F9F9"/>
+        </Style>
+
+        <!-- Стиль для заголовков колонок -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#E8E8E8"/>
+            <Setter Property="Foreground" Value="#444444"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="0 0 1 1"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <!-- Стиль для статусной строки -->
+        <Style x:Key="StatusBarStyle" TargetType="StatusBar">
+            <Setter Property="Background" Value="#E8E8E8"/>
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="0 1 0 0"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+
+        <!-- Стиль для выравнивания текста в колонке ID -->
+        <Style x:Key="CenterTextStyle" TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel LastChildFill="True">
+        <!-- Главное меню -->
+        <Menu DockPanel.Dock="Top" 
+              Background="#E8E8E8" 
+              Height="24" 
+              FontSize="12"
+              Foreground="#333333">
+
+            <!-- Файл -->
+            <MenuItem Header="_Файл" Style="{StaticResource MenuStyle}">
+                <MenuItem Header="_Загрузить данные" Click="LoadDataButton_Click"/>
+                <Separator/>
+                <MenuItem Header="Экспорт в _Excel" Click="ExportToExcel_Click"/>
+                <MenuItem Header="Экспорт в _Word" Click="ExportToWord_Click"/>
+                <Separator/>
+                <MenuItem Header="_Закрыть" Click="CloseWindow_Click"/>
+            </MenuItem>
+
+            <!-- Редактирование -->
+            <MenuItem Header="_Редактирование" Style="{StaticResource MenuStyle}">
+                <MenuItem Header="_Добавить группу" Click="AddButton_Click"/>
+                <MenuItem Header="_Редактировать группу" Click="EditButton_Click"/>
+                <MenuItem Header="_Удалить группу" Click="DeleteButton_Click"/>
+                <Separator/>
+                <MenuItem Header="_Обновить данные" Click="LoadDataButton_Click"/>
+            </MenuItem>
+
+            <!-- Группы -->
+            <MenuItem Header="_Группы" Style="{StaticResource MenuStyle}">
+                <MenuItem Header="Все группы" Click="AllGroups_Click"/>
+                <Separator/>
+                <TextBlock Text="КУРС" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
+                <Separator/>
+                <MenuItem Header="1 курс" Click="FilterByCourse_Click"/>
+                <MenuItem Header="2 курс" Click="FilterByCourse_Click"/>
+                <MenuItem Header="3 курс" Click="FilterByCourse_Click"/>
+                <MenuItem Header="4 курс" Click="FilterByCourse_Click"/>
+                <Separator/>
+                <TextBlock Text="ФАКУЛЬТЕТ" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
+                <Separator/>
+                <MenuItem Header="Информационные технологии" Click="FilterByFaculty_Click"/>
+                <MenuItem Header="Экономический" Click="FilterByFaculty_Click"/>
+                <MenuItem Header="Факультет права" Click="FilterByFaculty_Click"/>
+                <MenuItem Header="Архитектурный" Click="FilterByFaculty_Click"/>
+            </MenuItem>
+
+            <!-- Отчеты -->
+            <MenuItem Header="_Отчеты" Style="{StaticResource MenuStyle}">
+                <MenuItem Header="Список групп" Click="GroupsListReport_Click"/>
+                <MenuItem Header="Статистика по группам" Click="GroupsStatistics_Click"/>
+                <MenuItem Header="Распределение по курсам" Click="GroupsByCourseReport_Click"/>
+                <MenuItem Header="Распределение по факультетам" Click="GroupsByFacultyReport_Click"/>
+            </MenuItem>
+
+            <!-- Справка -->
+            <MenuItem Header="_Справка" Style="{StaticResource MenuStyle}">
+                <MenuItem Header="Содержание справки" Click="HelpContents_Click"/>
+                <MenuItem Header="О программе" Click="About_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Панель инструментов -->
+        <ToolBarTray DockPanel.Dock="Top" Background="#F5F5F5">
+            <ToolBar Band="1" BandIndex="1" Background="Transparent">
+                <Button Content="Загрузить данные" Style="{StaticResource ToolbarButton}" Click="LoadDataButton_Click"/>
+                <Separator/>
+                <Button Content="Добавить" Style="{StaticResource ToolbarButton}" Click="AddButton_Click"/>
+                <Button Content="Редактировать" Style="{StaticResource ToolbarButton}" Click="EditButton_Click"/>
+                <Button Content="Удалить" Style="{StaticResource ToolbarButton}" Click="DeleteButton_Click"/>
+                <Separator/>
+                <Button Content="Обновить" Style="{StaticResource ToolbarButton}" Click="LoadDataButton_Click"/>
+                <Button Content="Поиск" Style="{StaticResource ToolbarButton}" Click="Search_Click"/>
+            </ToolBar>
+
+            <ToolBar Band="1" BandIndex="2" Background="Transparent">
+                <Button Content="Excel" Style="{StaticResource ToolbarButton}" Click="ExportToExcel_Click"/>
+                <Button Content="Word" Style="{StaticResource ToolbarButton}" Click="ExportToWord_Click"/>
+            </ToolBar>
+
+            <ToolBar Band="1" BandIndex="3" Background="Transparent" HorizontalAlignment="Right">
+                <Button Content="Справка" Style="{StaticResource ToolbarButton}" Click="HelpContents_Click"/>
+            </ToolBar>
+        </ToolBarTray>
+
+        <!-- Основной контент -->
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок раздела с фильтрами -->
+            <Grid Grid.Row="0" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" 
+                           Text="Курс:" 
+                           FontSize="14" 
+                           Foreground="#333333"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+
+                <ComboBox Grid.Column="1" 
+                          x:Name="CourseFilterComboBox"
+                          Height="28"
+                          Background="White"
+                          BorderBrush="#CCCCCC"
+                          SelectionChanged="CourseFilter_SelectionChanged"
+                          SelectedIndex="0">
+                    <ComboBoxItem Content="Все курсы" IsSelected="True"/>
+                    <ComboBoxItem Content="1 курс"/>
+                    <ComboBoxItem Content="2 курс"/>
+                    <ComboBoxItem Content="3 курс"/>
+                    <ComboBoxItem Content="4 курс"/>
+                </ComboBox>
+
+                <TextBlock Grid.Column="2" 
+                           Text="Факультет:" 
+                           FontSize="14" 
+                           Foreground="#333333"
+                           VerticalAlignment="Center"
+                           Margin="20,0,10,0"/>
+
+                <ComboBox Grid.Column="3" 
+                          x:Name="FacultyFilterComboBox"
+                          Height="28"
+                          Background="White"
+                          BorderBrush="#CCCCCC"
+                          SelectionChanged="FacultyFilter_SelectionChanged"
+                          SelectedIndex="0">
+                    <ComboBoxItem Content="Все факультеты" IsSelected="True"/>
+                    <ComboBoxItem Content="Информационные технологии"/>
+                    <ComboBoxItem Content="Экономический"/>
+                    <ComboBoxItem Content="Факультет права"/>
+                    <ComboBoxItem Content="Архитектурный"/>
+                </ComboBox>
+
+                <TextBlock Grid.Column="4" 
+                           Text="Управление учебными группами" 
+                           FontSize="16" 
+                           FontWeight="Normal" 
+                           Foreground="#333333"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Основная область с таблицей -->
+            <Border Grid.Row="1" 
+                    Background="White" 
+                    BorderBrush="#CCCCCC" 
+                    BorderThickness="1"
+                    Padding="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Панель статуса подключения и поиск -->
+                    <Border Grid.Row="0" 
+                            Background="#F9F9F9" 
+                            BorderBrush="#EEEEEE" 
+                            BorderThickness="0 0 0 1"
+                            Padding="8"
+                            Margin="0,0,0,5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Ellipse x:Name="StatusIndicator" 
+                                     Grid.Column="0"
+                                     Width="8" Height="8" 
+                                     Fill="#808080"
+                                     Margin="0,0,8,0"
+                                     VerticalAlignment="Center"/>
+
+                            <TextBlock x:Name="StatusTextBlock" 
+                                       Grid.Column="1"
+                                       Text="Статус: Загрузка групп..." 
+                                       FontSize="12" 
+                                       Foreground="#666666"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Column="2" 
+                                       x:Name="RecordCountText"
+                                       Text="Всего записей: 0"
+                                       FontSize="11" 
+                                       Foreground="#808080"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,15,0"/>
+
+                            <!-- ПОИСК ПО ГРУППАМ -->
+                            <TextBox Grid.Column="3" 
+                                     x:Name="SearchTextBox"
+                                     Width="200"
+                                     Height="24"
+                                     Padding="5,0"
+                                     Background="White"
+                                     BorderBrush="#CCCCCC"
+                                     BorderThickness="1"
+                                     FontSize="11"
+                                     TextChanged="SearchTextBox_TextChanged"
+                                     ToolTip="Введите название группы"/>
+
+                            <TextBlock Grid.Column="4" 
+                                       Text="🔍 Поиск по группам" 
+                                       FontSize="11" 
+                                       Foreground="#666666"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0,0,0"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- DataGrid с прокруткой -->
+                    <DataGrid x:Name="GroupsDataGrid" 
+                              Grid.Row="1"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              SelectionMode="Single"
+                              BorderThickness="0" 
+
+                              MouseDoubleClick="GroupsDataGrid_MouseDoubleClick"
+                              Margin="0">
+
+                        <!-- Контекстное меню при правом клике -->
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="📄 Список студентов группы" Click="GroupStudents_Click"/>
+                                <MenuItem Header="📊 Статистика группы" Click="GroupStatistics_Click"/>
+                                <Separator/>
+                                <MenuItem Header="✏️ Редактировать группу" Click="EditButton_Click"/>
+                                <MenuItem Header="🗑️ Удалить группу" Click="DeleteButton_Click"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding GroupID}" Width="45"/>
+                            <DataGridTextColumn Header="Группа" Binding="{Binding GroupName}" Width="100"/>
+                            <DataGridTextColumn Header="Курс" Binding="{Binding Course}" Width="50"/>
+                            <DataGridTextColumn Header="Специальность" Binding="{Binding SpecialtyName}" Width="200"/>
+                            <DataGridTextColumn Header="Код спец." Binding="{Binding SpecialtyCode}" Width="80"/>
+                            <DataGridTextColumn Header="Факультет" Binding="{Binding FacultyName}" Width="150"/>
+                            <DataGridTextColumn Header="Студентов" Binding="{Binding StudentCount}" Width="70"/>
+                            <DataGridTextColumn Header="Форма обучения" Binding="{Binding FormOfEducation}" Width="100"/>
+                            <DataGridTextColumn Header="Учебный год" Binding="{Binding AcademicYear}" Width="90"/>
+                            <DataGridTextColumn Header="Язык" Binding="{Binding Language}" Width="80"/>
+                            <DataGridTextColumn Header="Дата создания" Binding="{Binding CreatedAt, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+
+            <!-- Панель быстрых действий -->
+            <Border Grid.Row="2" 
+                    Background="#F5F5F5" 
+                    BorderBrush="#CCCCCC" 
+                    BorderThickness="1"
+                    Padding="8"
+                    Margin="0,10,0,0">
+                <WrapPanel>
+                    <TextBlock Text="Быстрые действия:" 
+                               FontSize="11" 
+                               Foreground="#666666"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0"/>
+
+                    <Button Content="Добавить группу" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="100"
+                            Click="AddButton_Click"/>
+                    <Button Content="Список групп" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="GroupsListReport_Click"/>
+                    <Button Content="Статистика" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="80"
+                            Click="GroupsStatistics_Click"/>
+                    <Button Content="Студенты" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="80"
+                            Click="GroupStudents_Click"/>
+                    <Button Content="Экспорт Excel" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="ExportToExcel_Click"/>
+                </WrapPanel>
+            </Border>
+        </Grid>
+
+        <!-- Строка состояния -->
+    </DockPanel>
+</Window>

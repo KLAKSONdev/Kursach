@@ -1,0 +1,505 @@
+﻿<Window x:Class="Kursach.PortfolioWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Портфолио студента" 
+        Height="700" 
+        Width="900"
+        WindowStartupLocation="CenterOwner"
+        Background="#F0F0F0"
+        FontFamily="Segoe UI"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize">
+
+    <Window.Resources>
+        <!-- Стиль для заголовков секций (как в MainWindow) -->
+        <Style x:Key="SectionHeaderStyle" TargetType="Border">
+            <Setter Property="Background" Value="#E8E8E8"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="0,5,0,10"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        </Style>
+
+        <!-- Стиль для подзаголовков -->
+        <Style x:Key="SubHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="Margin" Value="0,5,0,3"/>
+        </Style>
+
+        <!-- Стиль для информации -->
+        <Style x:Key="InfoTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="Margin" Value="0,2,0,2"/>
+        </Style>
+
+        <!-- Стиль для меток -->
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="Margin" Value="0,0,5,0"/>
+        </Style>
+
+        <!-- Стиль для карточек (как в MainWindow) -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <!-- Стиль для вкладок (как в MainWindow) -->
+        <Style TargetType="TabItem">
+            <Setter Property="Background" Value="#E8E8E8"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="Border" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1,1,1,0"
+                                CornerRadius="3,3,0,0"
+                                Margin="0,0,2,0">
+                            <ContentPresenter x:Name="ContentSite"
+                                            ContentSource="Header"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="White"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#ADADAD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для кнопок (как в MainWindow) -->
+        <Style x:Key="ToolbarButton" TargetType="Button">
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="MinWidth" Value="80"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="Background" Value="#E1E1E1"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="BorderBrush" Value="#ADADAD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Шапка (как в MainWindow) -->
+        <Border Grid.Row="0" 
+                Background="White" 
+                BorderBrush="#CCCCCC" 
+                BorderThickness="1"
+                Padding="15"
+                Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Аватар -->
+                <Border Grid.Column="0"
+                        Width="50" Height="50"
+                        Background="#E1E1E1"
+                        BorderBrush="#ADADAD"
+                        BorderThickness="1"
+                        CornerRadius="25">
+                    <TextBlock Text="👤" 
+                               FontSize="25" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+
+                <!-- ФИО и группа -->
+                <StackPanel Grid.Column="1" Margin="15,0,0,0" VerticalAlignment="Center">
+                    <TextBlock x:Name="StudentFullNameText" 
+                               Text="ФИО студента"
+                               FontSize="18" 
+                               FontWeight="Normal"
+                               Foreground="#333333"/>
+                    <WrapPanel Margin="0,5,0,0">
+                        <TextBlock Text="Группа:" Foreground="#666666" Margin="0,0,5,0"/>
+                        <TextBlock x:Name="StudentGroupText" 
+                                   Text="-"
+                                   FontWeight="SemiBold"
+                                   Foreground="#333333"/>
+                        <TextBlock Text="Курс:" Foreground="#666666" Margin="10,0,5,0"/>
+                        <TextBlock x:Name="StudentCourseText" 
+                                   Text="-"
+                                   FontWeight="SemiBold"
+                                   Foreground="#333333"/>
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- Студенческий билет -->
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock Text="Студенческий билет" 
+                               FontSize="11" 
+                               Foreground="#666666"
+                               HorizontalAlignment="Right"/>
+                    <TextBlock x:Name="StudentCardNumberText" 
+                               Text="№ -"
+                               FontSize="13" 
+                               FontWeight="Normal"
+                               Foreground="#333333"
+                               HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Вкладки -->
+        <TabControl Grid.Row="1" Background="Transparent" BorderThickness="0">
+            <!-- Личная информация -->
+            <TabItem Header="📋 Личная информация">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White" BorderBrush="#CCCCCC" BorderThickness="1">
+                    <StackPanel Margin="10">
+                        <!-- Основные данные -->
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Основные данные" Style="{StaticResource SubHeaderStyle}"/>
+                                <Grid Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <WrapPanel>
+                                            <TextBlock Text="Дата рождения:" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock x:Name="BirthDateText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="Место рождения:" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock x:Name="BirthPlaceText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="Пол:" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock x:Name="GenderText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="Национальность:" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock x:Name="NationalityText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                        </WrapPanel>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1">
+                                        <WrapPanel>
+                                            <TextBlock Text="Гражданство:" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock x:Name="CitizenshipText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="Телефон:" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock x:Name="PhoneText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="Email:" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock x:Name="EmailText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Text="Телефон родителей:" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock x:Name="ParentsPhoneText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Адреса -->
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Адреса" Style="{StaticResource SubHeaderStyle}"/>
+                                <StackPanel Margin="0,10,0,0">
+                                    <WrapPanel>
+                                        <TextBlock Text="Адрес регистрации:" Style="{StaticResource LabelStyle}"/>
+                                        <TextBlock x:Name="RegistrationAddressText" Text="-" Style="{StaticResource InfoTextStyle}" TextWrapping="Wrap"/>
+                                    </WrapPanel>
+                                    <WrapPanel Margin="0,5,0,0">
+                                        <TextBlock Text="Адрес проживания:" Style="{StaticResource LabelStyle}"/>
+                                        <TextBlock x:Name="ResidentialAddressText" Text="-" Style="{StaticResource InfoTextStyle}" TextWrapping="Wrap"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Социальный статус -->
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Социальный статус" Style="{StaticResource SubHeaderStyle}"/>
+                                <Grid Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <CheckBox x:Name="IsOrphanCheck" Content="Сирота" IsEnabled="False" Margin="2"/>
+                                        <CheckBox x:Name="IsDisabledCheck" Content="Инвалид" IsEnabled="False" Margin="2"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1">
+                                        <CheckBox x:Name="IsFromLargeFamilyCheck" Content="Многодетная семья" IsEnabled="False" Margin="2"/>
+                                        <CheckBox x:Name="IsLowIncomeCheck" Content="Малообеспеченный" IsEnabled="False" Margin="2"/>
+                                    </StackPanel>
+                                </Grid>
+                                <WrapPanel Margin="0,10,0,0">
+                                    <TextBlock Text="Социальный статус:" Style="{StaticResource LabelStyle}"/>
+                                    <TextBlock x:Name="SocialStatusText" Text="-" Style="{StaticResource InfoTextStyle}" FontWeight="SemiBold"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Образование -->
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Образование" Style="{StaticResource SubHeaderStyle}"/>
+                                <StackPanel Margin="0,10,0,0">
+                                    <WrapPanel>
+                                        <TextBlock Text="Образование до поступления:" Style="{StaticResource LabelStyle}"/>
+                                        <TextBlock x:Name="EducationBeforeText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Margin="0,5,0,0">
+                                        <TextBlock Text="Документ об образовании:" Style="{StaticResource LabelStyle}"/>
+                                        <TextBlock x:Name="EducationDocumentText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Margin="0,5,0,0">
+                                        <TextBlock Text="Дата зачисления:" Style="{StaticResource LabelStyle}"/>
+                                        <TextBlock x:Name="EnrollmentDateText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Margin="0,5,0,0">
+                                        <TextBlock Text="Дата окончания:" Style="{StaticResource LabelStyle}"/>
+                                        <TextBlock x:Name="GraduationDateText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Трудоустройство -->
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Трудоустройство" Style="{StaticResource SubHeaderStyle}"/>
+                                <CheckBox x:Name="IsEmployedCheck" Content="Работает" IsEnabled="False" Margin="0,10,0,5"/>
+                                <StackPanel Margin="20,0,0,0">
+                                    <WrapPanel>
+                                        <TextBlock Text="Место работы:" Style="{StaticResource LabelStyle}"/>
+                                        <TextBlock x:Name="WorkPlaceText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Margin="0,5,0,0">
+                                        <TextBlock Text="Должность:" Style="{StaticResource LabelStyle}"/>
+                                        <TextBlock x:Name="WorkPositionText" Text="-" Style="{StaticResource InfoTextStyle}"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Успеваемость -->
+            <TabItem Header="📊 Успеваемость">
+                <Grid Background="White" Margin="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Background="#F9F9F9" BorderBrush="#EEEEEE" BorderThickness="0,0,0,1" Padding="8">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Средний балл:" Foreground="#666666" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="AvgGradeText" Text="0" FontWeight="Bold" Foreground="#27AE60" Margin="5,0,20,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Всего оценок:" Foreground="#666666" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="GradesCountText" Text="0" FontWeight="Bold" Foreground="#2980B9" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    <DataGrid Grid.Row="1" x:Name="GradesDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                              Background="White" BorderThickness="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Предмет" Binding="{Binding Subject}" Width="*"/>
+                            <DataGridTextColumn Header="Оценка" Binding="{Binding Grade}" Width="80"/>
+                            <DataGridTextColumn Header="Семестр" Binding="{Binding Semester}" Width="80"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                            <DataGridTextColumn Header="Преподаватель" Binding="{Binding Teacher}" Width="200"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- Достижения -->
+            <TabItem Header="🏆 Достижения">
+                <Grid Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Background="#F9F9F9" BorderBrush="#EEEEEE" BorderThickness="0,0,0,1" Padding="8">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Всего достижений:" Foreground="#666666" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="AchievementsCountText" Text="0" FontWeight="Bold" Foreground="#F39C12" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    <DataGrid Grid.Row="1" x:Name="AchievementsDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                              Background="White" BorderThickness="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" Binding="{Binding AchievementName}" Width="*"/>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding AchievementType}" Width="150"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                            <DataGridTextColumn Header="Уровень" Binding="{Binding Level}" Width="120"/>
+                            <DataGridTextColumn Header="Место" Binding="{Binding Place}" Width="80"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- Мероприятия -->
+            <TabItem Header="🎭 Мероприятия">
+                <Grid Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Background="#F9F9F9" BorderBrush="#EEEEEE" BorderThickness="0,0,0,1" Padding="8">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Участий в мероприятиях:" Foreground="#666666" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="EventsCountText" Text="0" FontWeight="Bold" Foreground="#3498DB" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    <DataGrid Grid.Row="1" x:Name="EventsDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                              Background="White" BorderThickness="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Мероприятие" Binding="{Binding EventName}" Width="*"/>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding EventType}" Width="150"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                            <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="100"/>
+                            <DataGridTextColumn Header="Результат" Binding="{Binding Result}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- Родители -->
+            <TabItem Header="👪 Родители">
+                <Grid Background="White">
+                    <DataGrid x:Name="ParentsDataGrid" Margin="5" AutoGenerateColumns="False" IsReadOnly="True"
+                              Background="White" BorderThickness="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
+                            <DataGridTextColumn Header="Степень родства" Binding="{Binding Relationship}" Width="150"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="150"/>
+                            <DataGridTextColumn Header="Место работы" Binding="{Binding WorkPlace}" Width="200"/>
+                            <DataGridTextColumn Header="Должность" Binding="{Binding WorkPosition}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- Характеристика -->
+            <TabItem Header="📝 Характеристика">
+                <Grid Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="#F9F9F9" BorderBrush="#EEEEEE" BorderThickness="0,0,0,1" Padding="8">
+                        <TextBlock Text="Личная характеристика студента" 
+                                   FontSize="13" 
+                                   FontWeight="SemiBold"
+                                   Foreground="#333333"/>
+                    </Border>
+
+                    <TextBox Grid.Row="1"
+                             x:Name="CharacteristicTextBox"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             Padding="10"
+                             FontSize="12"
+                             Background="White"
+                             BorderBrush="#CCCCCC"
+                             BorderThickness="1"
+                             Margin="5"/>
+
+                    <StackPanel Grid.Row="2" 
+                                Orientation="Horizontal" 
+                                HorizontalAlignment="Right"
+                                Margin="0,5,5,5">
+                        <Button Content="Сохранить характеристику" 
+                                Style="{StaticResource ToolbarButton}"
+                                Width="160" 
+                                Margin="5"
+                                Click="SaveCharacteristic_Click"
+                                Background="#27AE60" 
+                                Foreground="White"
+                                BorderBrush="#229954"/>
+                        <Button Content="Очистить" 
+                                Style="{StaticResource ToolbarButton}"
+                                Width="80" 
+                                Margin="5"
+                                Click="ClearCharacteristic_Click"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <!-- Нижняя панель (как в MainWindow) -->
+        <Border Grid.Row="2" 
+                Background="#F5F5F5" 
+                BorderBrush="#CCCCCC" 
+                BorderThickness="1"
+                Padding="8"
+                Margin="0,10,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" x:Name="SystemInfoText"
+                           Text="Загрузка данных..."
+                           FontSize="11"
+                           Foreground="#666666"
+                           VerticalAlignment="Center"/>
+
+                <Button Grid.Column="1" 
+                        Content="Экспорт в PDF"
+                        Style="{StaticResource ToolbarButton}"
+                        Width="120"
+                        Margin="0,0,10,0"
+                        Click="ExportToPdf_Click"
+                        Background="#E74C3C"
+                        Foreground="White"
+                        BorderBrush="#C0392B"/>
+
+                <Button Grid.Column="2" 
+                        Content="Закрыть"
+                        Style="{StaticResource ToolbarButton}"
+                        Width="100"
+                        Click="CloseButton_Click"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

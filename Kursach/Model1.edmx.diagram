@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bac7c5066f82430d961431162366c475" Name="Diagram1" ZoomLevel="34">
+        <EntityTypeShape EntityType="vsstuModel.Absences" Width="1.5" PointX="15.75" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.AcademicPerformance" Width="1.5" PointX="15.75" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.Achievements" Width="1.5" PointX="15.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.AchievementTypes" Width="1.5" PointX="13.5" PointY="26.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.Attendance" Width="1.5" PointX="18.75" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.CuratorGroups" Width="1.5" PointX="7.5" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.CuratorHourAttendance" Width="1.5" PointX="18.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.CuratorHours" Width="1.5" PointX="10.5" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.Curators" Width="1.5" PointX="5.25" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.DisciplinaryRecords" Width="1.5" PointX="15.75" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.EventParticipation" Width="1.5" PointX="18.75" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.Events" Width="1.5" PointX="16.5" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.EventTypes" Width="1.5" PointX="14.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.Faculties" Width="1.5" PointX="0.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.FamilyTypes" Width="1.5" PointX="11.25" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.Groups" Width="1.5" PointX="5.25" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.HealthStatus" Width="1.5" PointX="11.25" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.NegativeTraits" Width="1.5" PointX="19.5" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.Parents" Width="1.5" PointX="19.5" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.PositiveTraits" Width="1.5" PointX="19.5" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.Specialties" Width="1.5" PointX="3" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.StudentParents" Width="1.5" PointX="21.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.Students" Width="1.5" PointX="13.5" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.StudentTraits" Width="1.5" PointX="21.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="vsstuModel.sysdiagrams" Width="1.5" PointX="15.875" PointY="7.875" IsExpanded="true" />
+        <AssociationConnector Association="vsstuModel.FK__Absences__Studen__2BFE89A6" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__AcademicP__Stude__08B54D69" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__Achieveme__Achie__1DB06A4F" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__Achieveme__Stude__1CBC4616" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__Attendanc__Marke__114A936A" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__Attendanc__Stude__10566F31" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__CuratorGr__Curat__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__CuratorGr__Group__6D0D32F4" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__CuratorHo__HourI__339FAB6E" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__CuratorHo__Stude__3493CFA7" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__CuratorHo__Curat__2EDAF651" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__CuratorHo__Group__2FCF1A8A" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__StudentTr__Marke__245D67DE" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__Disciplin__Stude__282DF8C2" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__EventPart__Event__18EBB532" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__EventPart__Stude__19DFD96B" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__Events__EventTyp__160F4887" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__Specialti__Facul__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__Students__Family__7D439ABD" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__Groups__Specialt__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__Students__GroupI__7B5B524B" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__Students__Health__7C4F7684" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__StudentTr__Negat__236943A5" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__StudentPa__Paren__03F0984C" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__StudentTr__Posit__22751F6C" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__StudentPa__Stude__02FC7413" ManuallyRouted="false" />
+        <AssociationConnector Association="vsstuModel.FK__StudentTr__Stude__2180FB33" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="vsstuModel.StudentCharacteristics" Width="1.5" PointX="15.75" PointY="27.125" />
+        <AssociationConnector Association="vsstuModel.FK_StudentCharacteristics_Students" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

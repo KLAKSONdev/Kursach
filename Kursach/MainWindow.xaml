@@ -1,0 +1,477 @@
+﻿<Window x:Class="Kursach.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kursach"
+        mc:Ignorable="d"
+              Title="Журнал группы колледжа" 
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0"
+        FontFamily="Segoe UI"
+        WindowState="Maximized">
+
+    <Window.Resources>
+        <!-- Стиль для пунктов меню -->
+        <Style x:Key="MenuStyle" TargetType="MenuItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="8,3"/>
+        </Style>
+
+        <!-- Стиль для кнопок панели инструментов -->
+        <Style x:Key="ToolbarButton" TargetType="Button">
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="MinWidth" Value="80"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="Background" Value="#E1E1E1"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="BorderBrush" Value="#ADADAD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="2"/>
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                    <Setter Property="BorderBrush" Value="#7A7A7A"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#C2C2C2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowHeight" Value="28"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#EEEEEE"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#EEEEEE"/>
+            <Setter Property="AlternatingRowBackground" Value="#F9F9F9"/>
+        </Style>
+
+        <!-- Стиль для заголовков колонок -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#E8E8E8"/>
+            <Setter Property="Foreground" Value="#444444"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="0 0 1 1"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <!-- Стиль для статусной строки -->
+        <Style x:Key="StatusBarStyle" TargetType="StatusBar">
+            <Setter Property="Background" Value="#E8E8E8"/>
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="0 1 0 0"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+
+        <!-- Стиль для выравнивания текста в колонке ID -->
+        <Style x:Key="CenterTextStyle" TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel LastChildFill="True">
+        <!-- Главное меню -->
+        <Menu DockPanel.Dock="Top" 
+              Background="#E8E8E8" 
+              Height="24" 
+              FontSize="12"
+              Foreground="#333333">
+
+            <!-- Файл -->
+            <MenuItem Header="_Техническое" Style="{StaticResource MenuStyle}">
+                <MenuItem Header="_Проверить подключение" Click="TestConnectionButton_Click"/>
+                <MenuItem Header="Загрузить данные" Click="LoadDataButton_Click"/>
+                <Separator/>
+                <MenuItem Header="_Выход" Click="ExitMenuItem_Click"/>
+            </MenuItem>
+
+            <!-- Редактирование -->
+            <MenuItem Header="_Редактирование" Style="{StaticResource MenuStyle}">
+                <MenuItem Header="_Добавить студента" Click="AddStudentButton_Click"/>
+                <MenuItem Header="_Редактировать студента" Click="EditStudent_Click"/>
+                <MenuItem Header="_Удалить студента" Click="DeleteStudentButton_Click"/>
+                <Separator/>
+                <MenuItem Header="Добавить _родителя" Click="AddParent_Click"/>
+                <MenuItem Header="Редактировать данные родителя" Click="EditParent_Click"/>
+                <Separator/>
+                <MenuItem Header="_Обновить данные" Click="LoadDataButton_Click"/>
+            </MenuItem>
+
+            <!-- Студенты -->
+            <!-- Студенты -->
+            <MenuItem Header="_Студенты" Style="{StaticResource MenuStyle}">
+                <MenuItem Header="Все студенты" Click="StudentCards_Click"/>
+                <Separator/>
+                <TextBlock Text="КУРС" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
+                <Separator/>
+                <MenuItem Header="1 курс" Click="Registration_Click"/>
+                <MenuItem Header="2 курс" Click="Registration_Click"/>
+                <MenuItem Header="3 курс" Click="Registration_Click"/>
+                <MenuItem Header="4 курс" Click="Registration_Click"/>
+                <Separator/>
+                <TextBlock Text="СТАТУС АКТИВНОСТИ" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
+                <Separator/>
+                <MenuItem Header="Выпускники" Click="Registration_Click"/>
+                <MenuItem Header="В академическом отпуске" Click="Registration_Click"/>
+                <MenuItem Header="Архив" Click="Registration_Click"/>
+                <Separator/>
+                <TextBlock Text="СОЦИАЛЬНЫЙ СТАТУС" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
+                <Separator/>
+                <MenuItem Header="Социально незащищенные" Click="Registration_Click"/>
+                <MenuItem Header="Сироты" Click="Registration_Click"/>
+                <MenuItem Header="Инвалиды" Click="Registration_Click"/>
+                <MenuItem Header="Многодетные семьи" Click="Registration_Click"/>
+                <MenuItem Header="Малоимущие" Click="Registration_Click"/>
+                <Separator/>
+                <TextBlock Text="ВОЗРАСТ" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
+                <Separator/>
+                <MenuItem Header="Совершеннолетние" Click="Registration_Click"/>
+                <MenuItem Header="Несовершеннолетние" Click="Registration_Click"/>
+            </MenuItem>
+
+            <!-- Группы -->
+            <MenuItem Header="_Группы" Style="{StaticResource MenuStyle}">
+                <MenuItem Header="Все группы" Click="Groups_Click"/>
+                <Separator/>
+                <TextBlock Text="КУРС" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
+                <Separator/>
+                <MenuItem Header="1 курсы" Click="StudentCards_Click"/>
+                <MenuItem Header="2 курсы" Click="StudentCards_Click"/>
+                <MenuItem Header="3 курсы" Click="StudentCards_Click"/>
+                <MenuItem Header="4 курсы" Click="StudentCards_Click"/>
+                <Separator/>
+                <TextBlock Text="ФАКУЛЬТЕТ" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
+                <Separator/>
+                <MenuItem Header="Информационные технологии" Click="StudentCards_Click"/>
+                <MenuItem Header="Экономический" Click="StudentCards_Click"/>
+                <MenuItem Header="Факультет права" Click="StudentCards_Click"/>
+                <MenuItem Header="Архитектурный" Click="StudentCards_Click"/>
+                <MenuItem Header="Иностранных языков" Click="StudentCards_Click"/>
+            </MenuItem>
+            <!-- Родители -->
+            <MenuItem Header="_Родители" Style="{StaticResource MenuStyle}">
+                <MenuItem Header="Все родители" Click="StudentCards_Click"/>
+                <Separator/>
+
+            </MenuItem>
+        </Menu>
+
+        <!-- Панель инструментов -->
+        <ToolBarTray DockPanel.Dock="Top" Background="#F5F5F5">
+
+            <ToolBar Band="1" BandIndex="1" Background="Transparent">
+            </ToolBar>
+
+            <ToolBar Band="1" BandIndex="2" Background="Transparent">
+            </ToolBar>
+
+            <ToolBar Band="1" BandIndex="3" Background="Transparent" HorizontalAlignment="Right">
+            </ToolBar>
+
+        </ToolBarTray>
+
+        <!-- Основной контент -->
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок раздела с выбором группы -->
+            <Grid Grid.Row="0" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" 
+                           Text="Учебная группа:" 
+                           FontSize="14" 
+                           Foreground="#333333"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+
+                <ComboBox Grid.Column="1" 
+          x:Name="GroupComboBox"
+          Height="28"
+          Background="White"
+          BorderBrush="#CCCCCC"
+          SelectionChanged="GroupComboBox_SelectionChanged">
+                    <ComboBoxItem Content="Все группы" IsSelected="True"/>
+                    <ComboBoxItem Content="ИСП-123"/>
+                    <ComboBoxItem Content="ИСП-124"/>
+                    <ComboBoxItem Content="ПКС-125"/>
+                    <ComboBoxItem Content="ЭБ-126"/>
+                </ComboBox>
+
+                <TextBlock Grid.Column="2" 
+                           Text="Управление личными делами студентов" 
+                           FontSize="16" 
+                           FontWeight="Normal" 
+                           Foreground="#333333"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Основная область с таблицей -->
+            <Border Grid.Row="1" 
+                    Background="White" 
+                    BorderBrush="#CCCCCC" 
+                    BorderThickness="1"
+                    Padding="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Панель статуса подключения и фильтры -->
+                    <!-- Панель статуса подключения и фильтры + ПОИСК -->
+                    <Border Grid.Row="0" 
+        Background="#F9F9F9" 
+        BorderBrush="#EEEEEE" 
+        BorderThickness="0 0 0 1"
+        Padding="8"
+        Margin="0,0,0,5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Ellipse x:Name="StatusIndicator" 
+                 Grid.Column="0"
+                 Width="8" Height="8" 
+                 Fill="#808080"
+                 Margin="0,0,8,0"
+                 VerticalAlignment="Center"/>
+
+                            <TextBlock x:Name="StatusTextBlock" 
+                   Grid.Column="1"
+                   Text="Статус: Ожидание подключения" 
+                   FontSize="12" 
+                   Foreground="#666666"
+                   VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Column="2" 
+                   x:Name="RecordCountText"
+                   Text="Всего записей: 0"
+                   FontSize="11" 
+                   Foreground="#808080"
+                   VerticalAlignment="Center"
+                   Margin="0,0,15,0"/>
+
+                            <!-- ПОИСК ПО ФИО -->
+                            <TextBox Grid.Column="3" 
+                 x:Name="SearchTextBox"
+                 Width="200"
+                 Height="24"
+                 Padding="5,0"
+                 Background="White"
+                 BorderBrush="#CCCCCC"
+                 BorderThickness="1"
+                 FontSize="11"
+                 TextChanged="SearchTextBox_TextChanged"
+                 ToolTip="Введите фамилию, имя или отчество"/>
+
+                            <TextBlock Grid.Column="4" 
+                   Text="🔍" 
+                   FontSize="11" 
+                   Foreground="#666666"
+                   VerticalAlignment="Center"
+                   Margin="5,0,0,0"/>
+
+                            <ComboBox Grid.Column="5" 
+                  Width="120"
+                  Height="24"
+                  Background="White"
+                  BorderBrush="#CCCCCC"
+                  FontSize="11"
+                  SelectedIndex="0">
+                                <ComboBoxItem Content="Все студенты"/>
+                                <ComboBoxItem Content="Активные"/>
+                                <ComboBoxItem Content="На учёте"/>
+                                <ComboBoxItem Content="Без родителей"/>
+                            </ComboBox>
+                        </Grid>
+                    </Border>
+
+                    <!-- DataGrid с прокруткой -->
+                    <!-- DataGrid с прокруткой -->
+                    <DataGrid x:Name="StudentsDataGrid" 
+      Grid.Row="1"
+      AutoGenerateColumns="False"
+      IsReadOnly="True"
+      SelectionMode="Single"
+      BorderThickness="0" 
+      SelectionChanged="StudentsDataGrid_SelectionChanged"
+       MouseDoubleClick="StudentsDataGrid_MouseDoubleClick"
+      Margin="0">
+
+                        <!-- Контекстное меню при правом клике -->
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="📄 Справка об обучении" Click="CreateStudyCertificate_Click"/>
+                                <MenuItem Header="📝 Характеристика студента" Click="GenerateCharacteristic_Click"/>
+                                <MenuItem x:Name="MilitaryCharacteristicMenuItem" Header="🪖 Характеристика в военкомат" Click="CreateMilitaryCharacteristic_Click" Visibility="Collapsed"/>
+                                <Separator/>
+                                <MenuItem Header="✏️ Редактировать данные" Click="EditStudent_Click"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+
+                        <DataGrid.Columns>
+                            <!-- Основные данные -->
+                            <DataGridTextColumn Header="ID" Binding="{Binding StudentID}" Width="50"/>
+                            <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="100"/>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="100"/>
+                            <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="100"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="200"/>
+
+                            <!-- Документы -->
+                            <DataGridTextColumn Header="Студ. билет" Binding="{Binding StudentCardNumber}" Width="100"/>
+                            <DataGridTextColumn Header="Личный номер" Binding="{Binding PersonalNumber}" Width="100"/>
+
+                            <!-- Личные данные -->
+                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                            <DataGridTextColumn Header="Возраст" Binding="{Binding Age}" Width="50"/>
+                            <DataGridTextColumn Header="Место рождения" Binding="{Binding BirthPlace}" Width="150"/>
+                            <DataGridTextColumn Header="Пол" Binding="{Binding Gender}" Width="50"/>
+                            <DataGridTextColumn Header="Национальность" Binding="{Binding Nationality}" Width="100"/>
+                            <DataGridTextColumn Header="Гражданство" Binding="{Binding Citizenship}" Width="100"/>
+
+                            <!-- Контакты -->
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="120"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="150"/>
+                            <DataGridTextColumn Header="Телефон родителей" Binding="{Binding ParentsPhone}" Width="120"/>
+
+                            <!-- Адреса -->
+                            <DataGridTextColumn Header="Адрес регистрации" Binding="{Binding RegistrationAddress}" Width="200"/>
+                            <DataGridTextColumn Header="Адрес проживания" Binding="{Binding ResidentialAddress}" Width="200"/>
+
+                            <!-- Социальный статус -->
+                            <DataGridTextColumn Header="Соц. статус" Binding="{Binding SocialStatus}" Width="150"/>
+                            <DataGridCheckBoxColumn Header="Сирота" Binding="{Binding IsOrphan}" Width="60"/>
+                            <DataGridCheckBoxColumn Header="Инвалид" Binding="{Binding IsDisabled}" Width="60"/>
+                            <DataGridCheckBoxColumn Header="Многодетная семья" Binding="{Binding IsFromLargeFamily}" Width="100"/>
+                            <DataGridCheckBoxColumn Header="Малообеспеченный" Binding="{Binding IsLowIncome}" Width="100"/>
+
+                            <!-- Трудоустройство -->
+                            <DataGridCheckBoxColumn Header="Работает" Binding="{Binding IsEmployed}" Width="70"/>
+                            <DataGridTextColumn Header="Место работы" Binding="{Binding WorkPlace}" Width="150"/>
+                            <DataGridTextColumn Header="Должность" Binding="{Binding WorkPosition}" Width="150"/>
+
+                            <!-- Образование -->
+                            <DataGridTextColumn Header="Образование до" Binding="{Binding EducationBefore}" Width="150"/>
+                            <DataGridTextColumn Header="Документ об образовании" Binding="{Binding EducationDocument}" Width="150"/>
+
+                            <!-- Системные поля -->
+                            <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="100"/>
+                            <DataGridCheckBoxColumn Header="Активен" Binding="{Binding IsActive}" Width="70"/>
+                            <DataGridTextColumn Header="Дата зачисления" Binding="{Binding EnrollmentDate, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                            <DataGridTextColumn Header="Дата окончания" Binding="{Binding GraduationDate, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                            <DataGridTextColumn Header="Создано" Binding="{Binding CreatedAt, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                            <DataGridTextColumn Header="Обновлено" Binding="{Binding UpdatedAt, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+
+            <!-- Панель быстрых действий -->
+            <Border Grid.Row="2" 
+                    Background="#F5F5F5" 
+                    BorderBrush="#CCCCCC" 
+                    BorderThickness="1"
+                    Padding="8"
+                    Margin="0,10,0,0">
+                <WrapPanel>
+                    <TextBlock Text="Быстрые действия:" 
+                               FontSize="11" 
+                               Foreground="#666666"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0"/>
+
+                    <Button Content="Соц. паспорт" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="GenerateSocialPassport_Click"/>
+                    <Button Content="Характеристика" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="GenerateCharacteristic_Click"/>
+                    <Button Content="Портфолио" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="GeneratePortfolio_Click"/>
+                    <Button Content="Родители" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="ParentsDatabase_Click"/>
+                    <Button Content="Дежурства" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="DutySchedule_Click"/>
+                    <Button Content="Мероприятия" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="EventRecords_Click"/>
+                </WrapPanel>
+            </Border>
+        </Grid>
+
+        <!-- Строка состояния -->
+        <StatusBar Style="{StaticResource StatusBarStyle}"
+                   DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="FooterStatusText" Text="Готов к работе"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Text="Пользователь: Администратор"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock x:Name="CurrentDateText" Text="{Binding CurrentDate, FallbackValue='26.02.2026'}"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock x:Name="CurrentGroupText" Text="Группа: ИСП-123"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Text="Куратор: Иванова М.И."/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock x:Name="CapsLockIndicator" Text="CAPS OFF" Foreground="#808080"/>
+            </StatusBarItem>
+        </StatusBar>
+    </DockPanel>
+</Window>
