@@ -477,6 +477,14 @@ namespace Kursach
 
         private void EditStudent_Click(object sender, RoutedEventArgs e)
         {
+            // ПРОВЕРКА ПРАВ: только администратор может редактировать
+            if (UserRole != "Администратор")
+            {
+                MessageBox.Show("У вас нет прав для редактирования", "Доступ запрещен",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             if (StudentsDataGrid.SelectedItem == null)
             {
                 MessageBox.Show("Выберите студента для редактирования", "Информация",
@@ -515,6 +523,13 @@ namespace Kursach
 
         private void AddStudentButton_Click(object sender, RoutedEventArgs e)
         {
+
+            if (UserRole != "Администратор")
+            {
+                MessageBox.Show("У вас нет прав для добавления студентов", "Доступ запрещен",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             var dialog = new Dialogs.AddStudentDialog();
             dialog.Owner = this;
             if (dialog.ShowDialog() == true)
@@ -526,6 +541,14 @@ namespace Kursach
 
         private void DeleteStudentButton_Click(object sender, RoutedEventArgs e)
         {
+            // ПРОВЕРКА ПРАВ: только администратор может удалять
+            if (UserRole != "Администратор")
+            {
+                MessageBox.Show("У вас нет прав для удаления", "Доступ запрещен",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             if (StudentsDataGrid.SelectedItem == null)
             {
                 MessageBox.Show("Выберите студента для удаления", "Информация",
@@ -989,6 +1012,14 @@ namespace Kursach
 
         private void Groups_Click(object sender, RoutedEventArgs e)
         {
+            // ПРОВЕРКА ПРАВ: только администратор может просматривать группы
+            if (UserRole != "Администратор")
+            {
+                MessageBox.Show("У вас нет прав для просмотра групп", "Доступ запрещен",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             try
             {
                 double currentLeft = this.Left;
