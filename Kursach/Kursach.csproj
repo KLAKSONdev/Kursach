@@ -160,6 +160,7 @@
     <Compile Include="PositiveTraits.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="RoleToVisibilityConverter.cs" />
     <Compile Include="SelectGroupDialog.xaml.cs">
       <DependentUpon>SelectGroupDialog.xaml</DependentUpon>
     </Compile>

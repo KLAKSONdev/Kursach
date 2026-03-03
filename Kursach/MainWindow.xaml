@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kursach"
         mc:Ignorable="d"
-              Title="Журнал группы колледжа" 
+        Title="Журнал группы колледжа" 
         WindowStartupLocation="CenterScreen"
         Background="#F0F0F0"
         FontFamily="Segoe UI"
         WindowState="Maximized">
 
     <Window.Resources>
+        <!-- Конвертер для видимости по роли -->
+        <local:RoleToVisibilityConverter x:Key="RoleToVisibilityConverter"/>
+
         <!-- Стиль для пунктов меню -->
         <Style x:Key="MenuStyle" TargetType="MenuItem">
             <Setter Property="Background" Value="Transparent"/>
@@ -99,15 +102,17 @@
               FontSize="12"
               Foreground="#333333">
 
-            <!-- Файл -->
+            <!-- Файл - доступен всем -->
             <MenuItem Header="_Техническое" Style="{StaticResource MenuStyle}">
                 <MenuItem Header="Загрузить данные" Click="LoadDataButton_Click"/>
                 <Separator/>
                 <MenuItem Header="_Выход" Click="ExitMenuItem_Click"/>
             </MenuItem>
 
-            <!-- Редактирование -->
-            <MenuItem Header="_Редактирование" Style="{StaticResource MenuStyle}">
+            <!-- Редактирование - только для админа -->
+            <MenuItem Header="_Редактирование" 
+                      Style="{StaticResource MenuStyle}"
+                      Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}">
                 <MenuItem Header="_Добавить студента" Click="AddStudentButton_Click"/>
                 <MenuItem Header="_Редактировать студента" Click="EditStudent_Click"/>
                 <MenuItem Header="_Удалить студента" Click="DeleteStudentButton_Click"/>
@@ -118,40 +123,95 @@
                 <MenuItem Header="_Обновить данные" Click="LoadDataButton_Click"/>
             </MenuItem>
 
-            <!-- Студенты -->
-            <!-- Студенты -->
+            <!-- Студенты - доступны всем, но с ограниченным содержимым для старост -->
             <MenuItem Header="_Студенты" Style="{StaticResource MenuStyle}">
-                <MenuItem Header="Все студенты" Click="StudentCards_Click"/>
-                <Separator/>
-                <TextBlock Text="КУРС" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
-                <Separator/>
-                <MenuItem Header="1 курс" Click="Registration_Click"/>
-                <MenuItem Header="2 курс" Click="Registration_Click"/>
-                <MenuItem Header="3 курс" Click="Registration_Click"/>
-                <MenuItem Header="4 курс" Click="Registration_Click"/>
-                <Separator/>
-                <TextBlock Text="СТАТУС АКТИВНОСТИ" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
-                <Separator/>
-                <MenuItem Header="Выпускники" Click="Registration_Click"/>
-                <MenuItem Header="В академическом отпуске" Click="Registration_Click"/>
-                <MenuItem Header="Архив" Click="Registration_Click"/>
-                <Separator/>
-                <TextBlock Text="СОЦИАЛЬНЫЙ СТАТУС" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
-                <Separator/>
-                <MenuItem Header="Социально незащищенные" Click="Registration_Click"/>
-                <MenuItem Header="Сироты" Click="Registration_Click"/>
-                <MenuItem Header="Инвалиды" Click="Registration_Click"/>
-                <MenuItem Header="Многодетные семьи" Click="Registration_Click"/>
-                <MenuItem Header="Малоимущие" Click="Registration_Click"/>
-                <Separator/>
-                <TextBlock Text="ВОЗРАСТ" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
-                <Separator/>
-                <MenuItem Header="Совершеннолетние" Click="Registration_Click"/>
-                <MenuItem Header="Несовершеннолетние" Click="Registration_Click"/>
+                <MenuItem Header="Все студенты" 
+                          Click="StudentCards_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <Separator Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <TextBlock Text="КУРС" 
+                           FontSize="12" 
+                           FontWeight="Bold" 
+                           Foreground="#888888" 
+                           Margin="10,5,10,2" 
+                           IsHitTestVisible="False"
+                           Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <Separator Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="1 курс" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="2 курс" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="3 курс" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="4 курс" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <Separator Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <TextBlock Text="СТАТУС АКТИВНОСТИ" 
+                           FontSize="12" 
+                           FontWeight="Bold" 
+                           Foreground="#888888" 
+                           Margin="10,5,10,2" 
+                           IsHitTestVisible="False"
+                           Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <Separator Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="Выпускники" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="В академическом отпуске" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="Архив" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <Separator Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <TextBlock Text="СОЦИАЛЬНЫЙ СТАТУС" 
+                           FontSize="12" 
+                           FontWeight="Bold" 
+                           Foreground="#888888" 
+                           Margin="10,5,10,2" 
+                           IsHitTestVisible="False"
+                           Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <Separator Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="Социально незащищенные" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="Сироты" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="Инвалиды" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="Многодетные семьи" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="Малоимущие" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <Separator Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <TextBlock Text="ВОЗРАСТ" 
+                           FontSize="12" 
+                           FontWeight="Bold" 
+                           Foreground="#888888" 
+                           Margin="10,5,10,2" 
+                           IsHitTestVisible="False"
+                           Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <Separator Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="Совершеннолетние" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="Несовершеннолетние" 
+                          Click="Registration_Click"
+                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
             </MenuItem>
 
-            <!-- Группы -->
-            <MenuItem Header="_Группы" Style="{StaticResource MenuStyle}">
+            <!-- Группы - только для админа -->
+            <MenuItem Header="_Группы" 
+                      Style="{StaticResource MenuStyle}"
+                      Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}">
                 <MenuItem Header="Все группы" Click="Groups_Click"/>
                 <Separator/>
                 <TextBlock Text="КУРС" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,5,10,2" IsHitTestVisible="False"/>
@@ -169,26 +229,24 @@
                 <MenuItem Header="Архитектурный" Click="StudentCards_Click"/>
                 <MenuItem Header="Иностранных языков" Click="StudentCards_Click"/>
             </MenuItem>
-            <!-- Родители -->
-            <MenuItem Header="_Родители" Style="{StaticResource MenuStyle}">
+
+            <!-- Родители - только для админа -->
+            <MenuItem Header="_Родители" 
+                      Style="{StaticResource MenuStyle}"
+                      Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}">
                 <MenuItem Header="Все родители" Click="StudentCards_Click"/>
                 <Separator/>
-
             </MenuItem>
         </Menu>
 
         <!-- Панель инструментов -->
         <ToolBarTray DockPanel.Dock="Top" Background="#F5F5F5">
-
             <ToolBar Band="1" BandIndex="1" Background="Transparent">
             </ToolBar>
-
             <ToolBar Band="1" BandIndex="2" Background="Transparent">
             </ToolBar>
-
             <ToolBar Band="1" BandIndex="3" Background="Transparent" HorizontalAlignment="Right">
             </ToolBar>
-
         </ToolBarTray>
 
         <!-- Основной контент -->
@@ -199,8 +257,9 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Заголовок раздела с выбором группы -->
-            <Grid Grid.Row="0" Margin="0,0,0,10">
+            <!-- Заголовок раздела с выбором группы - скрыт для старост -->
+            <Grid Grid.Row="0" Margin="0,0,0,10"
+                  Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="200"/>
@@ -215,11 +274,11 @@
                            Margin="0,0,10,0"/>
 
                 <ComboBox Grid.Column="1" 
-          x:Name="GroupComboBox"
-          Height="28"
-          Background="White"
-          BorderBrush="#CCCCCC"
-          SelectionChanged="GroupComboBox_SelectionChanged">
+                          x:Name="GroupComboBox"
+                          Height="28"
+                          Background="White"
+                          BorderBrush="#CCCCCC"
+                          SelectionChanged="GroupComboBox_SelectionChanged">
                     <ComboBoxItem Content="Все группы" IsSelected="True"/>
                     <ComboBoxItem Content="ИСП-123"/>
                     <ComboBoxItem Content="ИСП-124"/>
@@ -248,14 +307,13 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Панель статуса подключения и фильтры -->
                     <!-- Панель статуса подключения и фильтры + ПОИСК -->
                     <Border Grid.Row="0" 
-        Background="#F9F9F9" 
-        BorderBrush="#EEEEEE" 
-        BorderThickness="0 0 0 1"
-        Padding="8"
-        Margin="0,0,0,5">
+                            Background="#F9F9F9" 
+                            BorderBrush="#EEEEEE" 
+                            BorderThickness="0 0 0 1"
+                            Padding="8"
+                            Margin="0,0,0,5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -267,54 +325,56 @@
                             </Grid.ColumnDefinitions>
 
                             <Ellipse x:Name="StatusIndicator" 
-                 Grid.Column="0"
-                 Width="8" Height="8" 
-                 Fill="#808080"
-                 Margin="0,0,8,0"
-                 VerticalAlignment="Center"/>
+                                     Grid.Column="0"
+                                     Width="8" Height="8" 
+                                     Fill="#808080"
+                                     Margin="0,0,8,0"
+                                     VerticalAlignment="Center"/>
 
                             <TextBlock x:Name="StatusTextBlock" 
-                   Grid.Column="1"
-                   Text="Статус: Ожидание подключения" 
-                   FontSize="12" 
-                   Foreground="#666666"
-                   VerticalAlignment="Center"/>
+                                       Grid.Column="1"
+                                       Text="Статус: Ожидание подключения" 
+                                       FontSize="12" 
+                                       Foreground="#666666"
+                                       VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Column="2" 
-                   x:Name="RecordCountText"
-                   Text="Всего записей: 0"
-                   FontSize="11" 
-                   Foreground="#808080"
-                   VerticalAlignment="Center"
-                   Margin="0,0,15,0"/>
+                                       x:Name="RecordCountText"
+                                       Text="Всего записей: 0"
+                                       FontSize="11" 
+                                       Foreground="#808080"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,15,0"/>
 
-                            <!-- ПОИСК ПО ФИО -->
+                            <!-- ПОИСК ПО ФИО - доступен всем -->
                             <TextBox Grid.Column="3" 
-                 x:Name="SearchTextBox"
-                 Width="200"
-                 Height="24"
-                 Padding="5,0"
-                 Background="White"
-                 BorderBrush="#CCCCCC"
-                 BorderThickness="1"
-                 FontSize="11"
-                 TextChanged="SearchTextBox_TextChanged"
-                 ToolTip="Введите фамилию, имя или отчество"/>
+                                     x:Name="SearchTextBox"
+                                     Width="200"
+                                     Height="24"
+                                     Padding="5,0"
+                                     Background="White"
+                                     BorderBrush="#CCCCCC"
+                                     BorderThickness="1"
+                                     FontSize="11"
+                                     TextChanged="SearchTextBox_TextChanged"
+                                     ToolTip="Введите фамилию, имя или отчество"/>
 
                             <TextBlock Grid.Column="4" 
-                   Text="🔍" 
-                   FontSize="11" 
-                   Foreground="#666666"
-                   VerticalAlignment="Center"
-                   Margin="5,0,0,0"/>
+                                       Text="🔍" 
+                                       FontSize="11" 
+                                       Foreground="#666666"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0,0,0"/>
 
+                            <!-- Фильтр по статусу - только для админа -->
                             <ComboBox Grid.Column="5" 
-                  Width="120"
-                  Height="24"
-                  Background="White"
-                  BorderBrush="#CCCCCC"
-                  FontSize="11"
-                  SelectedIndex="0">
+                                      Width="120"
+                                      Height="24"
+                                      Background="White"
+                                      BorderBrush="#CCCCCC"
+                                      FontSize="11"
+                                      SelectedIndex="0"
+                                      Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}">
                                 <ComboBoxItem Content="Все студенты"/>
                                 <ComboBoxItem Content="Активные"/>
                                 <ComboBoxItem Content="На учёте"/>
@@ -324,16 +384,15 @@
                     </Border>
 
                     <!-- DataGrid с прокруткой -->
-                    <!-- DataGrid с прокруткой -->
                     <DataGrid x:Name="StudentsDataGrid" 
-      Grid.Row="1"
-      AutoGenerateColumns="False"
-      IsReadOnly="True"
-      SelectionMode="Single"
-      BorderThickness="0" 
-      SelectionChanged="StudentsDataGrid_SelectionChanged"
-       MouseDoubleClick="StudentsDataGrid_MouseDoubleClick"
-      Margin="0">
+                              Grid.Row="1"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              SelectionMode="Single"
+                              BorderThickness="0" 
+                              SelectionChanged="StudentsDataGrid_SelectionChanged"
+                              MouseDoubleClick="StudentsDataGrid_MouseDoubleClick"
+                              Margin="0">
 
                         <!-- Контекстное меню при правом клике -->
                         <DataGrid.ContextMenu>
@@ -342,7 +401,10 @@
                                 <MenuItem Header="📝 Характеристика студента" Click="GenerateCharacteristic_Click"/>
                                 <MenuItem x:Name="MilitaryCharacteristicMenuItem" Header="🪖 Характеристика в военкомат" Click="CreateMilitaryCharacteristic_Click" Visibility="Collapsed"/>
                                 <Separator/>
-                                <MenuItem Header="✏️ Редактировать данные" Click="EditStudent_Click"/>
+                                <!-- Редактирование - только для админа -->
+                                <MenuItem Header="✏️ Редактировать данные" 
+                                          Click="EditStudent_Click"
+                                          Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
 
@@ -411,13 +473,49 @@
                     BorderThickness="1"
                     Padding="8"
                     Margin="0,10,0,0">
-                <WrapPanel Cursor="">
+                <WrapPanel>
                     <TextBlock Text="Быстрые действия:" 
                                FontSize="11" 
                                Foreground="#666666"
                                VerticalAlignment="Center"
                                Margin="0,0,10,0"/>
 
+                    <!-- Кнопки доступны всем -->
+                    <Button Content="Портфолио" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="GeneratePortfolio_Click"/>
+
+                    <!-- Кнопки только для админа -->
+                    <Button Content="Соц. паспорт" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="GenerateSocialPassport_Click"
+                            Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+
+                    <Button Content="Характеристика" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="GenerateCharacteristic_Click"
+                            Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+
+                    <Button Content="Родители" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="ParentsDatabase_Click"
+                            Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+
+                    <Button Content="Дежурства" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="DutySchedule_Click"
+                            Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+
+                    <Button Content="Мероприятия" 
+                            Style="{StaticResource ToolbarButton}" 
+                            Width="90"
+                            Click="EventRecords_Click"
+                            Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
                 </WrapPanel>
             </Border>
         </Grid>
@@ -438,11 +536,13 @@
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
-                <TextBlock x:Name="CurrentGroupText" Text="Группа: ИСП-123"/>
+                <TextBlock x:Name="CurrentGroupText" Text="Группа: ИСП-123"
+                           Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
-                <TextBlock Text="Куратор: Иванова М.И."/>
+                <TextBlock Text="Куратор: Иванова М.И."
+                           Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
             </StatusBarItem>
             <Separator/>
             <StatusBarItem HorizontalAlignment="Right">

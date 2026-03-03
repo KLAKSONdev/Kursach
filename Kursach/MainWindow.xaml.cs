@@ -122,9 +122,17 @@ namespace Kursach
             {
                 using (var db = new vsstuEntities())
                 {
-                    var dbStudents = db.Students
-                        .Where(s => s.IsActive == true)
-                        .ToList();
+                    // Базовый запрос - все активные студенты
+                    IQueryable<Students> query = db.Students.Where(s => s.IsActive == true);
+
+                    // ЕСЛИ ЭТО СТАРОСТА - ПОКАЗЫВАЕМ ТОЛЬКО ЕГО ГРУППУ
+                    if (UserRole == "Староста" && UserGroupId.HasValue)
+                    {
+                        query = query.Where(s => s.GroupID == UserGroupId.Value);
+                    }
+
+                    // Выполняем запрос
+                    var dbStudents = query.ToList();
 
                     allStudents = new List<StudentViewModel>();
 
