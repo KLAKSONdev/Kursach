@@ -31,6 +31,8 @@ namespace Kursach
         public int? UserGroupId { get; set; }
 
 
+
+
         #endregion
 
         // =====================================================================
@@ -56,8 +58,7 @@ namespace Kursach
                 LoadGroups();
                 LoadStudents();
 
-                UpdateStatus("Статус: Все данные загружены", "#27AE60");
-                FooterStatusText.Text = "Система готова к работе";
+                UpdateStatus($"{UserName}", "#27AE60");
             }
             catch (Exception ex)
             {
