@@ -319,6 +319,8 @@
           <Property Name="GraduationDate" Type="date" />
           <Property Name="CreatedAt" Type="datetime2" Precision="7" />
           <Property Name="UpdatedAt" Type="datetime2" Precision="7" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="IsHeadman" Type="bit" />
         </EntityType>
         <EntityType Name="StudentTraits">
           <Key>
@@ -1237,6 +1239,8 @@
           <NavigationProperty Name="StudentParents" Relationship="Self.FK__StudentPa__Stude__02FC7413" FromRole="Students" ToRole="StudentParents" />
           <NavigationProperty Name="StudentTraits" Relationship="Self.FK__StudentTr__Stude__2180FB33" FromRole="Students" ToRole="StudentTraits" />
           <NavigationProperty Name="StudentCharacteristics" Relationship="vsstuModel.FK_StudentCharacteristics_Students" FromRole="Students" ToRole="StudentCharacteristics" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="IsHeadman" Type="Boolean" />
         </EntityType>
         <EntityType Name="StudentTraits">
           <Key>
@@ -2117,6 +2121,8 @@
           <EntitySetMapping Name="Students">
             <EntityTypeMapping TypeName="vsstuModel.Students">
               <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="IsHeadman" ColumnName="IsHeadman" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
                 <ScalarProperty Name="StudentID" ColumnName="StudentID" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />

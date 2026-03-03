@@ -120,6 +120,8 @@ namespace Kursach
                     IsDisabledCheck.IsChecked = student.IsDisabled ?? false;
                     IsFromLargeFamilyCheck.IsChecked = student.IsFromLargeFamily ?? false;
                     IsLowIncomeCheck.IsChecked = student.IsLowIncome ?? false;
+                    // После загрузки социального статуса или в соответствующем месте
+                    IsHeadmanCheckBox.IsChecked = student.IsHeadman ?? false;
 
                     var statuses = new List<string>();
                     if (student.IsOrphan == true) statuses.Add("Сирота");
@@ -815,5 +817,44 @@ namespace Kursach
         }
 
         #endregion
+
+        private void AssignHeadmanButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Проверяем, не является ли уже старостой
+                if (IsHeadmanCheckBox.IsChecked == true)
+                {
+                    MessageBox.Show("Этот студент уже является старостой", "Информация",
+                                  MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                // Снимаем старосту с текущего в этой группе
+                var student = db.Students.Find(_studentId);
+                if (student == null) return;
+
+                var currentHeadman = db.Students
+                    .FirstOrDefault(s => s.GroupID == student.GroupID && s.IsHeadman == true);
+
+                if (currentHeadman != null)
+                {
+                    currentHeadman.IsHeadman = false;
+                }
+
+                // Назначаем нового
+                student.IsHeadman = true;
+                db.SaveChanges();
+
+                IsHeadmanCheckBox.IsChecked = true;
+                MessageBox.Show($"Студент назначен старостой группы", "Успех",
+                              MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
+                              MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

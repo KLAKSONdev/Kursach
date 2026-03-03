@@ -101,7 +101,6 @@
 
             <!-- Файл -->
             <MenuItem Header="_Техническое" Style="{StaticResource MenuStyle}">
-                <MenuItem Header="_Проверить подключение" Click="TestConnectionButton_Click"/>
                 <MenuItem Header="Загрузить данные" Click="LoadDataButton_Click"/>
                 <Separator/>
                 <MenuItem Header="_Выход" Click="ExitMenuItem_Click"/>
@@ -358,6 +357,7 @@
                             <!-- Документы -->
                             <DataGridTextColumn Header="Студ. билет" Binding="{Binding StudentCardNumber}" Width="100"/>
                             <DataGridTextColumn Header="Личный номер" Binding="{Binding PersonalNumber}" Width="100"/>
+                            <DataGridCheckBoxColumn Header="Староста" Binding="{Binding IsHeadman}" Width="70"/>
 
                             <!-- Личные данные -->
                             <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate, StringFormat='dd.MM.yyyy'}" Width="100"/>
@@ -411,37 +411,13 @@
                     BorderThickness="1"
                     Padding="8"
                     Margin="0,10,0,0">
-                <WrapPanel>
+                <WrapPanel Cursor="">
                     <TextBlock Text="Быстрые действия:" 
                                FontSize="11" 
                                Foreground="#666666"
                                VerticalAlignment="Center"
                                Margin="0,0,10,0"/>
 
-                    <Button Content="Соц. паспорт" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="GenerateSocialPassport_Click"/>
-                    <Button Content="Характеристика" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="GenerateCharacteristic_Click"/>
-                    <Button Content="Портфолио" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="GeneratePortfolio_Click"/>
-                    <Button Content="Родители" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="ParentsDatabase_Click"/>
-                    <Button Content="Дежурства" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="DutySchedule_Click"/>
-                    <Button Content="Мероприятия" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="EventRecords_Click"/>
                 </WrapPanel>
             </Border>
         </Grid>

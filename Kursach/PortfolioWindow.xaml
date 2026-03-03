@@ -227,6 +227,14 @@
                                         </WrapPanel>
                                     </StackPanel>
                                 </Grid>
+                                <!-- В блоке "Основные данные", после информации о поле/возрасте добавьте: -->
+                                <WrapPanel Margin="0,10,0,0">
+                                    <CheckBox x:Name="IsHeadmanCheckBox" 
+              Content="👑 Староста группы" 
+              IsEnabled="False"
+              FontWeight="Bold"
+              Foreground="#F39C12"/>
+                                </WrapPanel>
                             </StackPanel>
                         </Border>
 
@@ -484,6 +492,15 @@
                            Foreground="#666666"
                            VerticalAlignment="Center"/>
 
+                <!-- Внизу вкладки "Личная информация" добавьте кнопку -->
+                <Button Content="👑 Назначить старостой" 
+        x:Name="AssignHeadmanButton"
+        Width="150" Height="30"
+        Margin="5"
+        Click="AssignHeadmanButton_Click"
+        Background="#F39C12"
+        Foreground="White"
+        BorderThickness="0"/>
                 <Button Grid.Column="1" 
                         Content="Экспорт в PDF"
                         Style="{StaticResource ToolbarButton}"

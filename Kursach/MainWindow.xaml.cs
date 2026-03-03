@@ -25,6 +25,12 @@ namespace Kursach
         private List<StudentViewModel> allStudents = new List<StudentViewModel>();
         private List<string> groupNames = new List<string>();
 
+        public string UserRole { get; set; }
+        public string UserName { get; set; }
+        public int? UserId { get; set; }
+        public int? UserGroupId { get; set; }
+
+
         #endregion
 
         // =====================================================================
@@ -42,15 +48,11 @@ namespace Kursach
         #region ЗАГРУЗКА ДАННЫХ
         // =====================================================================
 
-        /// <summary>
-        /// Загрузка данных при открытии окна
-        /// </summary>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
                 UpdateCapsLockStatus();
-                TestDatabaseConnection();
                 LoadGroups();
                 LoadStudents();
 
@@ -65,9 +67,6 @@ namespace Kursach
             }
         }
 
-        /// <summary>
-        /// Загрузка групп из базы данных
-        /// </summary>
         private void LoadGroups()
         {
             try
@@ -116,107 +115,98 @@ namespace Kursach
             }
         }
 
-        /// <summary>
-        /// Загрузка студентов из базы данных
-        /// </summary>
         private void LoadStudents()
         {
             try
             {
                 using (var db = new vsstuEntities())
                 {
-                    var studentsFromDb = db.Students
+                    var dbStudents = db.Students
                         .Where(s => s.IsActive == true)
                         .ToList();
 
-                    allStudents = studentsFromDb
-                        .Select(s => new StudentViewModel
+                    allStudents = new List<StudentViewModel>();
+
+                    foreach (var s in dbStudents)
+                    {
+                        var student = new StudentViewModel();
+
+                        student.StudentID = s.StudentID;
+                        student.LastName = s.LastName ?? "";
+                        student.FirstName = s.FirstName ?? "";
+                        student.MiddleName = s.MiddleName ?? "";
+                        student.FullName = $"{student.LastName} {student.FirstName} {student.MiddleName}".Trim();
+
+                        if (s.Groups != null)
                         {
-                            StudentID = s.StudentID,
-                            LastName = s.LastName,
-                            FirstName = s.FirstName,
-                            MiddleName = s.MiddleName,
-                            GroupID = s.GroupID,
-                            GroupName = s.Groups != null ? s.Groups.GroupName : "Без группы",
-                            StudentCardNumber = s.StudentCardNumber,
-                            PersonalNumber = s.PersonalNumber,
-                            BirthDate = s.BirthDate,
-                            BirthPlace = s.BirthPlace,
-                            Gender = s.Gender,
-                            Nationality = s.Nationality,
-                            Citizenship = s.Citizenship,
-                            EducationBefore = s.EducationBefore,
-                            EducationDocument = s.EducationDocument,
-                            PhotoPath = s.PhotoPath,
-                            Phone = s.Phone,
-                            Email = s.Email,
-                            ParentsPhone = s.ParentsPhone,
-                            RegistrationAddress = s.RegistrationAddress,
-                            ResidentialAddress = s.ResidentialAddress,
-                            HealthStatusID = s.HealthStatusID,
-                            FamilyTypeID = s.FamilyTypeID,
-                            IsOrphan = s.IsOrphan ?? false,
-                            IsDisabled = s.IsDisabled ?? false,
-                            IsFromLargeFamily = s.IsFromLargeFamily ?? false,
-                            IsLowIncome = s.IsLowIncome ?? false,
-                            IsEmployed = s.IsEmployed ?? false,
-                            WorkPlace = s.WorkPlace,
-                            WorkPosition = s.WorkPosition,
-                            Login = s.Login,
-                            IsActive = s.IsActive ?? true,
-                            EnrollmentDate = s.EnrollmentDate,
-                            GraduationDate = s.GraduationDate,
-                            CreatedAt = s.CreatedAt,
-                            UpdatedAt = s.UpdatedAt,
-                            FullName = $"{s.LastName} {s.FirstName} {s.MiddleName}".Trim(),
-                            Age = s.BirthDate.HasValue ? (int?)(DateTime.Now.Year - s.BirthDate.Value.Year) : null,
-                            SocialStatus = GetSocialStatus(s),
-                            Course = s.Groups != null ? s.Groups.Course : null
-                        })
-                        .ToList();
+                            student.GroupID = s.GroupID;
+                            student.GroupName = s.Groups.GroupName ?? "";
+                            student.Course = s.Groups.Course;
+                        }
+                        else
+                        {
+                            student.GroupName = "Без группы";
+                        }
+
+                        student.StudentCardNumber = s.StudentCardNumber ?? "";
+                        student.PersonalNumber = s.PersonalNumber ?? "";
+                        student.BirthDate = s.BirthDate;
+                        student.BirthPlace = s.BirthPlace ?? "";
+                        student.Gender = s.Gender ?? "";
+                        student.Nationality = s.Nationality ?? "";
+                        student.Citizenship = s.Citizenship ?? "";
+
+                        if (s.BirthDate.HasValue)
+                        {
+                            student.Age = DateTime.Now.Year - s.BirthDate.Value.Year;
+                            if (DateTime.Now.DayOfYear < s.BirthDate.Value.DayOfYear)
+                                student.Age--;
+                        }
+
+                        student.EducationBefore = s.EducationBefore ?? "";
+                        student.EducationDocument = s.EducationDocument ?? "";
+                        student.Phone = s.Phone ?? "";
+                        student.Email = s.Email ?? "";
+                        student.ParentsPhone = s.ParentsPhone ?? "";
+                        student.RegistrationAddress = s.RegistrationAddress ?? "";
+                        student.ResidentialAddress = s.ResidentialAddress ?? "";
+
+                        student.IsOrphan = s.IsOrphan ?? false;
+                        student.IsDisabled = s.IsDisabled ?? false;
+                        student.IsFromLargeFamily = s.IsFromLargeFamily ?? false;
+                        student.IsLowIncome = s.IsLowIncome ?? false;
+
+                        var statuses = new List<string>();
+                        if (s.IsOrphan == true) statuses.Add("Сирота");
+                        if (s.IsDisabled == true) statuses.Add("Инвалид");
+                        if (s.IsFromLargeFamily == true) statuses.Add("Многодетная семья");
+                        if (s.IsLowIncome == true) statuses.Add("Малообеспеченный");
+                        student.SocialStatus = statuses.Count > 0 ? string.Join(", ", statuses) : "Не указан";
+
+                        student.IsEmployed = s.IsEmployed ?? false;
+                        student.WorkPlace = s.WorkPlace ?? "";
+                        student.WorkPosition = s.WorkPosition ?? "";
+
+                        student.Login = s.Login ?? "";
+                        student.IsActive = s.IsActive ?? true;
+                        student.EnrollmentDate = s.EnrollmentDate;
+                        student.GraduationDate = s.GraduationDate;
+                        student.CreatedAt = s.CreatedAt;
+                        student.UpdatedAt = s.UpdatedAt;
+
+                        student.IsHeadman = s.IsHeadman ?? false;
+
+                        allStudents.Add(student);
+                    }
 
                     StudentsDataGrid.ItemsSource = allStudents;
                     UpdateStatus($"Статус: Загружено {allStudents.Count} студентов", "#27AE60");
-                    FooterStatusText.Text = $"Загружено {allStudents.Count} студентов из {groupNames.Count} групп";
                     UpdateRecordCount();
-                    CurrentGroupText.Text = "Группа: Все группы";
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки студентов: {ex.Message}", "Ошибка",
-                              MessageBoxButton.OK, MessageBoxImage.Error);
-                UpdateStatus("Статус: Ошибка загрузки студентов", "#E74C3C");
-            }
-        }
-
-        /// <summary>
-        /// Проверка подключения к базе данных
-        /// </summary>
-        private void TestDatabaseConnection()
-        {
-            try
-            {
-                using (var db = new vsstuEntities())
-                {
-                    if (db.Database.Exists())
-                    {
-                        UpdateStatus("Статус: Подключение к БД успешно", "#27AE60");
-                        FooterStatusText.Text = "Подключено к базе данных";
-                    }
-                    else
-                    {
-                        UpdateStatus("Статус: База данных не найдена", "#E74C3C");
-                        FooterStatusText.Text = "БД не найдена";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                UpdateStatus("Статус: Ошибка подключения", "#E74C3C");
-                FooterStatusText.Text = "Ошибка подключения";
-                MessageBox.Show($"Ошибка подключения к БД: {ex.Message}", "Ошибка",
-                              MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка загрузки: {ex.Message}", "Ошибка");
             }
         }
         #endregion
@@ -225,9 +215,6 @@ namespace Kursach
         #region ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ
         // =====================================================================
 
-        /// <summary>
-        /// Обновление статусной строки
-        /// </summary>
         private void UpdateStatus(string text, string colorHex)
         {
             StatusTextBlock.Text = text;
@@ -235,18 +222,12 @@ namespace Kursach
             StatusIndicator.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorHex));
         }
 
-        /// <summary>
-        /// Обновление счетчика записей
-        /// </summary>
         private void UpdateRecordCount()
         {
             if (RecordCountText != null)
                 RecordCountText.Text = $"Всего записей: {StudentsDataGrid.Items.Count}";
         }
 
-        /// <summary>
-        /// Обновление индикатора Caps Lock
-        /// </summary>
         private void UpdateCapsLockStatus()
         {
             if (CapsLockIndicator != null)
@@ -258,24 +239,6 @@ namespace Kursach
             }
         }
 
-        /// <summary>
-        /// Формирование социального статуса студента
-        /// </summary>
-        private string GetSocialStatus(Students student)
-        {
-            var statuses = new List<string>();
-
-            if (student.IsOrphan == true) statuses.Add("Сирота");
-            if (student.IsDisabled == true) statuses.Add("Инвалид");
-            if (student.IsFromLargeFamily == true) statuses.Add("Многодетная семья");
-            if (student.IsLowIncome == true) statuses.Add("Малообеспеченный");
-
-            return statuses.Count > 0 ? string.Join(", ", statuses) : "Не указан";
-        }
-
-        /// <summary>
-        /// Отображение сообщения о нереализованной функции
-        /// </summary>
         private void ShowNotImplemented()
         {
             MessageBox.Show("Функция в разработке", "Информация",
@@ -287,9 +250,6 @@ namespace Kursach
         #region ФИЛЬТРАЦИЯ ДАННЫХ
         // =====================================================================
 
-        /// <summary>
-        /// Фильтрация по курсу
-        /// </summary>
         private void FilterByCourse(int course)
         {
             var filtered = allStudents.Where(s => s.Course == course).ToList();
@@ -299,9 +259,6 @@ namespace Kursach
             UpdateRecordCount();
         }
 
-        /// <summary>
-        /// Фильтрация по статусу (выпускники/архив)
-        /// </summary>
         private void FilterByStatus(string status)
         {
             List<StudentViewModel> filtered = new List<StudentViewModel>();
@@ -325,9 +282,6 @@ namespace Kursach
             UpdateRecordCount();
         }
 
-        /// <summary>
-        /// Фильтрация по социальному статусу
-        /// </summary>
         private void FilterBySocialStatus(string socialType)
         {
             List<StudentViewModel> filtered = new List<StudentViewModel>();
@@ -359,9 +313,6 @@ namespace Kursach
             UpdateRecordCount();
         }
 
-        /// <summary>
-        /// Фильтрация по возрасту
-        /// </summary>
         private void FilterByAge(string ageType)
         {
             List<StudentViewModel> filtered = new List<StudentViewModel>();
@@ -386,36 +337,77 @@ namespace Kursach
             FooterStatusText.Text = $"Фильтр: {ageType} ({filtered.Count} записей)";
             UpdateRecordCount();
         }
+
+        private void ApplyCurrentFilter()
+        {
+            try
+            {
+                var selectedItem = GroupComboBox.SelectedItem as ComboBoxItem;
+                if (selectedItem == null) return;
+
+                string selectedGroup = selectedItem.Content.ToString();
+                List<StudentViewModel> filtered;
+
+                if (selectedGroup == "Все группы")
+                {
+                    filtered = allStudents.ToList();
+                    CurrentGroupText.Text = "Группа: Все группы";
+                }
+                else
+                {
+                    filtered = allStudents.Where(s => s.GroupName == selectedGroup).ToList();
+                    if (filtered.Count > 0 && filtered.First().Course.HasValue)
+                    {
+                        CurrentGroupText.Text = $"Группа: {selectedGroup} ({filtered.First().Course} курс)";
+                    }
+                    else
+                    {
+                        CurrentGroupText.Text = $"Группа: {selectedGroup}";
+                    }
+                }
+
+                // Если есть текст поиска, дополнительно фильтруем
+                if (!string.IsNullOrWhiteSpace(SearchTextBox?.Text))
+                {
+                    string searchText = SearchTextBox.Text.ToLower().Trim();
+                    filtered = filtered.Where(s =>
+                        (s.LastName != null && s.LastName.ToLower().Contains(searchText)) ||
+                        (s.FirstName != null && s.FirstName.ToLower().Contains(searchText)) ||
+                        (s.MiddleName != null && s.MiddleName.ToLower().Contains(searchText)) ||
+                        (s.FullName != null && s.FullName.ToLower().Contains(searchText))
+                    ).ToList();
+                }
+
+                StudentsDataGrid.ItemsSource = filtered;
+                StatusTextBlock.Text = $"Статус: Показано {filtered.Count} студентов";
+                UpdateRecordCount();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Ошибка фильтрации: {ex.Message}");
+            }
+        }
         #endregion
 
         // =====================================================================
         #region ОБРАБОТЧИКИ ИНТЕРФЕЙСА
         // =====================================================================
 
-        /// <summary>
-        /// Изменение выбранной группы
-        /// </summary>
-private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-{
-    try
-    {
-        if (GroupComboBox.SelectedItem == null || allStudents.Count == 0) return;
+        private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (GroupComboBox.SelectedItem == null || allStudents.Count == 0) return;
+                SearchTextBox.Text = "";
+                ApplyCurrentFilter();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при фильтрации: {ex.Message}", "Ошибка",
+                               MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
-        // Очищаем поле поиска при смене группы
-        SearchTextBox.Text = "";
-        
-        ApplyCurrentFilter();
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show($"Ошибка при фильтрации: {ex.Message}", "Ошибка",
-                       MessageBoxButton.OK, MessageBoxImage.Error);
-    }
-}
-
-        /// <summary>
-        /// Двойной клик по студенту - открытие портфолио
-        /// </summary>
         private void StudentsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -438,9 +430,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
             }
         }
 
-        /// <summary>
-        /// Изменение выбора в таблице студентов
-        /// </summary>
         private void StudentsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (StudentsDataGrid.SelectedItem != null)
@@ -450,7 +439,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 {
                     FooterStatusText.Text = $"Выбран: {selected.LastName} {selected.FirstName}";
 
-                    // Показываем пункт "Характеристика в военкомат" только для юношей
                     if (selected.Gender == "М" || selected.Gender == "Мужской")
                     {
                         MilitaryCharacteristicMenuItem.Visibility = Visibility.Visible;
@@ -466,6 +454,11 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 FooterStatusText.Text = "Студент не выбран";
                 MilitaryCharacteristicMenuItem.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyCurrentFilter();
         }
         #endregion
 
@@ -492,7 +485,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
 
                 if (dialog.ShowDialog() == true)
                 {
-                    // Обновляем данные после редактирования
                     LoadGroups();
                     LoadStudents();
                     MessageBox.Show("Данные студента обновлены", "Успех",
@@ -504,11 +496,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 MessageBox.Show($"Ошибка при открытии редактора: {ex.Message}", "Ошибка",
                               MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        private void TestConnectionButton_Click(object sender, RoutedEventArgs e)
-        {
-            TestDatabaseConnection();
         }
 
         private void LoadDataButton_Click(object sender, RoutedEventArgs e)
@@ -568,10 +555,37 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 }
             }
         }
+
+        private void TestConnectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var db = new vsstuEntities())
+                {
+                    if (db.Database.Exists())
+                    {
+                        UpdateStatus("Статус: Подключение к БД успешно", "#27AE60");
+                        FooterStatusText.Text = "Подключено к базе данных";
+                    }
+                    else
+                    {
+                        UpdateStatus("Статус: База данных не найдена", "#E74C3C");
+                        FooterStatusText.Text = "БД не найдена";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UpdateStatus("Статус: Ошибка подключения", "#E74C3C");
+                FooterStatusText.Text = "Ошибка подключения";
+                MessageBox.Show($"Ошибка подключения к БД: {ex.Message}", "Ошибка",
+                              MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
         #endregion
 
         // =====================================================================
-        #region ДОКУМЕНТЫ - СПРАВКА ОБ ОБУЧЕНИИ
+        #region ДОКУМЕНТЫ
         // =====================================================================
 
         private void CreateStudyCertificate_Click(object sender, RoutedEventArgs e)
@@ -610,7 +624,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 selection.Font.Name = "Times New Roman";
                 selection.Font.Size = 14;
 
-                // Заголовок
                 selection.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
                 selection.Font.Bold = 1;
                 selection.Font.Size = 16;
@@ -619,7 +632,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 selection.Font.Size = 14;
                 selection.TypeText("\n\n");
 
-                // Текст
                 selection.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
                 selection.TypeText($"Дана {student.LastName} {student.FirstName} {student.MiddleName},\n");
                 selection.TypeText($"студенту группы {student.GroupName},\n");
@@ -630,7 +642,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 selection.TypeText($"Форма обучения: очная\n\n");
                 selection.TypeText("Справка выдана для предъявления по месту требования.\n\n\n\n");
 
-                // Подписи
                 selection.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphRight;
                 selection.TypeText("Директор колледжа _____________ И.И. Иванов\n");
                 selection.TypeText("М.П.\n\n");
@@ -645,11 +656,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 if (wordApp != null) { wordApp.Quit(); Marshal.ReleaseComObject(wordApp); }
             }
         }
-        #endregion
-
-        // =====================================================================
-        #region ДОКУМЕНТЫ - ЗАЯВЛЕНИЕ НА АКАДЕМИЧЕСКИЙ ОТПУСК
-        // =====================================================================
 
         private void CreateAcademicLeaveApplication_Click(object sender, RoutedEventArgs e)
         {
@@ -697,7 +703,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 selection.Font.Name = "Times New Roman";
                 selection.Font.Size = 14;
 
-                // Шапка справа
                 selection.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphRight;
                 selection.TypeText("Директору колледжа\n");
                 selection.TypeText("Иванову И.И.\n");
@@ -705,7 +710,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 selection.TypeText($"{student.LastName} {student.FirstName} {student.MiddleName}\n");
                 selection.TypeText("\n");
 
-                // Заголовок по центру
                 selection.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
                 selection.Font.Bold = 1;
                 selection.Font.Size = 16;
@@ -714,7 +718,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 selection.Font.Size = 14;
                 selection.TypeText("\n");
 
-                // Текст
                 selection.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
                 selection.TypeText("Прошу предоставить мне академический отпуск по семейным обстоятельствам.\n\n");
                 selection.TypeText("Срок отпуска: с «___» __________ 20__ г. по «___» __________ 20__ г.\n\n");
@@ -731,11 +734,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 if (wordApp != null) { wordApp.Quit(); Marshal.ReleaseComObject(wordApp); }
             }
         }
-        #endregion
-
-        // =====================================================================
-        #region ДОКУМЕНТЫ - ХАРАКТЕРИСТИКА В ВОЕНКОМАТ
-        // =====================================================================
 
         private void CreateMilitaryCharacteristic_Click(object sender, RoutedEventArgs e)
         {
@@ -773,7 +771,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 selection.Font.Name = "Times New Roman";
                 selection.Font.Size = 14;
 
-                // Заголовок
                 selection.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
                 selection.Font.Bold = 1;
                 selection.Font.Size = 16;
@@ -781,38 +778,32 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
                 selection.Font.Bold = 0;
                 selection.Font.Size = 14;
 
-                // Данные студента
                 selection.TypeText($"на студента {student.LastName} {student.FirstName} {student.MiddleName}\n");
                 selection.TypeText($"{student.BirthDate:dd.MM.yyyy} года рождения\n\n");
 
-                // Успеваемость
                 selection.Font.Bold = 1;
                 selection.TypeText("1. УСПЕВАЕМОСТЬ\n");
                 selection.Font.Bold = 0;
                 selection.TypeText($"За время обучения проявил себя как {GetAcademicPerformanceText(student.StudentID)} студент. ");
                 selection.TypeText($"Средний балл успеваемости: {GetAverageGrade(student.StudentID)}.\n\n");
 
-                // Дисциплина
                 selection.Font.Bold = 1;
                 selection.TypeText("2. ДИСЦИПЛИНА\n");
                 selection.Font.Bold = 0;
                 selection.TypeText($"Правила внутреннего распорядка {GetDisciplineText(student.StudentID)}. ");
                 selection.TypeText($"Замечаний от преподавателей {GetRemarksText(student.StudentID)}.\n\n");
 
-                // Общественная активность
                 selection.Font.Bold = 1;
                 selection.TypeText("3. ОБЩЕСТВЕННАЯ АКТИВНОСТЬ\n");
                 selection.Font.Bold = 0;
                 selection.TypeText($"В общественной жизни группы и колледжа {GetActivityText(student.StudentID)}. ");
                 selection.TypeText($"Количество мероприятий с участием: {GetEventsCount(student.StudentID)}.\n\n");
 
-                // Личные качества
                 selection.Font.Bold = 1;
                 selection.TypeText("4. ЛИЧНЫЕ КАЧЕСТВА\n");
                 selection.Font.Bold = 0;
                 selection.TypeText(GetPersonalQualities(student.StudentID) + "\n\n");
 
-                // Подписи
                 selection.TypeText("Куратор группы __________________ /Иванова М.И./\n\n");
                 selection.TypeText("Директор колледжа __________________ /Иванов И.И./\n");
                 selection.TypeText("М.П.\n\n");
@@ -1031,87 +1022,6 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
         }
         #endregion
 
-        /// <summary>
-        /// Поиск студентов по фамилии, имени или отчеству
-        /// </summary>
-        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                string searchText = SearchTextBox.Text.ToLower().Trim();
-
-                if (string.IsNullOrWhiteSpace(searchText))
-                {
-                    // Если строка поиска пустая - показываем всех студентов текущей группы
-                    ApplyCurrentFilter();
-                }
-                else
-                {
-                    // Ищем по фамилии, имени или отчеству
-                    var filtered = allStudents.Where(s =>
-                        (s.LastName != null && s.LastName.ToLower().Contains(searchText)) ||
-                        (s.FirstName != null && s.FirstName.ToLower().Contains(searchText)) ||
-                        (s.MiddleName != null && s.MiddleName.ToLower().Contains(searchText)) ||
-                        (s.FullName != null && s.FullName.ToLower().Contains(searchText))
-                    ).ToList();
-
-                    StudentsDataGrid.ItemsSource = filtered;
-                    StatusTextBlock.Text = $"Статус: Найдено {filtered.Count} студентов по запросу '{searchText}'";
-                    FooterStatusText.Text = $"Поиск: {filtered.Count} результатов";
-                    UpdateRecordCount();
-                }
-            }
-            catch (Exception ex)
-            {
-                // Игнорируем ошибки поиска
-                System.Diagnostics.Debug.WriteLine($"Ошибка поиска: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Применение текущего фильтра (группа + поиск)
-        /// </summary>
-        private void ApplyCurrentFilter()
-        {
-            try
-            {
-                // Получаем выбранную группу
-                var selectedItem = GroupComboBox.SelectedItem as ComboBoxItem;
-                if (selectedItem == null) return;
-
-                string selectedGroup = selectedItem.Content.ToString();
-                List<StudentViewModel> filtered;
-
-                if (selectedGroup == "Все группы")
-                {
-                    filtered = allStudents.ToList();
-                    CurrentGroupText.Text = "Группа: Все группы";
-                }
-                else
-                {
-                    filtered = allStudents.Where(s => s.GroupName == selectedGroup).ToList();
-                    if (filtered.Count > 0 && filtered.First().Course.HasValue)
-                    {
-                        CurrentGroupText.Text = $"Группа: {selectedGroup} ({filtered.First().Course} курс)";
-                    }
-                    else
-                    {
-                        CurrentGroupText.Text = $"Группа: {selectedGroup}";
-                    }
-                }
-
-                StudentsDataGrid.ItemsSource = filtered;
-                StatusTextBlock.Text = $"Статус: Показано {filtered.Count} студентов";
-                UpdateRecordCount();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Ошибка фильтрации: {ex.Message}");
-            }
-        }
-
-
-
         // =====================================================================
         #region ЗАГЛУШКИ ДЛЯ НЕРЕАЛИЗОВАННЫХ ФУНКЦИЙ
         // =====================================================================
@@ -1170,48 +1080,32 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
         #region МОДЕЛЬ ДАННЫХ
         // =====================================================================
 
-        /// <summary>
-        /// Модель представления данных студента
-        /// </summary>
         public class StudentViewModel
         {
-            // Основные данные
             public int StudentID { get; set; }
             public string LastName { get; set; }
             public string FirstName { get; set; }
             public string MiddleName { get; set; }
             public string FullName { get; set; }
-
-            // Учебная информация
             public int? GroupID { get; set; }
             public string GroupName { get; set; }
             public int? Course { get; set; }
             public string StudentCardNumber { get; set; }
             public string PersonalNumber { get; set; }
-
-            // Личные данные
             public DateTime? BirthDate { get; set; }
             public string BirthPlace { get; set; }
             public string Gender { get; set; }
             public string Nationality { get; set; }
             public string Citizenship { get; set; }
             public int? Age { get; set; }
-
-            // Образование до поступления
             public string EducationBefore { get; set; }
             public string EducationDocument { get; set; }
-
-            // Фото и контакты
             public string PhotoPath { get; set; }
             public string Phone { get; set; }
             public string Email { get; set; }
             public string ParentsPhone { get; set; }
-
-            // Адреса
             public string RegistrationAddress { get; set; }
             public string ResidentialAddress { get; set; }
-
-            // Социальный статус
             public int? HealthStatusID { get; set; }
             public int? FamilyTypeID { get; set; }
             public bool IsOrphan { get; set; }
@@ -1219,19 +1113,16 @@ private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEvent
             public bool IsFromLargeFamily { get; set; }
             public bool IsLowIncome { get; set; }
             public string SocialStatus { get; set; }
-
-            // Трудоустройство
             public bool IsEmployed { get; set; }
             public string WorkPlace { get; set; }
             public string WorkPosition { get; set; }
-
-            // Системные данные
             public string Login { get; set; }
             public bool IsActive { get; set; }
             public DateTime? EnrollmentDate { get; set; }
             public DateTime? GraduationDate { get; set; }
             public DateTime? CreatedAt { get; set; }
             public DateTime? UpdatedAt { get; set; }
+            public bool IsHeadman { get; set; }
         }
 
         #endregion

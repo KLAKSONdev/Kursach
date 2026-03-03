@@ -92,6 +92,9 @@
     <Compile Include="AddStudentDialog.xaml.cs">
       <DependentUpon>AddStudentDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AssignHeadmanDialog.xaml.cs">
+      <DependentUpon>AssignHeadmanDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Attendance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -137,6 +140,9 @@
     <Compile Include="HealthStatus.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -153,6 +159,9 @@
     </Compile>
     <Compile Include="PositiveTraits.cs">
       <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SelectGroupDialog.xaml.cs">
+      <DependentUpon>SelectGroupDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Specialties.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -186,11 +195,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AssignHeadmanDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditStudentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GroupsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,6 +224,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PortfolioWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SelectGroupDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
