@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows;
 
-namespace Kursach
+namespace Kursach.ADialogs
 {
     public partial class EventEditDialog : Window
     {

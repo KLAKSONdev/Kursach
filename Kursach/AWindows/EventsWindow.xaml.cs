@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Kursach.ADialogs;
 
-namespace Kursach
+namespace Kursach.AWindows
 {
     public partial class EventsWindow : Window
     {
@@ -100,7 +101,7 @@ namespace Kursach
         {
             if (!_isAdmin) return;
 
-            var dialog = new EventEditDialog();
+            var dialog = new ADialogs.EventEditDialog();
             dialog.Owner = this;
 
             if (dialog.ShowDialog() == true)
@@ -116,7 +117,7 @@ namespace Kursach
             var selected = EventsGrid.SelectedItem as EventListItem;
             if (selected == null) return;
 
-            var dialog = new EventEditDialog(selected.EventID);
+            var dialog = new ADialogs.EventEditDialog(selected.EventID);
             dialog.Owner = this;
 
             if (dialog.ShowDialog() == true)

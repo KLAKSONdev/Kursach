@@ -1,4 +1,4 @@
-﻿<Window x:Class="Kursach.Dialogs.EditStudentDialog"
+﻿<Window x:Class="Kursach.ADialogs.EditStudentDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Редактирование данных студента" 

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Kursach
+namespace Kursach.AWindows
 {
     public partial class LoginWindow : Window
     {

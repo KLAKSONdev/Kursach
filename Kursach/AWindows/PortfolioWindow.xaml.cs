@@ -10,7 +10,7 @@ using iTextSharp.text.pdf.draw;
 using Microsoft.Win32;
 using System.Data.Entity;
 
-namespace Kursach
+namespace Kursach.AWindows
 {
     public partial class PortfolioWindow : Window
     {

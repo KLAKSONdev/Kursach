@@ -1,4 +1,4 @@
-﻿<Window x:Class="Kursach.Dialogs.AddStudentDialog"
+﻿<Window x:Class="Kursach.ADialogs.AddStudentDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Добавление студента" Height="600" Width="700"

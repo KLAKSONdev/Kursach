@@ -1,4 +1,4 @@
-﻿<Window x:Class="Kursach.LoginWindow"
+﻿<Window x:Class="Kursach.AWindows.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Авторизация - Журнал группы колледжа" 

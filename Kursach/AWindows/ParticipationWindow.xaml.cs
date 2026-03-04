@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
-namespace Kursach
+namespace Kursach.AWindows
 {
     public partial class ParticipationWindow : Window
     {

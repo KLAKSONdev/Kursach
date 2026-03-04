@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Kursach.Dialogs
+namespace Kursach.ADialogs
 {
     public partial class EditStudentDialog : Window
     {

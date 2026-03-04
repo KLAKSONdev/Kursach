@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Kursach
+namespace Kursach.ADialogs
 {
     public partial class SelectGroupDialog : Window
     {

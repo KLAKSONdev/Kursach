@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Kursach
+namespace Kursach.AConverters
 {
     public class RoleToVisibilityConverter : IValueConverter
     {

@@ -1,4 +1,5 @@
-﻿using Kursach;
+﻿using Kursach.ADialogs;
+using Kursach.AWindows;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Windows.Media;
 using Word = Microsoft.Office.Interop.Word;
 using System.Runtime.InteropServices;
 
-namespace Kursach
+namespace Kursach.AWindows
 {
     /// <summary>
     /// Главное окно приложения - журнал группы колледжа
@@ -499,7 +500,7 @@ namespace Kursach
 
             try
             {
-                var dialog = new Dialogs.EditStudentDialog(selected.StudentID);
+                var dialog = new ADialogs.EditStudentDialog(selected.StudentID);
                 dialog.Owner = this;
 
                 if (dialog.ShowDialog() == true)
@@ -532,7 +533,7 @@ namespace Kursach
                               MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            var dialog = new Dialogs.AddStudentDialog();
+            var dialog = new ADialogs.AddStudentDialog();
             dialog.Owner = this;
             if (dialog.ShowDialog() == true)
             {

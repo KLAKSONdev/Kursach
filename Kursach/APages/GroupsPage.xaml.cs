@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
 
-namespace Kursach
+namespace Kursach.APages
 {
     public partial class GroupsWindow : Window
     {
@@ -219,7 +219,7 @@ namespace Kursach
         // Добавление группы
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new AddEditGroupDialog();
+            var dialog = new ADialogs.AddEditGroupDialog();
             dialog.Owner = this;
             dialog.Title = "Добавление группы";
 
@@ -240,7 +240,7 @@ namespace Kursach
             }
 
             var selected = GroupsDataGrid.SelectedItem as GroupViewModel;
-            var dialog = new AddEditGroupDialog(selected.GroupID);
+            var dialog = new ADialogs.AddEditGroupDialog(selected.GroupID);
             dialog.Owner = this;
             dialog.Title = "Редактирование группы";
 

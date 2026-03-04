@@ -86,17 +86,20 @@
     <Compile Include="AchievementTypes.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="AddEditGroupDialog.xaml.cs">
+    <Compile Include="ADialogs\AddEditGroupDialog.xaml.cs">
       <DependentUpon>AddEditGroupDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddStudentDialog.xaml.cs">
+    <Compile Include="ADialogs\AddStudentDialog.xaml.cs">
       <DependentUpon>AddStudentDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AssignHeadmanDialog.xaml.cs">
+    <Compile Include="ADialogs\AssignHeadmanDialog.xaml.cs">
       <DependentUpon>AssignHeadmanDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Attendance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AWindows\GroupsWindow.xaml.cs">
+      <DependentUpon>GroupsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CuratorGroups.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -113,10 +116,10 @@
     <Compile Include="DisciplinaryRecords.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EditStudentDialog.xaml.cs">
+    <Compile Include="ADialogs\EditStudentDialog.xaml.cs">
       <DependentUpon>EditStudentDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EventEditDialog.xaml.cs">
+    <Compile Include="ADialogs\EventEditDialog.xaml.cs">
       <DependentUpon>EventEditDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="EventParticipation.cs">
@@ -125,7 +128,7 @@
     <Compile Include="Events.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EventsWindow.xaml.cs">
+    <Compile Include="AWindows\EventsWindow.xaml.cs">
       <DependentUpon>EventsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EventTypes.cs">
@@ -140,13 +143,13 @@
     <Compile Include="Groups.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="GroupsPage.xaml.cs">
+    <Compile Include="APages\GroupsPage.xaml.cs">
       <DependentUpon>GroupsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="HealthStatus.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="LoginWindow.xaml.cs">
+    <Compile Include="AWindows\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model1.cs">
@@ -160,17 +163,17 @@
     <Compile Include="Parents.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ParticipationWindow.xaml.cs">
+    <Compile Include="AWindows\ParticipationWindow.xaml.cs">
       <DependentUpon>ParticipationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PortfolioWindow.xaml.cs">
+    <Compile Include="AWindows\PortfolioWindow.xaml.cs">
       <DependentUpon>PortfolioWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PositiveTraits.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="RoleToVisibilityConverter.cs" />
-    <Compile Include="SelectGroupDialog.xaml.cs">
+    <Compile Include="AConverters\RoleToVisibilityConverter.cs" />
+    <Compile Include="ADialogs\SelectGroupDialog.xaml.cs">
       <DependentUpon>SelectGroupDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Specialties.cs">
@@ -197,39 +200,43 @@
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Page Include="AddEditGroupDialog.xaml">
+    <Page Include="ADialogs\AddEditGroupDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AddStudentDialog.xaml">
+    <Page Include="ADialogs\AddStudentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AssignHeadmanDialog.xaml">
+    <Page Include="ADialogs\AssignHeadmanDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EditStudentDialog.xaml">
+    <Page Include="ADialogs\EditStudentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EventEditDialog.xaml">
+    <Page Include="ADialogs\EventEditDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EventsWindow.xaml">
+    <Page Include="AWindows\EventsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GroupsPage.xaml">
+    <Page Include="APages\GroupsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginWindow.xaml">
+    <Page Include="AWindows\GroupsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="AWindows\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AWindows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -237,19 +244,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="AWindows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ParticipationWindow.xaml">
+    <Page Include="AWindows\ParticipationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PortfolioWindow.xaml">
+    <Page Include="AWindows\PortfolioWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SelectGroupDialog.xaml">
+    <Page Include="ADialogs\SelectGroupDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -314,6 +321,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AModels\" />
     <Folder Include="Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
