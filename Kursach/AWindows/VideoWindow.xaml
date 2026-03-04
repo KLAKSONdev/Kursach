@@ -1,0 +1,28 @@
+﻿<Window x:Class="Kursach.AWindows.VideoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ХАСКИ DETECTED" 
+        WindowStyle="None"                  
+    WindowState="Maximized"
+
+    WindowStartupLocation="CenterScreen"
+        Background="Black"
+        Topmost="True"
+    ResizeMode="NoResize"
+        AllowsTransparency="False"
+        ShowInTaskbar="True">
+
+    <Grid>
+        <MediaElement x:Name="VideoPlayer" 
+                      LoadedBehavior="Manual" 
+                      UnloadedBehavior="Stop"
+                      Stretch="Uniform"
+                      MediaEnded="VideoPlayer_MediaEnded"
+                      Width="Auto" Height="Auto"/>
+
+        <!-- Затемнение внизу (просто для красоты) -->
+        <Border VerticalAlignment="Bottom" Height="60" Background="#88000000"/>
+
+        <!-- Маленькая надпись в углу -->
+    </Grid>
+</Window>

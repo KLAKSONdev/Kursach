@@ -2,6 +2,7 @@
 using Kursach.AModels;
 using Kursach.AWindows;
 using Microsoft.Win32;
+using System.IO; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,7 @@ namespace Kursach.AWindows
         {
             InitializeComponent();
             DataContext = this;
+            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
             Loaded += MainWindow_Loaded;
         }
         #endregion
@@ -1063,5 +1065,55 @@ namespace Kursach.AWindows
             }
         }
         #endregion
+
+        private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Проверяем Ctrl + H
+            if (e.Key == Key.H && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+            {
+                e.Handled = true; // Чтобы не передавать дальше
+                OpenHaskiVideo();
+            }
+        }
+
+        private void OpenHaskiVideo()
+        {
+            try
+            {
+                // Путь к видео
+                string videoPath = System.IO.Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    "AVideos",
+                    "DJhvost.mp4"
+                );
+
+                if (!File.Exists(videoPath))
+                {
+                    // Если в bin/Debug нет, пробуем из корня проекта
+                    videoPath = System.IO.Path.Combine(
+                        AppDomain.CurrentDomain.BaseDirectory,
+                        @"..\..\AVideos\DJhvost.mp4"
+                    );
+                    videoPath = System.IO.Path.GetFullPath(videoPath);
+                }
+
+                if (!File.Exists(videoPath))
+                {
+                    MessageBox.Show("Видео с Хаски не найдено, бро! 🙁\nПоложи файл haski.mp4 в папку Videos",
+                                  "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Открываем окно с видео
+                VideoWindow videoWindow = new VideoWindow(videoPath);
+                videoWindow.Owner = this;
+                videoWindow.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при открытии видео: {ex.Message}");
+            }
+        }
+
     }
 }
