@@ -116,8 +116,6 @@
                 <MenuItem Header="_Редактировать студента" Click="EditStudent_Click"/>
                 <MenuItem Header="_Удалить студента" Click="DeleteStudentButton_Click"/>
                 <Separator/>
-                <MenuItem Header="Добавить _родителя" Click="AddParent_Click"/>
-                <MenuItem Header="Редактировать данные родителя" Click="EditParent_Click"/>
                 <Separator/>
                 <MenuItem Header="_Обновить данные" Click="LoadDataButton_Click"/>
             </MenuItem>
@@ -488,41 +486,8 @@
                                Margin="0,0,10,0"/>
 
                     <!-- Кнопки доступны всем -->
-                    <Button Content="Портфолио" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="GeneratePortfolio_Click"/>
 
                     <!-- Кнопки только для админа -->
-                    <Button Content="Соц. паспорт" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="GenerateSocialPassport_Click"
-                            Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
-
-                    <Button Content="Характеристика" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="GenerateCharacteristic_Click"
-                            Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
-
-                    <Button Content="Родители" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="ParentsDatabase_Click"
-                            Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
-
-                    <Button Content="Дежурства" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="DutySchedule_Click"
-                            Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
-
-                    <Button Content="Мероприятия" 
-                            Style="{StaticResource ToolbarButton}" 
-                            Width="90"
-                            Click="EventRecords_Click"
-                            Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
                 </WrapPanel>
             </Border>
         </Grid>

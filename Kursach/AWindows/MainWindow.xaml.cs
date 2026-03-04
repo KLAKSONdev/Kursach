@@ -1,21 +1,19 @@
 ﻿using Kursach.ADialogs;
+using Kursach.AModels;
 using Kursach.AWindows;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Word = Microsoft.Office.Interop.Word;
-using System.Runtime.InteropServices;
 
 namespace Kursach.AWindows
 {
-    /// <summary>
-    /// Главное окно приложения - журнал группы колледжа
-    /// </summary>
     public partial class MainWindow : Window
     {
         // =====================================================================
@@ -32,10 +30,6 @@ namespace Kursach.AWindows
         public int? UserGroupId { get; set; }
 
         private EventsWindow eventsWindow = null;
-
-
-
-
         #endregion
 
         // =====================================================================
@@ -52,7 +46,6 @@ namespace Kursach.AWindows
         // =====================================================================
         #region ЗАГРУЗКА ДАННЫХ
         // =====================================================================
-
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -125,48 +118,57 @@ namespace Kursach.AWindows
             {
                 using (var db = new vsstuEntities())
                 {
-                    // Базовый запрос - все активные студенты
                     IQueryable<Students> query = db.Students.Where(s => s.IsActive == true);
 
-                    // ЕСЛИ ЭТО СТАРОСТА - ПОКАЗЫВАЕМ ТОЛЬКО ЕГО ГРУППУ
                     if (UserRole == "Староста" && UserGroupId.HasValue)
                     {
                         query = query.Where(s => s.GroupID == UserGroupId.Value);
                     }
 
-                    // Выполняем запрос
                     var dbStudents = query.ToList();
 
                     allStudents = new List<StudentViewModel>();
 
                     foreach (var s in dbStudents)
                     {
-                        var student = new StudentViewModel();
+                        var student = new StudentViewModel
+                        {
+                            StudentID = s.StudentID,
+                            LastName = s.LastName ?? "",
+                            FirstName = s.FirstName ?? "",
+                            MiddleName = s.MiddleName ?? "",
+                            GroupID = s.GroupID,
+                            GroupName = s.Groups?.GroupName ?? "Без группы",
+                            Course = s.Groups?.Course,
+                            StudentCardNumber = s.StudentCardNumber ?? "",
+                            PersonalNumber = s.PersonalNumber ?? "",
+                            BirthDate = s.BirthDate,
+                            BirthPlace = s.BirthPlace ?? "",
+                            Gender = s.Gender ?? "",
+                            Nationality = s.Nationality ?? "",
+                            Citizenship = s.Citizenship ?? "",
+                            Phone = s.Phone ?? "",
+                            Email = s.Email ?? "",
+                            ParentsPhone = s.ParentsPhone ?? "",
+                            RegistrationAddress = s.RegistrationAddress ?? "",
+                            ResidentialAddress = s.ResidentialAddress ?? "",
+                            IsOrphan = s.IsOrphan ?? false,
+                            IsDisabled = s.IsDisabled ?? false,
+                            IsFromLargeFamily = s.IsFromLargeFamily ?? false,
+                            IsLowIncome = s.IsLowIncome ?? false,
+                            IsEmployed = s.IsEmployed ?? false,
+                            WorkPlace = s.WorkPlace ?? "",
+                            WorkPosition = s.WorkPosition ?? "",
+                            Login = s.Login ?? "",
+                            IsActive = s.IsActive ?? true,
+                            EnrollmentDate = s.EnrollmentDate,
+                            GraduationDate = s.GraduationDate,
+                            CreatedAt = s.CreatedAt,
+                            UpdatedAt = s.UpdatedAt,
+                            IsHeadman = s.IsHeadman ?? false
+                        };
 
-                        student.StudentID = s.StudentID;
-                        student.LastName = s.LastName ?? "";
-                        student.FirstName = s.FirstName ?? "";
-                        student.MiddleName = s.MiddleName ?? "";
                         student.FullName = $"{student.LastName} {student.FirstName} {student.MiddleName}".Trim();
-
-                        if (s.Groups != null)
-                        {
-                            student.GroupID = s.GroupID;
-                            student.GroupName = s.Groups.GroupName ?? "";
-                            student.Course = s.Groups.Course;
-                        }
-                        else
-                        {
-                            student.GroupName = "Без группы";
-                        }
-
-                        student.StudentCardNumber = s.StudentCardNumber ?? "";
-                        student.PersonalNumber = s.PersonalNumber ?? "";
-                        student.BirthDate = s.BirthDate;
-                        student.BirthPlace = s.BirthPlace ?? "";
-                        student.Gender = s.Gender ?? "";
-                        student.Nationality = s.Nationality ?? "";
-                        student.Citizenship = s.Citizenship ?? "";
 
                         if (s.BirthDate.HasValue)
                         {
@@ -175,38 +177,12 @@ namespace Kursach.AWindows
                                 student.Age--;
                         }
 
-                        student.EducationBefore = s.EducationBefore ?? "";
-                        student.EducationDocument = s.EducationDocument ?? "";
-                        student.Phone = s.Phone ?? "";
-                        student.Email = s.Email ?? "";
-                        student.ParentsPhone = s.ParentsPhone ?? "";
-                        student.RegistrationAddress = s.RegistrationAddress ?? "";
-                        student.ResidentialAddress = s.ResidentialAddress ?? "";
-
-                        student.IsOrphan = s.IsOrphan ?? false;
-                        student.IsDisabled = s.IsDisabled ?? false;
-                        student.IsFromLargeFamily = s.IsFromLargeFamily ?? false;
-                        student.IsLowIncome = s.IsLowIncome ?? false;
-
                         var statuses = new List<string>();
                         if (s.IsOrphan == true) statuses.Add("Сирота");
                         if (s.IsDisabled == true) statuses.Add("Инвалид");
                         if (s.IsFromLargeFamily == true) statuses.Add("Многодетная семья");
                         if (s.IsLowIncome == true) statuses.Add("Малообеспеченный");
                         student.SocialStatus = statuses.Count > 0 ? string.Join(", ", statuses) : "Не указан";
-
-                        student.IsEmployed = s.IsEmployed ?? false;
-                        student.WorkPlace = s.WorkPlace ?? "";
-                        student.WorkPosition = s.WorkPosition ?? "";
-
-                        student.Login = s.Login ?? "";
-                        student.IsActive = s.IsActive ?? true;
-                        student.EnrollmentDate = s.EnrollmentDate;
-                        student.GraduationDate = s.GraduationDate;
-                        student.CreatedAt = s.CreatedAt;
-                        student.UpdatedAt = s.UpdatedAt;
-
-                        student.IsHeadman = s.IsHeadman ?? false;
 
                         allStudents.Add(student);
                     }
@@ -226,7 +202,6 @@ namespace Kursach.AWindows
         // =====================================================================
         #region ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ
         // =====================================================================
-
         private void UpdateStatus(string text, string colorHex)
         {
             StatusTextBlock.Text = text;
@@ -261,7 +236,6 @@ namespace Kursach.AWindows
         // =====================================================================
         #region ФИЛЬТРАЦИЯ ДАННЫХ
         // =====================================================================
-
         private void FilterByCourse(int course)
         {
             var filtered = allStudents.Where(s => s.Course == course).ToList();
@@ -378,7 +352,6 @@ namespace Kursach.AWindows
                     }
                 }
 
-                // Если есть текст поиска, дополнительно фильтруем
                 if (!string.IsNullOrWhiteSpace(SearchTextBox?.Text))
                 {
                     string searchText = SearchTextBox.Text.ToLower().Trim();
@@ -404,7 +377,6 @@ namespace Kursach.AWindows
         // =====================================================================
         #region ОБРАБОТЧИКИ ИНТЕРФЕЙСА
         // =====================================================================
-
         private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -424,12 +396,10 @@ namespace Kursach.AWindows
         {
             try
             {
-                if (StudentsDataGrid.SelectedItem == null)
-                    return;
+                if (StudentsDataGrid.SelectedItem == null) return;
 
                 var selectedStudent = StudentsDataGrid.SelectedItem as StudentViewModel;
-                if (selectedStudent == null)
-                    return;
+                if (selectedStudent == null) return;
 
                 var portfolioWindow = new PortfolioWindow(selectedStudent.StudentID);
                 portfolioWindow.Owner = this;
@@ -451,14 +421,8 @@ namespace Kursach.AWindows
                 {
                     FooterStatusText.Text = $"Выбран: {selected.LastName} {selected.FirstName}";
 
-                    if (selected.Gender == "М" || selected.Gender == "Мужской")
-                    {
-                        MilitaryCharacteristicMenuItem.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        MilitaryCharacteristicMenuItem.Visibility = Visibility.Collapsed;
-                    }
+                    MilitaryCharacteristicMenuItem.Visibility = (selected.Gender == "М" || selected.Gender == "Мужской")
+                        ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
             else
@@ -477,10 +441,8 @@ namespace Kursach.AWindows
         // =====================================================================
         #region ОБРАБОТЧИКИ КНОПОК
         // =====================================================================
-
         private void EditStudent_Click(object sender, RoutedEventArgs e)
         {
-            // ПРОВЕРКА ПРАВ: только администратор может редактировать
             if (UserRole != "Администратор")
             {
                 MessageBox.Show("У вас нет прав для редактирования", "Доступ запрещен",
@@ -526,7 +488,6 @@ namespace Kursach.AWindows
 
         private void AddStudentButton_Click(object sender, RoutedEventArgs e)
         {
-
             if (UserRole != "Администратор")
             {
                 MessageBox.Show("У вас нет прав для добавления студентов", "Доступ запрещен",
@@ -544,7 +505,6 @@ namespace Kursach.AWindows
 
         private void DeleteStudentButton_Click(object sender, RoutedEventArgs e)
         {
-            // ПРОВЕРКА ПРАВ: только администратор может удалять
             if (UserRole != "Администратор")
             {
                 MessageBox.Show("У вас нет прав для удаления", "Доступ запрещен",
@@ -622,7 +582,6 @@ namespace Kursach.AWindows
         // =====================================================================
         #region ДОКУМЕНТЫ
         // =====================================================================
-
         private void CreateStudyCertificate_Click(object sender, RoutedEventArgs e)
         {
             if (StudentsDataGrid.SelectedItem == null)
@@ -858,7 +817,6 @@ namespace Kursach.AWindows
         // =====================================================================
         #region ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ДЛЯ ДОКУМЕНТОВ
         // =====================================================================
-
         private string GetStudentSpecialty(int studentId)
         {
             using (var db = new vsstuEntities())
@@ -966,7 +924,6 @@ namespace Kursach.AWindows
         // =====================================================================
         #region ОБРАБОТЧИКИ МЕНЮ
         // =====================================================================
-
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -1015,7 +972,6 @@ namespace Kursach.AWindows
 
         private void Groups_Click(object sender, RoutedEventArgs e)
         {
-            // ПРОВЕРКА ПРАВ: только администратор может просматривать группы
             if (UserRole != "Администратор")
             {
                 MessageBox.Show("У вас нет прав для просмотра групп", "Доступ запрещен",
@@ -1068,138 +1024,17 @@ namespace Kursach.AWindows
         // =====================================================================
         #region ЗАГЛУШКИ ДЛЯ НЕРЕАЛИЗОВАННЫХ ФУНКЦИЙ
         // =====================================================================
-
         private void GenerateSocialPassport_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
         private void GenerateCharacteristic_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
         private void GeneratePortfolio_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
         private void ExportToExcel_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
         private void ExportToWord_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void AddParent_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void EditParent_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void DisciplinaryRecords_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ParentsDatabase_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ParentMeetings_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void IndividualMeetings_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ParentInteractionHistory_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void DutySchedule_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void DutySchedulePlan_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void DutyReports_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void EventPlanning_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void EventRecords_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void StudentParticipation_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void Achievements_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ClubsAndSections_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ClubAttendance_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void CuratorReport_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ParentWorkReport_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void DisciplinaryReport_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ParticipationAnalysis_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void SocialStatistics_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ActivityDynamics_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void SummaryReport_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void SemesterReport_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void YearReport_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void EventTypes_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void SocialCategories_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ViolationTypes_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void CouncilPositions_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void DutyPlaces_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void Companies_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ConnectionSettings_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void UserManagement_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ChangePassword_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void Backup_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void Restore_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void ExportSettings_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void InterfaceSettings_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void PrintSettings_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void HelpContents_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void UserGuide_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        private void Search_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-
-        #endregion
-
-        // =====================================================================
-        #region МОДЕЛЬ ДАННЫХ
-        // =====================================================================
-
-        public class StudentViewModel
-        {
-            public int StudentID { get; set; }
-            public string LastName { get; set; }
-            public string FirstName { get; set; }
-            public string MiddleName { get; set; }
-            public string FullName { get; set; }
-            public int? GroupID { get; set; }
-            public string GroupName { get; set; }
-            public int? Course { get; set; }
-            public string StudentCardNumber { get; set; }
-            public string PersonalNumber { get; set; }
-            public DateTime? BirthDate { get; set; }
-            public string BirthPlace { get; set; }
-            public string Gender { get; set; }
-            public string Nationality { get; set; }
-            public string Citizenship { get; set; }
-            public int? Age { get; set; }
-            public string EducationBefore { get; set; }
-            public string EducationDocument { get; set; }
-            public string PhotoPath { get; set; }
-            public string Phone { get; set; }
-            public string Email { get; set; }
-            public string ParentsPhone { get; set; }
-            public string RegistrationAddress { get; set; }
-            public string ResidentialAddress { get; set; }
-            public int? HealthStatusID { get; set; }
-            public int? FamilyTypeID { get; set; }
-            public bool IsOrphan { get; set; }
-            public bool IsDisabled { get; set; }
-            public bool IsFromLargeFamily { get; set; }
-            public bool IsLowIncome { get; set; }
-            public string SocialStatus { get; set; }
-            public bool IsEmployed { get; set; }
-            public string WorkPlace { get; set; }
-            public string WorkPosition { get; set; }
-            public string Login { get; set; }
-            public bool IsActive { get; set; }
-            public DateTime? EnrollmentDate { get; set; }
-            public DateTime? GraduationDate { get; set; }
-            public DateTime? CreatedAt { get; set; }
-            public DateTime? UpdatedAt { get; set; }
-            public bool IsHeadman { get; set; }
-        }
-
-        #endregion
-
-        // =====================================================================
-        #region МОДЕЛИ ДЛЯ МЕРОПРИЯТИЙ
-        // =====================================================================
-
-        public class EventListItem
-        {
-            public int EventID { get; set; }
-            public string EventName { get; set; }
-            public string EventType { get; set; }
-            public DateTime EventDate { get; set; }
-            public string Location { get; set; }
-            public int ParticipantsCount { get; set; }
-        }
-
-        public class EventParticipant
-        {
-            public int StudentID { get; set; }
-            public string FullName { get; set; }
-            public string GroupName { get; set; }
-            public bool IsParticipating { get; set; }
-            public string Role { get; set; }
-            public string Result { get; set; }
-        }
-
+        // ... остальные заглушки
         #endregion
 
         // =====================================================================
         #region МЕРОПРИЯТИЯ
         // =====================================================================
-
         private void EventsAdmin_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -1227,8 +1062,6 @@ namespace Kursach.AWindows
                 MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
-
         #endregion
-
     }
 }
