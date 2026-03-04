@@ -1,0 +1,22 @@
+﻿<Window x:Class="Kursach.AWindows.VideoErrorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title=" "
+        WindowStyle="None"
+        WindowStartupLocation="Manual"
+        Topmost="True"
+        Background="Black"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        AllowsTransparency="True"
+        WindowState="Normal"
+        ShowActivated="True">
+
+    <Grid>
+        <MediaElement x:Name="VideoPlayer" 
+                      LoadedBehavior="Manual" 
+                      UnloadedBehavior="Stop"
+                      Stretch="Uniform"
+                      MediaEnded="VideoPlayer_MediaEnded"/>
+    </Grid>
+</Window>
