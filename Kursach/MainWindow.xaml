@@ -237,6 +237,14 @@
                 <MenuItem Header="Все родители" Click="StudentCards_Click"/>
                 <Separator/>
             </MenuItem>
+
+            <!-- Мероприятия - доступны всем -->
+            <MenuItem Header="_Мероприятия" Style="{StaticResource MenuStyle}">
+                <MenuItem Header="Управление мероприятиями" Click="EventsAdmin_Click" 
+              Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Администратор}"/>
+                <MenuItem Header="Запись на мероприятия" Click="EventsStudent_Click" 
+              Visibility="{Binding UserRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter=Староста}"/>
+            </MenuItem>
         </Menu>
 
         <!-- Панель инструментов -->

@@ -30,6 +30,8 @@ namespace Kursach
         public int? UserId { get; set; }
         public int? UserGroupId { get; set; }
 
+        private EventsWindow eventsWindow = null;
+
 
 
 
@@ -1166,5 +1168,66 @@ namespace Kursach
         }
 
         #endregion
+
+        // =====================================================================
+        #region МОДЕЛИ ДЛЯ МЕРОПРИЯТИЙ
+        // =====================================================================
+
+        public class EventListItem
+        {
+            public int EventID { get; set; }
+            public string EventName { get; set; }
+            public string EventType { get; set; }
+            public DateTime EventDate { get; set; }
+            public string Location { get; set; }
+            public int ParticipantsCount { get; set; }
+        }
+
+        public class EventParticipant
+        {
+            public int StudentID { get; set; }
+            public string FullName { get; set; }
+            public string GroupName { get; set; }
+            public bool IsParticipating { get; set; }
+            public string Role { get; set; }
+            public string Result { get; set; }
+        }
+
+        #endregion
+
+        // =====================================================================
+        #region МЕРОПРИЯТИЯ
+        // =====================================================================
+
+        private void EventsAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var eventsWindow = new EventsWindow(isAdminMode: true);
+                eventsWindow.Owner = this;
+                eventsWindow.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private void EventsStudent_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var eventsWindow = new EventsWindow(isAdminMode: false, groupId: UserGroupId);
+                eventsWindow.Owner = this;
+                eventsWindow.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        #endregion
+
     }
 }
