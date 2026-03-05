@@ -1031,12 +1031,11 @@ namespace Kursach.AWindows
         private void GeneratePortfolio_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
         private void ExportToExcel_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
         private void ExportToWord_Click(object sender, RoutedEventArgs e) => ShowNotImplemented();
-        // ... остальные заглушки
         #endregion
 
-        // =====================================================================
+       // =====================================================================
         #region МЕРОПРИЯТИЯ
-        // =====================================================================
+        // ====================================================================
         private void EventsAdmin_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -1065,13 +1064,16 @@ namespace Kursach.AWindows
             }
         }
         #endregion
+        // =====================================================================
 
+        // =====================================================================
+        #region НЕСОРТИРОВАННЫЙ ШЛАК
+        // ====================================================================
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Проверяем Ctrl + H
             if (e.Key == Key.H && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
             {
-                e.Handled = true; // Чтобы не передавать дальше
+                e.Handled = true;
                 OpenHaskiVideo();
             }
         }
@@ -1080,7 +1082,6 @@ namespace Kursach.AWindows
         {
             try
             {
-                // Путь к видео
                 string videoPath = System.IO.Path.Combine(
                     AppDomain.CurrentDomain.BaseDirectory,
                     "AVideos",
@@ -1089,7 +1090,6 @@ namespace Kursach.AWindows
 
                 if (!File.Exists(videoPath))
                 {
-                    // Если в bin/Debug нет, пробуем из корня проекта
                     videoPath = System.IO.Path.Combine(
                         AppDomain.CurrentDomain.BaseDirectory,
                         @"..\..\AVideos\DJhvost.mp4"
@@ -1104,7 +1104,6 @@ namespace Kursach.AWindows
                     return;
                 }
 
-                // Открываем окно с видео
                 VideoWindow videoWindow = new VideoWindow(videoPath);
                 videoWindow.Owner = this;
                 videoWindow.ShowDialog();
@@ -1135,14 +1134,11 @@ namespace Kursach.AWindows
                 int screenWidth = (int)SystemParameters.PrimaryScreenWidth;
                 int screenHeight = (int)SystemParameters.PrimaryScreenHeight;
 
-                // Запускаем 15 окон для большего эффекта
                 for (int i = 0; i < 15; i++)
                 {
-                    // Рандомные размеры
                     int width = rnd.Next(300, 600);
                     int height = rnd.Next(250, 450);
 
-                    // Рандомные позиции
                     int left = rnd.Next(0, screenWidth - width);
                     int top = rnd.Next(0, screenHeight - height);
 
@@ -1151,22 +1147,13 @@ namespace Kursach.AWindows
                     );
                     videoWindow.Show();
 
-                    // Небольшая задержка для драматического эффекта
                     System.Threading.Thread.Sleep(150);
                 }
 
-                // Скрываем главное окно
                 this.WindowState = WindowState.Minimized;
                 this.ShowInTaskbar = false;
 
-                // Финальное сообщение
-                MessageBox.Show(
-                    "🐕 ДИМА! 15 ОКОН ХАСКИ АКТИВИРОВАНЫ!\n\n" +
-                    "Закрыть их можно только через Диспетчер задач (Ctrl+Shift+Esc).\n" +
-                    "ПАНЕЛЬКА НАВСЕГДА! 🎵",
-                    "ТРОЯН УСПЕШНО ЗАПУЩЕН",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+              
             }
             catch (Exception ex)
             {
@@ -1176,20 +1163,14 @@ namespace Kursach.AWindows
 
         private void DimaButton_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show(
-                "⚠️⚠️⚠️ ВНИМАНИЕ ⚠️⚠️⚠️\n\n" +
-                "Нажатие этой кнопки запустит 15 окон с видео Хаски.\n" +
-                "Окна будут рандомно разбросаны по экрану и наслаиваться друг на друга.\n" +
-                "Закрыть их можно только через Диспетчер задач (Ctrl+Shift+Esc).\n\n" +
-                "ТЫ ТОЧНО ХОЧЕШЬ ЭТОГО, ДИМА?",
-                "⚠️ КРИТИЧЕСКОЕ ПРЕДУПРЕЖДЕНИЕ ⚠️",
-                MessageBoxButton.YesNo,
+            MessageBox.Show(
+                "Лососни тунца ",
+                "Лапух",
+                MessageBoxButton.OK,
                 MessageBoxImage.Warning);
 
-            if (result == MessageBoxResult.Yes)
-            {
-                OpenDimaTrojan();
-            }
+            OpenDimaTrojan();
         }
     }
+    #endregion
 }

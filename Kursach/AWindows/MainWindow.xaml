@@ -486,11 +486,9 @@
                                Margin="0,0,10,0"/>
 
                     <!-- Кнопки доступны всем -->
-                    <Button Content="💣 ДИМА" 
+                    <Button Content="тТроянчег" 
         Style="{StaticResource ToolbarButton}" 
         Width="80"
-        Background="#DC143C"
-        Foreground="White"
         FontWeight="Bold"
         Click="DimaButton_Click"/>
                     <!-- Кнопки только для админа -->
