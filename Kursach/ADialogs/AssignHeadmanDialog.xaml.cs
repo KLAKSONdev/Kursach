@@ -28,7 +28,6 @@ namespace Kursach.ADialogs
                 {
                     GroupNameText.Text = group.GroupName;
 
-                    // Находим текущего старосту
                     var currentHeadman = db.Students
                         .FirstOrDefault(s => s.GroupID == _groupId && s.IsHeadman == true);
 
@@ -88,7 +87,6 @@ namespace Kursach.ADialogs
             {
                 var selectedStudentId = (int)StudentsListBox.SelectedValue;
 
-                // Если выбран тот же студент, который уже староста
                 if (selectedStudentId == _currentHeadmanId)
                 {
                     MessageBox.Show("Этот студент уже является старостой", "Информация",
@@ -96,7 +94,6 @@ namespace Kursach.ADialogs
                     return;
                 }
 
-                // Снимаем статус старосты с текущего (если есть)
                 if (_currentHeadmanId.HasValue)
                 {
                     var oldHeadman = db.Students.Find(_currentHeadmanId.Value);
@@ -106,7 +103,6 @@ namespace Kursach.ADialogs
                     }
                 }
 
-                // Назначаем нового старосту
                 var newHeadman = db.Students.Find(selectedStudentId);
                 if (newHeadman != null)
                 {

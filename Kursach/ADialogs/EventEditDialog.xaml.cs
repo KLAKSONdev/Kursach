@@ -74,7 +74,6 @@ namespace Kursach.ADialogs
         {
             try
             {
-                // Проверка обязательных полей
                 if (string.IsNullOrWhiteSpace(EventNameTextBox.Text))
                 {
                     MessageBox.Show("Введите название мероприятия");
@@ -96,7 +95,6 @@ namespace Kursach.ADialogs
                     return;
                 }
 
-                // Парсим время
                 TimeSpan? eventTime = null;
                 if (!string.IsNullOrWhiteSpace(EventTimeTextBox.Text))
                 {
@@ -104,7 +102,7 @@ namespace Kursach.ADialogs
                         eventTime = time;
                 }
 
-                if (_eventId == null) // Добавление
+                if (_eventId == null)
                 {
                     var newEvent = new Events
                     {
@@ -125,7 +123,7 @@ namespace Kursach.ADialogs
                     MessageBox.Show("Мероприятие успешно добавлено!", "Успех",
                                   MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                else // Редактирование
+                else
                 {
                     var ev = db.Events.Find(_eventId.Value);
                     if (ev == null) return;

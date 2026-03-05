@@ -60,12 +60,6 @@ namespace Kursach.AWindows
             closeTimer.Start();
         }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            closeTimer?.Stop();
-            VideoPlayer.Stop();
-            VideoPlayer.Close();
-            base.OnClosed(e);
-        }
+       
     }
 }

@@ -34,7 +34,6 @@ namespace Kursach.ADialogs
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            // Проверка только самых необходимых полей
             if (string.IsNullOrWhiteSpace(LastNameTextBox.Text))
             {
                 MessageBox.Show("Введите фамилию", "Ошибка");
@@ -53,7 +52,6 @@ namespace Kursach.ADialogs
             {
                 var student = new Students
                 {
-                    // Только основные поля
                     LastName = LastNameTextBox.Text.Trim(),
                     FirstName = FirstNameTextBox.Text.Trim(),
                     MiddleName = string.IsNullOrWhiteSpace(MiddleNameTextBox.Text) ? null : MiddleNameTextBox.Text.Trim(),
@@ -63,18 +61,15 @@ namespace Kursach.ADialogs
                     Phone = string.IsNullOrWhiteSpace(PhoneTextBox.Text) ? null : PhoneTextBox.Text.Trim(),
                     Email = string.IsNullOrWhiteSpace(EmailTextBox.Text) ? null : EmailTextBox.Text.Trim(),
 
-                    // Соц статус
                     IsOrphan = IsOrphanCheckBox.IsChecked,
                     IsDisabled = IsDisabledCheckBox.IsChecked,
                     IsFromLargeFamily = IsFromLargeFamilyCheckBox.IsChecked,
                     IsLowIncome = IsLowIncomeCheckBox.IsChecked,
 
-                    // Системные поля
                     IsActive = true,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
 
-                    // Все остальные поля будут NULL - теперь это разрешено!
                 };
 
                 db.Students.Add(student);

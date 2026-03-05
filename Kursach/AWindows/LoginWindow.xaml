@@ -77,17 +77,9 @@
             <Button x:Name="LoginButton" 
                     Content="Войти" 
                     Style="{StaticResource LoginButtonStyle}"
-                    Background="#27AE60" 
-                    Foreground="White"
+                   
                     BorderThickness="0"
                     Click="LoginButton_Click"/>
-            <Button x:Name="CancelButton" 
-                    Content="Отмена" 
-                    Style="{StaticResource LoginButtonStyle}"
-                    Background="#E74C3C" 
-                    Foreground="White"
-                    BorderThickness="0"
-                    Click="CancelButton_Click"/>
         </StackPanel>
 
         <!-- Информация -->

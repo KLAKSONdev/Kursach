@@ -10,7 +10,6 @@ namespace Kursach.ADialogs
     {
         private vsstuEntities db = new vsstuEntities();
 
-        // Свойство для возврата выбранной группы
         public int? SelectedGroupId { get; private set; }
         public string SelectedGroupName { get; private set; }
 

@@ -10,7 +10,6 @@ namespace Kursach.ADialogs
         private vsstuEntities db = new vsstuEntities();
         private int? groupId = null;
 
-        // Конструктор для добавления
         public AddEditGroupDialog()
         {
             InitializeComponent();
@@ -18,7 +17,6 @@ namespace Kursach.ADialogs
             TitleText.Text = "Добавление группы";
         }
 
-        // Конструктор для редактирования
         public AddEditGroupDialog(int id)
         {
             InitializeComponent();
@@ -28,7 +26,6 @@ namespace Kursach.ADialogs
             TitleText.Text = "Редактирование группы";
         }
 
-        // Загрузка специальностей
         private void LoadSpecialties()
         {
             var specialties = db.Specialties
@@ -42,7 +39,6 @@ namespace Kursach.ADialogs
             SpecialtyComboBox.ItemsSource = specialties;
         }
 
-        // Загрузка данных группы для редактирования
         private void LoadGroupData()
         {
             if (groupId == null) return;
@@ -101,7 +97,6 @@ namespace Kursach.ADialogs
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            // Проверка заполнения обязательных полей
             if (string.IsNullOrWhiteSpace(GroupNameTextBox.Text))
             {
                 MessageBox.Show("Введите название группы", "Ошибка",
@@ -120,9 +115,8 @@ namespace Kursach.ADialogs
 
             try
             {
-                if (groupId == null) // Добавление
+                if (groupId == null) 
                 {
-                    // Проверка на дубликат названия
                     bool exists = db.Groups.Any(g => g.GroupName == GroupNameTextBox.Text.Trim());
                     if (exists)
                     {
@@ -148,12 +142,11 @@ namespace Kursach.ADialogs
                     MessageBox.Show("Группа успешно добавлена", "Успех",
                                   MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                else // Редактирование
+                else 
                 {
                     var group = db.Groups.Find(groupId);
                     if (group != null)
                     {
-                        // Проверка на дубликат названия (исключая текущую группу)
                         bool exists = db.Groups.Any(g => g.GroupName == GroupNameTextBox.Text.Trim()
                                                       && g.GroupID != groupId);
                         if (exists)

@@ -24,10 +24,7 @@ namespace Kursach.APages
             LoadFacultiesToFilter();
         }
 
-        // Обновление индикатора Caps Lock
-
-
-        // Загрузка факультетов для фильтра
+       
         private void LoadFacultiesToFilter()
         {
             try
@@ -51,7 +48,6 @@ namespace Kursach.APages
             }
         }
 
-        // Загрузка групп
         private void LoadGroups()
         {
             try
@@ -91,14 +87,12 @@ namespace Kursach.APages
             }
         }
 
-        // Применение фильтров (курс, факультет, поиск)
         private void ApplyFilters()
         {
             try
             {
                 var filtered = allGroups.AsEnumerable();
 
-                // Фильтр по курсу
                 var courseItem = CourseFilterComboBox.SelectedItem as ComboBoxItem;
                 if (courseItem != null && courseItem.Content.ToString() != "Все курсы")
                 {
@@ -106,7 +100,6 @@ namespace Kursach.APages
                     filtered = filtered.Where(g => g.Course == course);
                 }
 
-                // Фильтр по факультету
                 var facultyItem = FacultyFilterComboBox.SelectedItem as ComboBoxItem;
                 if (facultyItem != null && facultyItem.Content.ToString() != "Все факультеты")
                 {
@@ -114,7 +107,6 @@ namespace Kursach.APages
                     filtered = filtered.Where(g => g.FacultyName == faculty);
                 }
 
-                // Фильтр по поиску
                 if (!string.IsNullOrWhiteSpace(SearchTextBox?.Text))
                 {
                     string search = SearchTextBox.Text.ToLower();
@@ -138,7 +130,6 @@ namespace Kursach.APages
             }
         }
 
-        // Обновление статуса
         private void UpdateStatus(string text, string colorHex)
         {
             StatusTextBlock.Text = text;
@@ -146,31 +137,26 @@ namespace Kursach.APages
             StatusIndicator.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorHex));
         }
 
-        // Загрузка данных
         private void LoadDataButton_Click(object sender, RoutedEventArgs e)
         {
             LoadGroups();
         }
 
-        // Поиск при изменении текста
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             ApplyFilters();
         }
 
-        // Фильтр по курсу
         private void CourseFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyFilters();
         }
 
-        // Фильтр по факультету
         private void FacultyFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplyFilters();
         }
 
-        // Все группы
         private void AllGroups_Click(object sender, RoutedEventArgs e)
         {
             CourseFilterComboBox.SelectedIndex = 0;
@@ -178,7 +164,6 @@ namespace Kursach.APages
             SearchTextBox.Text = "";
         }
 
-        // Фильтр по курсу из меню
         private void FilterByCourse_Click(object sender, RoutedEventArgs e)
         {
             var menuItem = sender as MenuItem;
@@ -197,7 +182,6 @@ namespace Kursach.APages
             }
         }
 
-        // Фильтр по факультету из меню
         private void FilterByFaculty_Click(object sender, RoutedEventArgs e)
         {
             var menuItem = sender as MenuItem;
@@ -216,7 +200,6 @@ namespace Kursach.APages
             }
         }
 
-        // Добавление группы
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new ADialogs.AddEditGroupDialog();
@@ -229,7 +212,6 @@ namespace Kursach.APages
             }
         }
 
-        // Редактирование группы
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (GroupsDataGrid.SelectedItem == null)
@@ -250,7 +232,6 @@ namespace Kursach.APages
             }
         }
 
-        // Удаление группы
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (GroupsDataGrid.SelectedItem == null)
@@ -291,7 +272,6 @@ namespace Kursach.APages
             }
         }
 
-        // Двойной клик - редактирование
         private void GroupsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (GroupsDataGrid.SelectedItem != null)
@@ -300,13 +280,11 @@ namespace Kursach.APages
             }
         }
 
-        // Поиск
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             SearchTextBox.Focus();
         }
 
-        // Экспорт в Excel
         private void ExportToExcel_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -318,7 +296,6 @@ namespace Kursach.APages
 
                 if (saveFileDialog.ShowDialog() == true)
                 {
-                    // Здесь будет код экспорта
                     MessageBox.Show($"Группы экспортированы в файл:\n{saveFileDialog.FileName}", "Экспорт завершен",
                                   MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -330,7 +307,6 @@ namespace Kursach.APages
             }
         }
 
-        // Экспорт в Word
         private void ExportToWord_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -342,7 +318,6 @@ namespace Kursach.APages
 
                 if (saveFileDialog.ShowDialog() == true)
                 {
-                    // Здесь будет код экспорта
                     MessageBox.Show($"Документ сохранен:\n{saveFileDialog.FileName}", "Экспорт завершен",
                                   MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -354,13 +329,11 @@ namespace Kursach.APages
             }
         }
 
-        // Закрыть окно
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        // Отчет: список групп
         private void GroupsListReport_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -371,7 +344,6 @@ namespace Kursach.APages
 
                 if (saveFileDialog.ShowDialog() == true)
                 {
-                    // Здесь будет код создания отчета
                     MessageBox.Show("Отчет 'Список групп' создан", "Успех",
                                   MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -383,7 +355,6 @@ namespace Kursach.APages
             }
         }
 
-        // Отчет: статистика по группам
         private void GroupsStatistics_Click(object sender, RoutedEventArgs e)
         {
             int totalGroups = allGroups.Count;
@@ -405,7 +376,6 @@ namespace Kursach.APages
                           MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Отчет: распределение по курсам
         private void GroupsByCourseReport_Click(object sender, RoutedEventArgs e)
         {
             string report = "РАСПРЕДЕЛЕНИЕ ГРУПП ПО КУРСАМ\n\n";
@@ -424,7 +394,6 @@ namespace Kursach.APages
                           MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Отчет: распределение по факультетам
         private void GroupsByFacultyReport_Click(object sender, RoutedEventArgs e)
         {
             var faculties = allGroups.GroupBy(g => g.FacultyName)
@@ -442,7 +411,6 @@ namespace Kursach.APages
                           MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Просмотр студентов группы
         private void GroupStudents_Click(object sender, RoutedEventArgs e)
         {
             if (GroupsDataGrid.SelectedItem == null)
@@ -485,7 +453,6 @@ namespace Kursach.APages
                           MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Статистика по конкретной группе
         private void GroupStatistics_Click(object sender, RoutedEventArgs e)
         {
             if (GroupsDataGrid.SelectedItem == null)
@@ -528,7 +495,6 @@ namespace Kursach.APages
                           MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Справка
         private void HelpContents_Click(object sender, RoutedEventArgs e)
         {
             string help = "РАБОТА С ГРУППАМИ\n\n" +
@@ -554,10 +520,7 @@ namespace Kursach.APages
                           "О программе", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Выбор группы
-
-
-        // Модель для отображения
+      
         public class GroupViewModel
         {
             public int GroupID { get; set; }
