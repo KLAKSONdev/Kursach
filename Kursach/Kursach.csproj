@@ -96,9 +96,26 @@
     <Compile Include="ADialogs\AssignHeadmanDialog.xaml.cs">
       <DependentUpon>AssignHeadmanDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AHelpers\AppColors.cs" />
+    <Compile Include="AHelpers\Extensions\StudentExtensions.cs" />
+    <Compile Include="AHelpers\Extensions\WindowExtensions.cs" />
+    <Compile Include="AHelpers\Messages.cs" />
+    <Compile Include="AHelpers\Roles.cs" />
+    <Compile Include="AModels\DTO\EventDto.cs" />
+    <Compile Include="AModels\DTO\GroupDto.cs" />
+    <Compile Include="AModels\DTO\StudentDto.cs" />
     <Compile Include="AModels\EventListItem.cs" />
     <Compile Include="AModels\EventParticipant.cs" />
     <Compile Include="AModels\StudentViewModel.cs" />
+    <Compile Include="AModels\ViewModels\StudentViewModel.cs" />
+    <Compile Include="AServices\GroupService.cs" />
+    <Compile Include="AServices\IAttendanceService.cs" />
+    <Compile Include="AServices\IEventService.cs" />
+    <Compile Include="AServices\IGroupService.cs" />
+    <Compile Include="AServices\IStudentService.cs" />
+    <Compile Include="AServices\Services\DocumentService.cs" />
+    <Compile Include="AServices\Services\PdfService.cs" />
+    <Compile Include="AServices\StudentService.cs" />
     <Compile Include="Attendance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -343,8 +360,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AAssets\" />
-    <Folder Include="AHelpers\" />
-    <Folder Include="AServices\" />
     <Folder Include="Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
