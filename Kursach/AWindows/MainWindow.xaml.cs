@@ -1,4 +1,4 @@
-﻿using Kursach.ADialogs;
+using Kursach.ADialogs;
 using Kursach.AHelpers.Constants;
 using Kursach.AHelpers.Extensions;
 using Kursach.AModels.DTO;
@@ -67,7 +67,7 @@ namespace Kursach.AWindows
         {
             try
             {
-                UpdateCapsLockStatus();
+                int UpdateCapsLockStatus();
                 await LoadGroups();
                 await LoadStudents();
 
