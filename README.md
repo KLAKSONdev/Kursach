@@ -26,6 +26,7 @@
 - https://habr.com/ru/companies/selectel/articles/530262/
 - https://csharp.webdelphi.ru/algoritmy-xeshirovaniya-v-net-c/
 - https://csharp.webdelphi.ru/
+- https://app.quiver.ai/creations
 
 ## Как запустить
 ...
